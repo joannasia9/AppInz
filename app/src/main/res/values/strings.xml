@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">JMPro</string>
+    <string name="password">Hasło</string>
+    <string name="welcome">WITAJ</string>
+    <string name="login">Login</string>
+    <string name="sign_in">Zaloguj się</string>
+    <string name="register_now">Zarejestruj się</string>
+    <string name="not_registered_question">Nie masz jeszcze konta?</string>
+    <string name="registration">REJESTRACJA</string>
+    <string name="repeat_password">Powtórz hasło</string>
+    <string name="e_mail">E-mail</string>
+    <string name="birth_date">Data urodzenia</string>
+    <string name="year">rrrr</string>
+    <string name="choose_date">Wybierz datę...</string>
+</resources>
