@@ -13,4 +13,9 @@
     <string name="year">rrrr</string>
     <string name="choose_date">Wybierz datę...</string>
     <string name="incorrect_email">Niepoprawny e-mail</string>
+    <string name="set_date">Wybierz datę urodzenia</string>
+    <string name="passwords_not_matched">Hasła nie są identyczne</string>
+    <string name="password_signs">Hasło musi zawierać co najmniej 6 znaków.</string>
+    <string name="required">Pole wymagane</string>
+    <string name="registered">Zarejestrowano pomyślnie.</string>
 </resources>
