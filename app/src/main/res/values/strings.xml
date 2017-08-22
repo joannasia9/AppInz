@@ -18,4 +18,7 @@
     <string name="password_signs">Hasło musi zawierać co najmniej 6 znaków.</string>
     <string name="required">Pole wymagane</string>
     <string name="registered">Zarejestrowano pomyślnie.</string>
+    <string name="occupied_login">Ten login jest już zajęty</string>
+    <string name="wrong_password">Błędne hasło.</string>
+    <string name="user_doesnt_exist">Użytkownik o podanym loginie nie istnieje. Zarejestruj się.</string>
 </resources>

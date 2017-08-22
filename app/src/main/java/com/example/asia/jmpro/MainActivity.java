@@ -33,11 +33,11 @@ public class MainActivity extends AppCompatActivity {
         if(login.getText().toString().equals("")){
             login.setError(getResources().getString(R.string.required));
         } else if(!userDao.getUserByLogin(login.getText().toString())){
-            login.setError("Użytkownik o podanym loginie nie istnieje. Zarejestruj się.");
+            login.setError(getString(R.string.user_doesnt_exist));
         } else
         {
             if(!userDao.getUserByLoginAndPassword(login.getText().toString(),password.getText().toString())&&password.getText().toString().equals("")){
-                password.setError("Błędne hasło.");
+                password.setError(getString(R.string.wrong_password));
             } else {
                 startActivity(new Intent(this,MainMenu.class));
             }

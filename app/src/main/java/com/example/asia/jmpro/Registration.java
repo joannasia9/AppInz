@@ -87,7 +87,7 @@ public class Registration extends AppCompatActivity {
             l.setError(getString(R.string.required));
             return false;
         } else if(u.getUserByLogin(l.getText().toString())){
-            l.setError("Ten login jest już zajęty");
+            l.setError(getString(R.string.occupied_login));
             return false;
         } else return true;
     }
