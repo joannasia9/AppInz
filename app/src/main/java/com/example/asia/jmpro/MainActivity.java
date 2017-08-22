@@ -58,4 +58,18 @@ public class MainActivity extends AppCompatActivity {
             password.setText(data.getStringExtra("registeredPassword"));
         }
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("login", login.getText().toString());
+        outState.putString("password",password.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        this.login.setText(savedInstanceState.getString("login", ""));
+        this.password.setText(savedInstanceState.getString("password", ""));
+    }
 }
