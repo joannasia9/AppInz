@@ -1,5 +1,7 @@
 package com.example.asia.jmpro.data;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.Required;
 
@@ -15,7 +17,7 @@ public class UserRealm extends RealmObject {
     private String password;
 
     private String email;
-    private String birthDate;
+    private Date birthDate;
 
     public String getLogin() {
         return login;
@@ -41,11 +43,11 @@ public class UserRealm extends RealmObject {
         this.email = email;
     }
 
-    public String getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 }
