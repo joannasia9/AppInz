@@ -11,6 +11,14 @@
     <string name="e_mail">E-mail</string>
     <string name="birth_date">Data urodzenia</string>
     <string name="year">rrrr</string>
-    <string name="choose_date">Wybierz datę...</string>
+    <string name="choose_date">Wybierz datę</string>
     <string name="incorrect_email">Niepoprawny e-mail</string>
+    <string name="set_date">Wybierz datę urodzenia</string>
+    <string name="passwords_not_matched">Hasła nie są identyczne</string>
+    <string name="password_signs">Hasło musi zawierać co najmniej 6 znaków.</string>
+    <string name="required">Pole wymagane</string>
+    <string name="registered">Zarejestrowano pomyślnie.</string>
+    <string name="occupied_login">Ten login jest już zajęty</string>
+    <string name="wrong_password">Błędne hasło.</string>
+    <string name="user_doesnt_exist">Użytkownik o podanym loginie nie istnieje. Zarejestruj się.</string>
 </resources>
