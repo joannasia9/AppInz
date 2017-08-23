@@ -35,12 +35,12 @@ public class UserDao {
     }
 
     //all about user with specified login:
-    public boolean getUserByLogin(String login){
+    public boolean isUserWithLoginRegistered(String login){
         UserRealm userRealm = realm.where(UserRealm.class).equalTo("login",login).findFirst();
         return userRealm != null;
     }
 
-    public boolean getUserByLoginAndPassword(String login, String password){
+    public boolean isUserWithLoginAndPasswordRegistered(String login, String password){
         UserRealm userRealm = realm.where(UserRealm.class)
                 .equalTo("login",login)
                 .equalTo("password",password)

@@ -45,48 +45,43 @@ public class Registration extends AppCompatActivity {
         UserRealm userRealm = new UserRealm();
         UserDao userDao = new UserDao(this);
 
-        if(isValidLogin(userDao,login)) {
-            userRealm.setLogin(login.getText().toString());
-        }
-
-        if (isValidEmail(email.getText().toString())) {
-            userRealm.setEmail(email.getText().toString());
-        } else{
-            email.setError(getString(R.string.incorrect_email));
-        }
-
-        if(isValidPassword(password,repeatedPassword)) {
+        if(isUserValid(userDao,login,password,repeatedPassword,email,birthDateDate)) {
+            userRealm.setLogin(login.getText().toString().trim());
+            userRealm.setEmail(email.getText().toString().trim());
             userRealm.setPassword(password.getText().toString());
-        }
-
-        if(birthDateDate!=null) {
             userRealm.setBirthDate(birthDateDate);
-        } else {
-            birthDate.setText(getString(R.string.choose_date));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                birthDate.setTextColor(getResources().getColor(R.color.errorColor,getTheme()));
-            }
-        }
 
-        if(isUserCompleted(userRealm)) {
             userDao.insertUser(userRealm);
+
             Intent intent = new Intent();
-            intent.putExtra("registeredLogin",login.getText().toString());
-            intent.putExtra("registeredPassword",password.getText().toString());
+            intent.putExtra("registeredLogin",login.getText().toString().trim());
+            intent.putExtra("registeredPassword",password.getText().toString().trim());
+            intent.putExtra("success",getResources().getString(R.string.registered));
             setResult(RESULT_OK,intent);
             finish();
         }
     }
 
-    private boolean isUserCompleted(UserRealm user){
-        return user.getLogin() != null && user.getPassword() != null && user.getBirthDate() != null && user.getEmail() != null;
+    private boolean isUserValid(UserDao user, EditText login, EditText password, EditText rPassword, EditText email, Date birthDate){
+        return isValidLogin(user, login) && isValidPassword(password, rPassword) && isValidEmail(email) && isValidBirthDate(birthDate);
 }
 
+    private boolean isValidBirthDate(Date bDate){
+        if(bDate==null){
+            birthDate.setText(getString(R.string.choose_date));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                birthDate.setTextColor(getResources().getColor(R.color.errorColor,getTheme()));
+            }
+            return false;
+        } else return true;
+    }
     private boolean isValidLogin(UserDao u, EditText l){
-        if(l.getText().toString().equals("")){
+        String login = l.getText().toString().trim();
+
+        if(login.equals("")){
             l.setError(getString(R.string.required));
             return false;
-        } else if(u.getUserByLogin(l.getText().toString())){
+        } else if(u.isUserWithLoginRegistered(login)){
             l.setError(getString(R.string.occupied_login));
             return false;
         } else return true;
@@ -98,17 +93,24 @@ public class Registration extends AppCompatActivity {
             return false;
         } else if (!Objects.equals(p1.getText().toString(), p2.getText().toString())){
             p1.setError(getString(R.string.passwords_not_matched));
+            p2.setText("");
             return false;
         } else return true;
     }
 
-    private boolean isValidEmail(String s) {
+    private boolean isValidEmail(EditText s) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher matcher = pattern.matcher(s);
-        return matcher.matches();
+        Matcher matcher = pattern.matcher(s.getText().toString().trim());
+
+        if(matcher.matches()){
+            return true;
+        } else{
+            email.setError(getString(R.string.incorrect_email));
+            return false;
+        }
     }
 
     public void showDialogOnClick(View view) {
@@ -126,13 +128,16 @@ public class Registration extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker view, int birthYear, int monthOfAYear, int dayOfMonth) {
             birthDate.setText(dayOfMonth + "."+ (monthOfAYear+1) + "." + birthYear);
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                birthDate.setTextColor(getResources().getColor(R.color.colorBlack,null));
+            }
             Calendar calendar;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 calendar = Calendar.getInstance();
                 calendar.set(birthYear, monthOfAYear, dayOfMonth);
                 birthDateDate = calendar.getTime();
             }
         }
     };
+
 }

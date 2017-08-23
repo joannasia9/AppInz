@@ -11,7 +11,7 @@
     <string name="e_mail">E-mail</string>
     <string name="birth_date">Data urodzenia</string>
     <string name="year">rrrr</string>
-    <string name="choose_date">Wybierz datę...</string>
+    <string name="choose_date">Wybierz datę</string>
     <string name="incorrect_email">Niepoprawny e-mail</string>
     <string name="set_date">Wybierz datę urodzenia</string>
     <string name="passwords_not_matched">Hasła nie są identyczne</string>

@@ -30,13 +30,13 @@ public class MainActivity extends AppCompatActivity {
     public void signIn(View view) {
        UserDao userDao = new UserDao(this);
 
-        if(login.getText().toString().equals("")){
+        if(login.getText().toString().trim().equals("")){
             login.setError(getResources().getString(R.string.required));
-        } else if(!userDao.getUserByLogin(login.getText().toString())){
+        } else if(!userDao.isUserWithLoginRegistered(login.getText().toString().trim())){
             login.setError(getString(R.string.user_doesnt_exist));
         } else
         {
-            if(!userDao.getUserByLoginAndPassword(login.getText().toString(),password.getText().toString())&&password.getText().toString().equals("")){
+            if(!userDao.isUserWithLoginAndPasswordRegistered(login.getText().toString().trim(),password.getText().toString()) && password.getText().toString().equals("")){
                 password.setError(getString(R.string.wrong_password));
             } else {
                 startActivity(new Intent(this,MainMenu.class));
@@ -52,8 +52,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        welcome.setText(getResources().getString(R.string.welcome));
         if(requestCode==REQUEST_CODE && resultCode==RESULT_OK){
-            welcome.setText(R.string.registered);
+            welcome.setText(data.getStringExtra("success"));
             login.setText(data.getStringExtra("registeredLogin"));
             password.setText(data.getStringExtra("registeredPassword"));
         }
