@@ -21,4 +21,12 @@
     <string name="occupied_login">Ten login jest już zajęty</string>
     <string name="wrong_password">Błędne hasło.</string>
     <string name="user_doesnt_exist">Użytkownik o podanym loginie nie istnieje. Zarejestruj się.</string>
+    <string name="menu">MENU</string>
+
+    <string-array name="main_menu_items">
+        <item>Dziennik objawów</item>
+        <item>Substytuty</item>
+        <item>Spis miejsc</item>
+        <item>Ustawienia konta</item>
+    </string-array>
 </resources>

@@ -95,6 +95,7 @@
         android:fontFamily="serif"
         android:hint="example@example.com"
         android:inputType="textEmailAddress"
+        android:textSize="14sp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
