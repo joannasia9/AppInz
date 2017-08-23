@@ -23,4 +23,5 @@ public class MainMenu extends AppCompatActivity {
         MyMenuAdapter myMenuAdapter = new MyMenuAdapter(this,mItemsTitles,mItemsImages,mItemsBackground);
         mItems.setAdapter(myMenuAdapter);
     }
+
 }
