@@ -1,8 +1,12 @@
 package com.example.asia.jmpro;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainMenu extends AppCompatActivity {
     ListView mItems;
@@ -22,6 +26,35 @@ public class MainMenu extends AppCompatActivity {
 
         MyMenuAdapter myMenuAdapter = new MyMenuAdapter(this,mItemsTitles,mItemsImages,mItemsBackground);
         mItems.setAdapter(myMenuAdapter);
+        mItems.setOnItemClickListener(listener);
     }
+
+
+    AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            switch(position){
+                case 0: {
+                    Toast.makeText(MainMenu.this,"Position 0: Dziennik", Toast.LENGTH_LONG).show();
+                    break;
+                }
+                case 1:{
+                    Toast.makeText(MainMenu.this,"Position 1: Substytuty", Toast.LENGTH_LONG).show();
+                    break;
+                }
+
+                case 2:{
+                    Toast.makeText(MainMenu.this,"Position 2: Miejsca", Toast.LENGTH_LONG).show();
+                    break;
+                }
+                case 3:{
+                    startActivity(new Intent(getApplicationContext(),Settings.class));
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+    };
 
 }

@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Registration" />
-        <activity android:name=".MainMenu"></activity>
+        <activity android:name=".MainMenu" />
+        <activity android:name=".Settings"></activity>
     </application>
 
 </manifest>
