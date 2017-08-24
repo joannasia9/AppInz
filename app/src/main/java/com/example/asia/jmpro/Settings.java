@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.asia.jmpro.adapters.SettingsFragmentAdapter;
+
 public class Settings extends AppCompatActivity {
     ViewPager viewPager;
     String[] settingItemTitle;
@@ -28,6 +30,7 @@ public class Settings extends AppCompatActivity {
     }
 
     public void addAllergen(View view) {
+
         }
     }
 

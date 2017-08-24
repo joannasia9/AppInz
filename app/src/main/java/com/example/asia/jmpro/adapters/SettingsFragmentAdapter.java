@@ -1,8 +1,13 @@
-package com.example.asia.jmpro;
+package com.example.asia.jmpro.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.example.asia.jmpro.SettingsFragment1;
+import com.example.asia.jmpro.SettingsFragment2;
+import com.example.asia.jmpro.SettingsFragment3;
+import com.example.asia.jmpro.SettingsFragment4;
 
 /**
  * Created by asia on 24/08/2017.

@@ -20,4 +20,5 @@ public class SettingsFragment1 extends Fragment{
         Log.d("fragmentA", "onCreateView");
         return inflater.inflate(R.layout.settings_fragment1, container, false);
     }
+
 }

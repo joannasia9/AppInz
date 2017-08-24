@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 123;
     TextView welcome;
     EditText login, password;
+    UserDao userDao;
 
 
     @Override
@@ -20,16 +21,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        userDao = new UserDao(this);
         welcome= (TextView) findViewById(R.id.textView2);
         login= (EditText) findViewById(R.id.loginEditText);
         password= (EditText) findViewById(R.id.passwordEditText);
-
-
     }
 
     public void signIn(View view) {
-       UserDao userDao = new UserDao(this);
-
         if(login.getText().toString().trim().equals("")){
             login.setError(getResources().getString(R.string.required));
         } else if(!userDao.isUserWithLoginRegistered(login.getText().toString().trim())){

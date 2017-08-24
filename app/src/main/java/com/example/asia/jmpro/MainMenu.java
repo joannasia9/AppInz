@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.asia.jmpro.adapters.MyMenuAdapter;
+
 public class MainMenu extends AppCompatActivity {
     ListView mItems;
     String[] mItemsTitles;
