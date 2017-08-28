@@ -29,43 +29,31 @@ public class UserDao {
         this.context = c;
     }
 
-    public void registerUser(final EditText login, final EditText password){
-        Realm.init(context);
-        String authUrl="http://192.168.0.12:9080/auth";
-
-        final SyncCredentials newUsersCredentials= SyncCredentials.usernamePassword(login.getText().toString().trim(),password.getText().toString().trim(),true);
-
-        SyncUser.loginAsync(newUsersCredentials, authUrl, new SyncUser.Callback() {
-            @Override
-            public void onSuccess(SyncUser user) {
-            }
-            @Override
-            public void onError(ObjectServerError error) {
-
-            }
-        });
+    public interface UserRegistrationCallback {
+        public void onRegistrationSuccess();
+        public void onRegistrationFailure(String errorMessage);
     }
 
-    public void addUserToDatabase(final EditText login, final EditText password, final EditText email, final Date birthDate){
+    public void registerUser(final EditText login, final EditText password, final EditText email, final Date birthDate, final UserRegistrationCallback registrationCallback){
         Realm.init(context);
         String authUrl="http://192.168.0.12:9080/auth";
 
-        final SyncCredentials myCredentials = SyncCredentials.usernamePassword("joannasia.maciak@gmail.com","przysietnica",false);
-
+        final SyncCredentials myCredentials = SyncCredentials.usernamePassword(login.getText().toString().trim(),password.getText().toString().trim(),true);
         SyncUser.loginAsync(myCredentials, authUrl, new SyncUser.Callback() {
             @Override
-            public void onSuccess(SyncUser user) {
-                insertUser(login,password,email,birthDate,user);
+            public void onSuccess(final SyncUser user) {
+                insertUser(login, password, email, birthDate, user, registrationCallback);
             }
 
             @Override
             public void onError(ObjectServerError error) {
                 login.setError(context.getString(R.string.occupied_login));
+                registrationCallback.onRegistrationFailure(error.getErrorMessage());
             }
         });
     }
 
-    private void insertUser(final EditText login, final EditText password, final EditText email, final Date birthDate, SyncUser credentials){
+    private void insertUser(final EditText login, final EditText password, final EditText email, final Date birthDate, SyncUser credentials, final UserRegistrationCallback registrationCallback){
         fetchRealm(credentials, new Realm.Callback() {
             @Override
             public void onSuccess(Realm realm) {
@@ -76,6 +64,13 @@ public class UserDao {
                 newUser.setEmail(email.getText().toString().trim());
                 newUser.setBirthDate(birthDate);
                 realm.commitTransaction();
+                registrationCallback.onRegistrationSuccess();
+            }
+
+            @Override
+            public void onError(Throwable exception) {
+                super.onError(exception);
+                registrationCallback.onRegistrationFailure(exception.getMessage());
             }
         });
     }

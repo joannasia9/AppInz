@@ -43,16 +43,27 @@ public class Registration extends AppCompatActivity {
     public void registerUser(View view) {
         UserDao userDao = new UserDao(this);
         if(isUserValid(login,password,repeatedPassword,email,birthDateDate)) {
-            userDao.addUserToDatabase(login,password,email,birthDateDate);
-            userDao.registerUser(login,password);
-                Intent intent = new Intent();
-                intent.putExtra("registeredLogin",login.getText().toString().trim());
-                intent.putExtra("registeredPassword",password.getText().toString().trim());
-                intent.putExtra("success",getResources().getString(R.string.registered));
-                setResult(RESULT_OK,intent);
-                finish();
-            }
+            userDao.registerUser(login, password, email, birthDateDate, new UserDao.UserRegistrationCallback() {
+                @Override
+                public void onRegistrationSuccess() {
+                    showRegisterUserSuccessfulScreen();
+                }
+
+                @Override
+                public void onRegistrationFailure(String errorMessage) {
+                }
+            });
         }
+    }
+
+    private void showRegisterUserSuccessfulScreen() {
+        Intent intent = new Intent();
+        intent.putExtra("registeredLogin",login.getText().toString().trim());
+        intent.putExtra("registeredPassword",password.getText().toString().trim());
+        intent.putExtra("success",getResources().getString(R.string.registered));
+        setResult(RESULT_OK,intent);
+        finish();
+    }
 
     private boolean isUserValid( EditText login, EditText password, EditText rPassword, EditText email, Date birthDate){
         return isValidLogin(login) && isValidPassword(password, rPassword) && isValidEmail(email) && isValidBirthDate(birthDate);
