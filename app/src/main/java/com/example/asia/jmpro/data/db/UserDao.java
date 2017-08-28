@@ -1,13 +1,15 @@
 package com.example.asia.jmpro.data.db;
 
 import android.content.Context;
-import android.util.Log;
+import android.widget.EditText;
 
+import com.example.asia.jmpro.R;
 import com.example.asia.jmpro.data.UserRealm;
+
+import java.util.Date;
 
 import io.realm.ObjectServerError;
 import io.realm.Realm;
-import io.realm.RealmAsyncTask;
 import io.realm.RealmConfiguration;
 import io.realm.SyncConfiguration;
 import io.realm.SyncCredentials;
@@ -19,61 +21,90 @@ import io.realm.SyncUser;
  */
 
 public class UserDao {
-    private Realm realm;
-    private RealmConfiguration realmConfiguration;
+    private Realm realmDatabase;
+    private Context context;
 
-    public UserDao(Context context){
+
+    public UserDao(Context c){
+        this.context = c;
+    }
+
+    public void registerUser(final EditText login, final EditText password){
         Realm.init(context);
-        String authURL = "http://192.168.0.12:9080/auth";
-        SyncCredentials myCredentials = SyncCredentials.usernamePassword("joannasia.maciak@gmail.com", "przysietnica", false);
-        SyncUser.loginAsync(myCredentials, authURL, new SyncUser.Callback() {
+        String authUrl="http://192.168.0.12:9080/auth";
+
+        final SyncCredentials newUsersCredentials= SyncCredentials.usernamePassword(login.getText().toString().trim(),password.getText().toString().trim(),true);
+
+        SyncUser.loginAsync(newUsersCredentials, authUrl, new SyncUser.Callback() {
             @Override
             public void onSuccess(SyncUser user) {
-                Log.d("---> APP", "Great success!");
-                SyncConfiguration config = new SyncConfiguration.Builder(user, "realm://192.168.0.12:9080/~/users")
-                        .waitForInitialRemoteData()
-                        .build();
-
-                RealmAsyncTask task = Realm.getInstanceAsync(config, new Realm.Callback() {
-                    @Override
-                    public void onSuccess(Realm realm) {
-                        Log.d("---> APP", "Even greater success!");
-                    }
-                });
             }
-
             @Override
             public void onError(ObjectServerError error) {
-                Log.d("---> APP", "Great failure!");
-                Log.d("---> APP", error.toString());
+
             }
         });
     }
 
-    //closing
+    public void addUserToDatabase(final EditText login, final EditText password, final EditText email, final Date birthDate){
+        Realm.init(context);
+        String authUrl="http://192.168.0.12:9080/auth";
+
+        final SyncCredentials myCredentials = SyncCredentials.usernamePassword("joannasia.maciak@gmail.com","przysietnica",false);
+
+        SyncUser.loginAsync(myCredentials, authUrl, new SyncUser.Callback() {
+            @Override
+            public void onSuccess(SyncUser user) {
+                insertUser(login,password,email,birthDate,user);
+            }
+
+            @Override
+            public void onError(ObjectServerError error) {
+                login.setError(context.getString(R.string.occupied_login));
+            }
+        });
+    }
+
+    private void insertUser(final EditText login, final EditText password, final EditText email, final Date birthDate, SyncUser credentials){
+        fetchRealm(credentials, new Realm.Callback() {
+            @Override
+            public void onSuccess(Realm realm) {
+                realm.beginTransaction();
+                UserRealm newUser = realm.createObject(UserRealm.class);
+                newUser.setLogin(login.getText().toString().trim());
+                newUser.setPassword(password.getText().toString().trim());
+                newUser.setEmail(email.getText().toString().trim());
+                newUser.setBirthDate(birthDate);
+                realm.commitTransaction();
+            }
+        });
+    }
+
+    private void fetchRealm(SyncUser credentials, final Realm.Callback callback){
+        if(realmDatabase!=null){
+            callback.onSuccess(realmDatabase);
+        } else {
+            RealmConfiguration configuration = new SyncConfiguration.Builder(credentials,"realm://192.168.0.12:9080/appInz")
+                    .waitForInitialRemoteData()
+                    .build();
+
+            Realm.getInstanceAsync(configuration, new Realm.Callback() {
+                @Override
+                public void onSuccess(Realm realm) {
+                    realmDatabase = realm;
+                    callback.onSuccess(realmDatabase);
+                }
+
+                @Override
+                public void onError(Throwable exception) {
+                    callback.onError(exception);
+                }
+            });
+        }
+    }
+
     public void close(){
-    realm.close();
-    }
-
-    //inserting User to the database
-    public void insertUser(final UserRealm userRealm){
-        realm.beginTransaction();
-        realm.insert(userRealm);
-        realm.commitTransaction();
-    }
-
-    //all about user with specified login:
-    public boolean isUserWithLoginRegistered(String login){
-        UserRealm userRealm = realm.where(UserRealm.class).equalTo("login",login).findFirst();
-        return userRealm != null;
-    }
-
-    public boolean isUserWithLoginAndPasswordRegistered(String login, String password){
-        UserRealm userRealm = realm.where(UserRealm.class)
-                .equalTo("login",login)
-                .equalTo("password",password)
-                .findFirst();
-        return userRealm != null;
+        realmDatabase.close();
     }
 
 }

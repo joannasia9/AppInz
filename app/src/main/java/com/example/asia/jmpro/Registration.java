@@ -13,7 +13,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.asia.jmpro.data.UserRealm;
 import com.example.asia.jmpro.data.db.UserDao;
 
 import java.util.Date;
@@ -42,28 +41,21 @@ public class Registration extends AppCompatActivity {
     }
 
     public void registerUser(View view) {
-        UserRealm userRealm = new UserRealm();
         UserDao userDao = new UserDao(this);
-
-        if(isUserValid(userDao,login,password,repeatedPassword,email,birthDateDate)) {
-            userRealm.setLogin(login.getText().toString().trim());
-            userRealm.setEmail(email.getText().toString().trim());
-            userRealm.setPassword(password.getText().toString());
-            userRealm.setBirthDate(birthDateDate);
-
-            userDao.insertUser(userRealm);
-
-            Intent intent = new Intent();
-            intent.putExtra("registeredLogin",login.getText().toString().trim());
-            intent.putExtra("registeredPassword",password.getText().toString().trim());
-            intent.putExtra("success",getResources().getString(R.string.registered));
-            setResult(RESULT_OK,intent);
-            finish();
+        if(isUserValid(login,password,repeatedPassword,email,birthDateDate)) {
+            userDao.addUserToDatabase(login,password,email,birthDateDate);
+            userDao.registerUser(login,password);
+                Intent intent = new Intent();
+                intent.putExtra("registeredLogin",login.getText().toString().trim());
+                intent.putExtra("registeredPassword",password.getText().toString().trim());
+                intent.putExtra("success",getResources().getString(R.string.registered));
+                setResult(RESULT_OK,intent);
+                finish();
+            }
         }
-    }
 
-    private boolean isUserValid(UserDao user, EditText login, EditText password, EditText rPassword, EditText email, Date birthDate){
-        return isValidLogin(user, login) && isValidPassword(password, rPassword) && isValidEmail(email) && isValidBirthDate(birthDate);
+    private boolean isUserValid( EditText login, EditText password, EditText rPassword, EditText email, Date birthDate){
+        return isValidLogin(login) && isValidPassword(password, rPassword) && isValidEmail(email) && isValidBirthDate(birthDate);
 }
 
     private boolean isValidBirthDate(Date bDate){
@@ -75,20 +67,17 @@ public class Registration extends AppCompatActivity {
             return false;
         } else return true;
     }
-    private boolean isValidLogin(UserDao u, EditText l){
+    private boolean isValidLogin(EditText l){
         String login = l.getText().toString().trim();
-
         if(login.equals("")){
             l.setError(getString(R.string.required));
             return false;
-        } else if(u.isUserWithLoginRegistered(login)){
-            l.setError(getString(R.string.occupied_login));
-            return false;
-        } else return true;
+        }
+        else return true;
     }
 
     private boolean isValidPassword(EditText p1, EditText p2){
-        if(p1.getText().toString().length() < 6){
+        if(p1.getText().toString().trim().length() < 6){
             p1.setError(getString(R.string.password_signs));
             return false;
         } else if (!Objects.equals(p1.getText().toString(), p2.getText().toString())){
