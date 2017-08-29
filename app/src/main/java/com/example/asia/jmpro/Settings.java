@@ -30,6 +30,8 @@ public class Settings extends AppCompatActivity {
     }
 
     public void addAllergen(View view) {
+        String a = allergenNameEditText.getText().toString().trim();
+
 
         }
     }

@@ -2,6 +2,7 @@ package com.example.asia.jmpro.data;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.Required;
 
 /**
  * Created by asia on 24/08/2017.
@@ -9,8 +10,9 @@ import io.realm.RealmObject;
  */
 
 public class AllergenRealm extends RealmObject {
-    String allergenName;
-    RealmList<SubstituteRealm> substitues;
+    @Required
+    private String allergenName;
+    private RealmList<SubstituteRealm> substitutes;
 
 
     public String getAllergenName() {
@@ -21,12 +23,12 @@ public class AllergenRealm extends RealmObject {
         this.allergenName = allergenName;
     }
 
-    public RealmList<SubstituteRealm> getSubstitues() {
-        return substitues;
+    public RealmList<SubstituteRealm> getSubstitutes() {
+        return substitutes;
     }
 
-    public void setSubstitues(RealmList<SubstituteRealm> substitues) {
-        this.substitues = substitues;
+    public void setSubstitutes(RealmList<SubstituteRealm> substitues) {
+        this.substitutes = substitues;
     }
 
 }

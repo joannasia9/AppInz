@@ -59,4 +59,10 @@ public class MainMenu extends AppCompatActivity {
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Toast.makeText(getApplicationContext(),"Wracam", Toast.LENGTH_LONG).show();
+        //db connection closed
+    }
 }

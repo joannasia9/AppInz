@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.example.asia.jmpro.data.db.UserDao;
 
 import io.realm.ObjectServerError;
-import io.realm.Realm;
 import io.realm.SyncCredentials;
 import io.realm.SyncUser;
 
@@ -31,17 +30,17 @@ public class MainActivity extends AppCompatActivity {
         welcome= (TextView) findViewById(R.id.textView2);
         login= (EditText) findViewById(R.id.loginEditText);
         password= (EditText) findViewById(R.id.passwordEditText);
+
     }
 
     public void signIn(View view) {
+
         if(login.getText().toString().trim().equals("")){
             login.setError(getResources().getString(R.string.required));
         }
         else if(password.getText().toString().length()==0){
             password.setError(getResources().getString(R.string.required));
-        } else
-        {
-            Realm.init(this);
+        } else {
             String authUrl="http://192.168.0.12:9080/auth";
             //SyncCredentials userCredentials=SyncCredentials.usernamePassword(login.getText().toString().trim(),password.getText().toString(),false);
 
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(SyncUser user) {
                     Toast.makeText(getApplicationContext(), R.string.correct_credentials,Toast.LENGTH_LONG).show();
+
                     startActivity(new Intent(getApplicationContext(),MainMenu.class));
                 }
 

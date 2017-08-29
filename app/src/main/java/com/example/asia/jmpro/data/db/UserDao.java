@@ -26,20 +26,19 @@ public class UserDao {
 
 
     public UserDao(Context c){
-        this.context = c;
+        this.context=c;
     }
 
     public interface UserRegistrationCallback {
-        public void onRegistrationSuccess();
-        public void onRegistrationFailure(String errorMessage);
+        void onRegistrationSuccess();
+        void onRegistrationFailure(String errorMessage);
     }
 
     public void registerUser(final EditText login, final EditText password, final EditText email, final Date birthDate, final UserRegistrationCallback registrationCallback){
-        Realm.init(context);
         String authUrl="http://192.168.0.12:9080/auth";
 
-        final SyncCredentials myCredentials = SyncCredentials.usernamePassword(login.getText().toString().trim(),password.getText().toString().trim(),true);
-        SyncUser.loginAsync(myCredentials, authUrl, new SyncUser.Callback() {
+        final SyncCredentials usersCredentials = SyncCredentials.usernamePassword(login.getText().toString().trim(),password.getText().toString().trim(),true);
+        SyncUser.loginAsync(usersCredentials, authUrl, new SyncUser.Callback() {
             @Override
             public void onSuccess(final SyncUser user) {
                 insertUser(login, password, email, birthDate, user, registrationCallback);
