@@ -4,10 +4,11 @@ import io.realm.RealmObject;
 
 /**
  * Created by asia on 24/08/2017.
+ *
  */
 
 public class SubstituteRealm extends RealmObject {
-    String name;
+    private String name;
 
     public String getName() {
         return name;

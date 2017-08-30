@@ -15,7 +15,10 @@ import com.example.asia.jmpro.SettingsFragment4;
  */
 
 public class SettingsFragmentAdapter extends FragmentPagerAdapter {
-    String[] item;
+    private String[] item;
+
+
+
 
     public SettingsFragmentAdapter (String[] items, FragmentManager fm ) {
         super(fm);
@@ -64,5 +67,6 @@ public class SettingsFragmentAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return item[position];
     }
+
 
 }

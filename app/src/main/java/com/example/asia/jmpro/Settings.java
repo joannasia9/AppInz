@@ -5,34 +5,37 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import com.example.asia.jmpro.adapters.SettingsFragmentAdapter;
+import com.example.asia.jmpro.data.db.AllergenDao;
 
 public class Settings extends AppCompatActivity {
     ViewPager viewPager;
     String[] settingItemTitle;
     EditText allergenNameEditText;
-    ListView settingsMyAllergensListView;
+    AllergenDao allergenDao = new AllergenDao();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        init();
 
-        settingItemTitle = getResources().getStringArray(R.array.settings_items);
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(new SettingsFragmentAdapter(settingItemTitle,getSupportFragmentManager()));
-
-        settingsMyAllergensListView = (ListView) findViewById(R.id.settingsMyAllergensListView);
-        allergenNameEditText = (EditText) findViewById(R.id.allergenNameEditText);
     }
 
     public void addAllergen(View view) {
-        String a = allergenNameEditText.getText().toString().trim();
-
-
-        }
+        allergenNameEditText = (EditText) findViewById(R.id.allergenNameEditText);
+        allergenDao.insertAllergenItem(allergenNameEditText.getText().toString().trim());
+        allergenNameEditText.setText("");
     }
+
+
+    public void init(){
+        settingItemTitle = getResources().getStringArray(R.array.settings_items);
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(new SettingsFragmentAdapter(settingItemTitle, getSupportFragmentManager()));
+    }
+
+}
 

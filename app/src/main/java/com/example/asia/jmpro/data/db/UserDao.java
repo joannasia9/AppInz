@@ -17,7 +17,6 @@ import io.realm.SyncUser;
 
 /**
  * Created by asia on 21/08/2017.
- *
  */
 
 public class UserDao {
@@ -25,19 +24,20 @@ public class UserDao {
     private Context context;
 
 
-    public UserDao(Context c){
-        this.context=c;
+    public UserDao(Context c) {
+        this.context = c;
     }
 
     public interface UserRegistrationCallback {
         void onRegistrationSuccess();
+
         void onRegistrationFailure(String errorMessage);
     }
 
-    public void registerUser(final EditText login, final EditText password, final EditText email, final Date birthDate, final UserRegistrationCallback registrationCallback){
-        String authUrl="http://192.168.0.12:9080/auth";
+    public void registerUser(final EditText login, final EditText password, final EditText email, final Date birthDate, final UserRegistrationCallback registrationCallback) {
+        String authUrl = "http://192.168.0.12:9080/auth";
 
-        final SyncCredentials usersCredentials = SyncCredentials.usernamePassword(login.getText().toString().trim(),password.getText().toString().trim(),true);
+        final SyncCredentials usersCredentials = SyncCredentials.usernamePassword(login.getText().toString().trim(), password.getText().toString().trim(), true);
         SyncUser.loginAsync(usersCredentials, authUrl, new SyncUser.Callback() {
             @Override
             public void onSuccess(final SyncUser user) {
@@ -52,7 +52,7 @@ public class UserDao {
         });
     }
 
-    private void insertUser(final EditText login, final EditText password, final EditText email, final Date birthDate, SyncUser credentials, final UserRegistrationCallback registrationCallback){
+    private void insertUser(final EditText login, final EditText password, final EditText email, final Date birthDate, SyncUser credentials, final UserRegistrationCallback registrationCallback) {
         fetchRealm(credentials, new Realm.Callback() {
             @Override
             public void onSuccess(Realm realm) {
@@ -74,11 +74,11 @@ public class UserDao {
         });
     }
 
-    private void fetchRealm(SyncUser credentials, final Realm.Callback callback){
-        if(realmDatabase!=null){
+    private void fetchRealm(SyncUser credentials, final Realm.Callback callback) {
+        if (realmDatabase != null) {
             callback.onSuccess(realmDatabase);
         } else {
-            RealmConfiguration configuration = new SyncConfiguration.Builder(credentials,"realm://192.168.0.12:9080/appInz")
+            RealmConfiguration configuration = new SyncConfiguration.Builder(credentials, "realm://192.168.0.12:9080/appInz")
                     .waitForInitialRemoteData()
                     .build();
 
@@ -97,7 +97,7 @@ public class UserDao {
         }
     }
 
-    public void close(){
+    public void close() {
         realmDatabase.close();
     }
 

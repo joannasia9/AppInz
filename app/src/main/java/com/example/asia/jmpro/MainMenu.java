@@ -9,13 +9,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.asia.jmpro.adapters.MyMenuAdapter;
+import com.example.asia.jmpro.data.DbConnector;
 
 public class MainMenu extends AppCompatActivity {
     ListView mItems;
     String[] mItemsTitles;
-    int[] mItemsBackground = {R.color.item1,R.color.item2,R.color.item3,R.color.item4};
-    int[] mItemsImages = {R.drawable.item1,R.drawable.item2,R.drawable.item3, R.drawable.item4};
-
+    int[] mItemsBackground = {R.color.item1, R.color.item2, R.color.item3, R.color.item4};
+    int[] mItemsImages = {R.drawable.item1, R.drawable.item2, R.drawable.item3, R.drawable.item4};
 
 
     @Override
@@ -26,7 +26,7 @@ public class MainMenu extends AppCompatActivity {
         mItems = (ListView) findViewById(R.id.menuItemsListView);
         mItemsTitles = getResources().getStringArray(R.array.main_menu_items);
 
-        MyMenuAdapter myMenuAdapter = new MyMenuAdapter(this,mItemsTitles,mItemsImages,mItemsBackground);
+        MyMenuAdapter myMenuAdapter = new MyMenuAdapter(this, mItemsTitles, mItemsImages, mItemsBackground);
         mItems.setAdapter(myMenuAdapter);
         mItems.setOnItemClickListener(listener);
     }
@@ -35,22 +35,22 @@ public class MainMenu extends AppCompatActivity {
     AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            switch(position){
+            switch (position) {
                 case 0: {
-                    Toast.makeText(MainMenu.this,"Position 0: Dziennik", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainMenu.this, "Position 0: Dziennik", Toast.LENGTH_LONG).show();
                     break;
                 }
-                case 1:{
-                    Toast.makeText(MainMenu.this,"Position 1: Substytuty", Toast.LENGTH_LONG).show();
+                case 1: {
+                    Toast.makeText(MainMenu.this, "Position 1: Substytuty", Toast.LENGTH_LONG).show();
                     break;
                 }
 
-                case 2:{
-                    Toast.makeText(MainMenu.this,"Position 2: Miejsca", Toast.LENGTH_LONG).show();
+                case 2: {
+                    Toast.makeText(MainMenu.this, "Position 2: Miejsca", Toast.LENGTH_LONG).show();
                     break;
                 }
-                case 3:{
-                    startActivity(new Intent(getApplicationContext(),Settings.class));
+                case 3: {
+                    startActivity(new Intent(getApplicationContext(), Settings.class));
                     break;
                 }
                 default:
@@ -62,7 +62,6 @@ public class MainMenu extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Toast.makeText(getApplicationContext(),"Wracam", Toast.LENGTH_LONG).show();
-        //db connection closed
+        DbConnector.getInstance().clearData();
     }
 }

@@ -10,14 +10,13 @@ import android.view.ViewGroup;
 
 /**
  * Created by asia on 24/08/2017.
- *
  */
 
 public class SettingsFragment2 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        Log.d("fragmentA", "onCreateView");
+        Log.w("HAHAHAHAHHAHAHA", "onCreateView: FRAGMENT 2 CREATED");
         return inflater.inflate(R.layout.settings_fragment2, container, false);
     }
 }

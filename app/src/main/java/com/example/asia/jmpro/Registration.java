@@ -33,8 +33,8 @@ public class Registration extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         login = (EditText) findViewById(R.id.loginEditText);
-        password=(EditText) findViewById(R.id.passwordEditText);
-        repeatedPassword=(EditText) findViewById(R.id.passwordValue2EditText);
+        password = (EditText) findViewById(R.id.passwordEditText);
+        repeatedPassword = (EditText) findViewById(R.id.passwordValue2EditText);
         email = (EditText) findViewById(emailEditText);
         birthDate = (TextView) findViewById(R.id.birthDateTextView);
 
@@ -42,7 +42,7 @@ public class Registration extends AppCompatActivity {
 
     public void registerUser(View view) {
         UserDao userDao = new UserDao(this);
-        if(isUserValid(login,password,repeatedPassword,email,birthDateDate)) {
+        if (isUserValid(login, password, repeatedPassword, email, birthDateDate)) {
             userDao.registerUser(login, password, email, birthDateDate, new UserDao.UserRegistrationCallback() {
                 @Override
                 public void onRegistrationSuccess() {
@@ -58,40 +58,40 @@ public class Registration extends AppCompatActivity {
 
     private void showRegisterUserSuccessfulScreen() {
         Intent intent = new Intent();
-        intent.putExtra("registeredLogin",login.getText().toString().trim());
-        intent.putExtra("registeredPassword",password.getText().toString().trim());
-        intent.putExtra("success",getResources().getString(R.string.registered));
-        setResult(RESULT_OK,intent);
+        intent.putExtra("registeredLogin", login.getText().toString().trim());
+        intent.putExtra("registeredPassword", password.getText().toString().trim());
+        intent.putExtra("success", getResources().getString(R.string.registered));
+        setResult(RESULT_OK, intent);
         finish();
     }
 
-    private boolean isUserValid( EditText login, EditText password, EditText rPassword, EditText email, Date birthDate){
+    private boolean isUserValid(EditText login, EditText password, EditText rPassword, EditText email, Date birthDate) {
         return isValidLogin(login) && isValidPassword(password, rPassword) && isValidEmail(email) && isValidBirthDate(birthDate);
-}
+    }
 
-    private boolean isValidBirthDate(Date bDate){
-        if(bDate==null){
+    private boolean isValidBirthDate(Date bDate) {
+        if (bDate == null) {
             birthDate.setText(getString(R.string.choose_date));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                birthDate.setTextColor(getResources().getColor(R.color.errorColor,getTheme()));
+                birthDate.setTextColor(getResources().getColor(R.color.errorColor, getTheme()));
             }
             return false;
         } else return true;
     }
-    private boolean isValidLogin(EditText l){
+
+    private boolean isValidLogin(EditText l) {
         String login = l.getText().toString().trim();
-        if(login.equals("")){
+        if (login.equals("")) {
             l.setError(getString(R.string.required));
             return false;
-        }
-        else return true;
+        } else return true;
     }
 
-    private boolean isValidPassword(EditText p1, EditText p2){
-        if(p1.getText().toString().trim().length() < 6){
+    private boolean isValidPassword(EditText p1, EditText p2) {
+        if (p1.getText().toString().trim().length() < 6) {
             p1.setError(getString(R.string.password_signs));
             return false;
-        } else if (!Objects.equals(p1.getText().toString(), p2.getText().toString())){
+        } else if (!Objects.equals(p1.getText().toString(), p2.getText().toString())) {
             p1.setError(getString(R.string.passwords_not_matched));
             p2.setText("");
             return false;
@@ -105,9 +105,9 @@ public class Registration extends AppCompatActivity {
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(s.getText().toString().trim());
 
-        if(matcher.matches()){
+        if (matcher.matches()) {
             return true;
-        } else{
+        } else {
             email.setError(getString(R.string.incorrect_email));
             return false;
         }
@@ -118,7 +118,7 @@ public class Registration extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             calendar = Calendar.getInstance();
 
-            DatePickerDialog dialog = new DatePickerDialog(this,android.R.style.Theme_Holo_Light_Dialog_MinWidth,datePickerListener,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+            DatePickerDialog dialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, datePickerListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
         }
@@ -127,9 +127,9 @@ public class Registration extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int birthYear, int monthOfAYear, int dayOfMonth) {
-            birthDate.setText(dayOfMonth + "."+ (monthOfAYear+1) + "." + birthYear);
+            birthDate.setText(dayOfMonth + "." + (monthOfAYear + 1) + "." + birthYear);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                birthDate.setTextColor(getResources().getColor(R.color.colorBlack,null));
+                birthDate.setTextColor(getResources().getColor(R.color.colorBlack, null));
             }
             Calendar calendar;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
