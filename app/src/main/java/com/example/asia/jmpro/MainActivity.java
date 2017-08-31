@@ -45,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
             dbConnector.dbConnect(login.getText().toString().trim(), password.getText().toString(), new DbConnector.DBConnectorLoginCallback() {
                 @Override
                 public void onSuccess(SyncUser user) {
+                    dbConnector.setConfiguration(user);
                     dbConnector.setSyncUser(user);
+
                     dbConnector.connectToDatabase(new DbConnector.DBConnectorDatabaseCallback() {
                         @Override
                         public void onSuccess(Realm realm) {

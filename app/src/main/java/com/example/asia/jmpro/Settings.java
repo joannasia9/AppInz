@@ -26,7 +26,8 @@ public class Settings extends AppCompatActivity {
 
     public void addAllergen(View view) {
         allergenNameEditText = (EditText) findViewById(R.id.allergenNameEditText);
-        allergenDao.insertAllergenItem(allergenNameEditText.getText().toString().trim());
+        String name = allergenNameEditText.getText().toString().trim();
+        allergenDao.insertAllergenItem(name);
         allergenNameEditText.setText("");
     }
 

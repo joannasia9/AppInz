@@ -1,7 +1,5 @@
 package com.example.asia.jmpro.data;
 
-import android.util.Log;
-
 import io.realm.ObjectServerError;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -21,6 +19,7 @@ public class DbConnector {
     private String password;
     private Realm realmDatabase;
     private SyncUser syncUser;
+    private RealmConfiguration configuration;
 
 
     public interface DBConnectorLoginCallback {
@@ -46,7 +45,7 @@ public class DbConnector {
         return instance;
     }
 
-    public void dbConnect(String login, String password, final DBConnectorLoginCallback callback) {
+    public void dbConnect(String login, String password, final DBConnectorLoginCallback callback) { /////dlaczego zwraca on error po drugim logowaniu?
         this.login = login;
         this.password = password;
         if (syncUser != null) {
@@ -76,17 +75,7 @@ public class DbConnector {
             public void onSuccess(SyncUser user) {
                 if (realmDatabase != null) {
                     dbCallback.onSuccess(realmDatabase);
-                    Log.e("okok", "onSuccess: if (realmDatabase != null) is true");
                     return;
-                }
-                RealmConfiguration configuration = Realm.getDefaultConfiguration();
-
-                if (configuration == null) {
-                    configuration = new SyncConfiguration.Builder(user, "realm://192.168.0.12:9080/appInz")
-                            .waitForInitialRemoteData()
-                            .build();
-
-                    Realm.setDefaultConfiguration(configuration);
                 }
 
                 Realm.getInstanceAsync(configuration, new Realm.Callback() {
@@ -107,7 +96,6 @@ public class DbConnector {
 
             @Override
             public void onError(RuntimeException error) {
-
             }
         });
 
@@ -115,10 +103,6 @@ public class DbConnector {
 
     public void setSyncUser(SyncUser syncUser) {
         this.syncUser = syncUser;
-    }
-
-    public SyncUser getSyncUser() {
-        return syncUser;
     }
 
     public void setRealmDatabase(Realm realmDatabase) {
@@ -136,5 +120,18 @@ public class DbConnector {
         this.syncUser = null;
     }
 
+    public RealmConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(SyncUser user) {
+        if (configuration == null) {
+            configuration = new SyncConfiguration.Builder(syncUser, "realm://192.168.0.12:9080/appInz")
+                    .waitForInitialRemoteData()
+                    .build();
+
+            Realm.setDefaultConfiguration(configuration);
+        }
+    }
 }
 

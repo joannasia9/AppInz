@@ -37,6 +37,7 @@ public class SettingsFragment1 extends Fragment {
 
     public void showAllergensList() {
         allergens = allergenDao.getAllAllergensNames();
+
         AllergensListAdapter allergenListAdapter = new AllergensListAdapter(getContext(), allergens);
         settingsMyAllergensListView.setAdapter(allergenListAdapter);
     }

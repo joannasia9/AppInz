@@ -7,7 +7,6 @@ import com.example.asia.jmpro.data.SubstituteRealm;
 import java.util.ArrayList;
 
 import io.realm.Realm;
-import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 /**
@@ -16,6 +15,7 @@ import io.realm.RealmResults;
 
 public class AllergenDao {
     private Realm realmDatabase;
+    private RealmResults<AllergenRealm> allergensList=null;
 
 
     public AllergenDao() {
@@ -23,18 +23,25 @@ public class AllergenDao {
     }
 
     public void insertAllergenItem(final String allergenName) {
-        realmDatabase.beginTransaction();
-        AllergenRealm allergenItem = realmDatabase.createObject(AllergenRealm.class);
-        allergenItem.setAllergenName(allergenName);
-        allergenItem.setSubstitutes(null);
-        realmDatabase.commitTransaction();
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                AllergenRealm allergenItem = realm.createObject(AllergenRealm.class);
+                allergenItem.setAllergenName(allergenName);
+                allergenItem.setSubstitutes(null);
+            }
+        });
     }
 
     public ArrayList<String> getAllAllergensNames() {
         ArrayList<String> list = new ArrayList<>();
-        realmDatabase.beginTransaction();
-        RealmQuery<AllergenRealm> query = realmDatabase.where(AllergenRealm.class);
-        RealmResults<AllergenRealm> allergensList = query.findAll();
+
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                allergensList = realm.where(AllergenRealm.class).findAll();
+            }
+        });
 
         for (AllergenRealm item : allergensList) {
             list.add(item.getAllergenName());
