@@ -16,11 +16,13 @@ import io.realm.RealmResults;
 
 public class AllergenDao {
     private Realm realmDatabase;
+    private Realm privateDatabase;
     private RealmResults<AllergenRealm> allergensList=null;
 
 
     public AllergenDao() {
         this.realmDatabase = DbConnector.getInstance().getRealmDatabase();
+        this.privateDatabase = DbConnector.getInstance().getPrivateRealmDatabase();
     }
 
     public void insertAllergenItem(final String allergenName) {

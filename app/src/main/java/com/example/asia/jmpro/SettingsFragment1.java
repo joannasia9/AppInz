@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,10 +26,12 @@ import java.util.List;
 public class SettingsFragment1 extends Fragment {
     ListView settingsMyAllergensListView;
     Button saveMyAllergens;
+    Button addMyAllergen;
+    EditText allergenNameEditText;
 
     List<Allergen> allergensObjects = null;
     List<String> myAllergens = null;
-    AllergenDao allergenDao = new AllergenDao();
+    AllergenDao allergenDao;
     AllergensListAdapter allergenListAdapter;
 
 
@@ -40,6 +43,8 @@ public class SettingsFragment1 extends Fragment {
         View fragmentLayout = inflater.inflate(R.layout.settings_fragment1, container, false);
         settingsMyAllergensListView = (ListView) fragmentLayout.findViewById(R.id.settingsMyAllergensListView);
         saveMyAllergens = (Button) fragmentLayout.findViewById(R.id.saveMyAllergensButton);
+        addMyAllergen = (Button) fragmentLayout.findViewById(R.id.addAllergenButton);
+        allergenNameEditText = (EditText) fragmentLayout.findViewById(R.id.allergenNameEditText);
 
         showAllergensList();
 
@@ -68,6 +73,13 @@ public class SettingsFragment1 extends Fragment {
             }
         });
 
+        addMyAllergen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addAllergen(allergenNameEditText.getText().toString().trim());
+            }
+        });
+
         return fragmentLayout;
     }
 
@@ -81,11 +93,20 @@ public class SettingsFragment1 extends Fragment {
         }
         return myAllergensList;
     }
-    public void showAllergensList() {
-        allergensObjects = allergenDao.getAllAllergens();
 
+    public void showAllergensList() {
+        allergenDao = new AllergenDao();
+        allergensObjects = allergenDao.getAllAllergens();
         allergenListAdapter = new AllergensListAdapter(getContext(), allergensObjects);
         settingsMyAllergensListView.setAdapter(allergenListAdapter);
+
+    }
+
+    public void addAllergen(String name) {
+        allergenDao = new AllergenDao();
+        allergenDao.insertAllergenItem(name);
+        allergenNameEditText.setText("");
+        showAllergensList();
 
     }
 }

@@ -46,7 +46,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(SyncUser user) {
                     dbConnector.setConfiguration(user);
+                    //private database configuration:
+                    dbConnector.setPrivateConfiguration(user);
+                    //
                     dbConnector.setSyncUser(user);
+
 
                     dbConnector.connectToDatabase(new DbConnector.DBConnectorDatabaseCallback() {
                         @Override
@@ -57,9 +61,22 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(Throwable exception) {
-                            Toast.makeText(MainActivity.this, "Błąd połączenia z bazą.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, R.string.db_error, Toast.LENGTH_LONG).show();
                         }
                     });
+
+                    //private database instance
+                    dbConnector.connectToPrivateDatabase(new DbConnector.DBConnectorDatabaseCallback() {
+                        @Override
+                        public void onSuccess(Realm realm) {
+                            dbConnector.setPrivateRealmDatabase(realm);
+                        }
+
+                        @Override
+                        public void onError(Throwable exception) {
+                        }
+                    });
+                    //
                 }
 
                 @Override

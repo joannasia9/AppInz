@@ -18,8 +18,10 @@ public class DbConnector {
     private String login;
     private String password;
     private Realm realmDatabase;
+    private Realm privateRealmDatabase;
     private SyncUser syncUser;
     private RealmConfiguration configuration;
+    private RealmConfiguration privateConfiguration;
 
 
     public interface DBConnectorLoginCallback {
@@ -45,7 +47,7 @@ public class DbConnector {
         return instance;
     }
 
-    public void dbConnect(String login, String password, final DBConnectorLoginCallback callback) { /////dlaczego zwraca on error po drugim logowaniu?
+    public void dbConnect(String login, String password, final DBConnectorLoginCallback callback) {
         this.login = login;
         this.password = password;
         if (syncUser != null) {
@@ -98,6 +100,36 @@ public class DbConnector {
             public void onError(RuntimeException error) {
             }
         });
+    }
+
+    public void connectToPrivateDatabase(final DBConnectorDatabaseCallback dbCallback){
+        dbConnect(login,password,new DBConnectorLoginCallback() {
+            @Override
+            public void onSuccess(SyncUser user) {
+                if (privateRealmDatabase != null) {
+                    dbCallback.onSuccess(privateRealmDatabase);
+                    return;
+                }
+
+                Realm.getInstanceAsync(privateConfiguration, new Realm.Callback() {
+                    @Override
+                    public void onSuccess(Realm realm) {
+                        setPrivateRealmDatabase(realm);
+                        dbCallback.onSuccess(privateRealmDatabase);
+                    }
+
+                    @Override
+                    public void onError(Throwable exception) {
+                        exception.printStackTrace();
+                        dbCallback.onError(exception);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(RuntimeException error) {
+            }
+        });
 
     }
 
@@ -113,15 +145,20 @@ public class DbConnector {
         return realmDatabase;
     }
 
+    public Realm getPrivateRealmDatabase() {
+        return privateRealmDatabase;
+    }
+
+    public void setPrivateRealmDatabase(Realm privateRealmDatabase) {
+        this.privateRealmDatabase = privateRealmDatabase;
+    }
+
     public void clearData() {
         this.login = null;
         this.password = null;
         this.realmDatabase = null;
+        this.privateRealmDatabase = null;
         this.syncUser = null;
-    }
-
-    public RealmConfiguration getConfiguration() {
-        return configuration;
     }
 
     public void setConfiguration(SyncUser user) {
@@ -133,5 +170,17 @@ public class DbConnector {
             Realm.setDefaultConfiguration(configuration);
         }
     }
+
+    public void setPrivateConfiguration(SyncUser user) {
+        if (privateConfiguration == null) {
+            privateConfiguration = new SyncConfiguration.Builder(syncUser, "realm://192.168.0.12:9080/~/appInz")
+                    .waitForInitialRemoteData()
+                    .build();
+        }
+    }
+
+
+
+
 }
 

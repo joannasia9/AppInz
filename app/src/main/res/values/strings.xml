@@ -29,6 +29,7 @@
     <string name="add">Dodaj</string>
     <string name="wrong_credentials">Błędny login lub hasło</string>
     <string name="correct_credentials">Zalogowano pomyślnie</string>
+    <string name="db_error">Błąd połączenia z bazą.</string>
 
     <string-array name="main_menu_items">
         <item>Dziennik objawów</item>
