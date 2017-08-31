@@ -6,32 +6,53 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 
 import com.example.asia.jmpro.R;
+import com.example.asia.jmpro.models.Allergen;
 import com.example.asia.jmpro.viewholders.AllergenItemViewHolder;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by asia on 30/08/2017.
  */
 
-public class AllergensListAdapter extends ArrayAdapter {
+public class AllergensListAdapter extends BaseAdapter{
     private Context context;
-    private ArrayList<String> allergensList;
+    private List<Allergen> allergensList;
 
-    public AllergensListAdapter(Context context, ArrayList<String> allergens) {
-        super(context, R.layout.single_alergen_item);
+//    public AllergensListAdapter(Context context, List<String> allergens) {
+//        super(context, R.layout.single_alergen_item);
+//        this.context = context;
+//        this.allergensList = allergens;
+//    }
+
+    public AllergensListAdapter(Context context, List<Allergen> allergensList) {
         this.context = context;
-        this.allergensList = allergens;
+        this.allergensList = allergensList;
+    }
+
+    @Override
+    public int getCount() {
+        return allergensList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return position;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View allergenItem = convertView;
-        AllergenItemViewHolder allergenItemViewHolder;
+        AllergenItemViewHolder allergenItemViewHolder = null;
 
         if (allergenItem == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -43,8 +64,21 @@ public class AllergensListAdapter extends ArrayAdapter {
             allergenItemViewHolder = (AllergenItemViewHolder) allergenItem.getTag();
         }
 
-        allergenItemViewHolder.checkBox.setText(allergensList.get(position));
+        Allergen model = allergensList.get(position);
+        if(model.isSelected()){
+            allergenItemViewHolder.imageView.setImageResource(R.drawable.item2);
+        } else {
+            allergenItemViewHolder.imageView.setImageResource(R.drawable.item1);
+        }
+
+        allergenItemViewHolder.textView.setText(model.getName());
 
         return allergenItem;
     }
+
+    public void updateAdapter(List<Allergen> list){
+        this.allergensList = list;
+        notifyDataSetChanged();
+    }
+
 }

@@ -3,16 +3,17 @@ package com.example.asia.jmpro;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.asia.jmpro.adapters.AllergensListAdapter;
 import com.example.asia.jmpro.data.db.AllergenDao;
+import com.example.asia.jmpro.models.Allergen;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by asia on 24/08/2017.
@@ -20,25 +21,45 @@ import java.util.ArrayList;
 
 public class SettingsFragment1 extends Fragment {
     ListView settingsMyAllergensListView;
-    ArrayList<String> allergens = null;
+    List<Allergen> allergensObjects = null;
     AllergenDao allergenDao = new AllergenDao();
+    AllergensListAdapter allergenListAdapter;
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        Log.w("HAHAHAHAHHAHAHA", "onCreateView: FRAGMENT 1 CREATED");
 
         View fragmentLayout = inflater.inflate(R.layout.settings_fragment1, container, false);
         settingsMyAllergensListView = (ListView) fragmentLayout.findViewById(R.id.settingsMyAllergensListView);
+
         showAllergensList();
+
+        settingsMyAllergensListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Allergen model = allergensObjects.get(position);
+
+                if(model.isSelected()){
+                    model.setSelected(false);
+                } else {
+                    model.setSelected(true);
+                }
+
+                allergensObjects.set(position,model);
+                allergenListAdapter.updateAdapter(allergensObjects);
+            }
+        });
 
         return fragmentLayout;
     }
 
     public void showAllergensList() {
-        allergens = allergenDao.getAllAllergensNames();
+        allergensObjects = allergenDao.getAllAllergens();
 
-        AllergensListAdapter allergenListAdapter = new AllergensListAdapter(getContext(), allergens);
+        allergenListAdapter = new AllergensListAdapter(getContext(), allergensObjects);
         settingsMyAllergensListView.setAdapter(allergenListAdapter);
+
     }
 }

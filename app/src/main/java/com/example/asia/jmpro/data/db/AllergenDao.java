@@ -3,6 +3,7 @@ package com.example.asia.jmpro.data.db;
 import com.example.asia.jmpro.data.AllergenRealm;
 import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.SubstituteRealm;
+import com.example.asia.jmpro.models.Allergen;
 
 import java.util.ArrayList;
 
@@ -45,6 +46,25 @@ public class AllergenDao {
 
         for (AllergenRealm item : allergensList) {
             list.add(item.getAllergenName());
+        }
+        return list;
+    }
+
+    public ArrayList<Allergen> getAllAllergens() {
+        ArrayList<Allergen> list = new ArrayList<>();
+
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                allergensList = realm.where(AllergenRealm.class).findAll();
+            }
+        });
+
+        for (AllergenRealm item : allergensList) {
+            //validation --> if it is not inserted from user's private database
+            //Allergen aItem = new Allergen(item.getAllergenName(),true);
+            Allergen aItem = new Allergen(item.getAllergenName(),false);
+            list.add(aItem);
         }
         return list;
     }

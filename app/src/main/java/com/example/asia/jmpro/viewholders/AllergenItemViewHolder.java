@@ -1,7 +1,8 @@
 package com.example.asia.jmpro.viewholders;
 
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.asia.jmpro.R;
 
@@ -11,9 +12,11 @@ import com.example.asia.jmpro.R;
  */
 
 public class AllergenItemViewHolder {
-    public CheckBox checkBox;
+    public ImageView imageView;
+    public TextView textView;
 
     public AllergenItemViewHolder(View v){
-        checkBox = (CheckBox) v.findViewById(R.id.checkBox);
+        imageView = (ImageView) v.findViewById(R.id.imageView);
+        textView = (TextView) v.findViewById(R.id.aItemName);
     }
 }
