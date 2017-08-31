@@ -38,5 +38,6 @@ public class Settings extends AppCompatActivity {
         viewPager.setAdapter(new SettingsFragmentAdapter(settingItemTitle, getSupportFragmentManager()));
     }
 
+
 }
 

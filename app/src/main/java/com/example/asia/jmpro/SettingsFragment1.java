@@ -7,12 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.asia.jmpro.adapters.AllergensListAdapter;
 import com.example.asia.jmpro.data.db.AllergenDao;
 import com.example.asia.jmpro.models.Allergen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +24,10 @@ import java.util.List;
 
 public class SettingsFragment1 extends Fragment {
     ListView settingsMyAllergensListView;
+    Button saveMyAllergens;
+
     List<Allergen> allergensObjects = null;
+    List<String> myAllergens = null;
     AllergenDao allergenDao = new AllergenDao();
     AllergensListAdapter allergenListAdapter;
 
@@ -33,6 +39,7 @@ public class SettingsFragment1 extends Fragment {
 
         View fragmentLayout = inflater.inflate(R.layout.settings_fragment1, container, false);
         settingsMyAllergensListView = (ListView) fragmentLayout.findViewById(R.id.settingsMyAllergensListView);
+        saveMyAllergens = (Button) fragmentLayout.findViewById(R.id.saveMyAllergensButton);
 
         showAllergensList();
 
@@ -52,9 +59,28 @@ public class SettingsFragment1 extends Fragment {
             }
         });
 
+        saveMyAllergens.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myAllergens = getAllCheckedAllergens();
+                Toast.makeText(getContext(),"My allergens: "+ myAllergens.toString(),Toast.LENGTH_LONG).show();
+                //insert Allergens to userDatabase
+            }
+        });
+
         return fragmentLayout;
     }
 
+    public List<String>  getAllCheckedAllergens(){
+        List<String> myAllergensList = new ArrayList<>();
+        List<Allergen> models = allergenListAdapter.getAllergensList();
+        for(Allergen item : models){
+            if(item.isSelected()){
+                myAllergensList.add(item.getName());
+            }
+        }
+        return myAllergensList;
+    }
     public void showAllergensList() {
         allergensObjects = allergenDao.getAllAllergens();
 

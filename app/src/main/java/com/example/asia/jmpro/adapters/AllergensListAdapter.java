@@ -81,4 +81,7 @@ public class AllergensListAdapter extends BaseAdapter{
         notifyDataSetChanged();
     }
 
+    public List<Allergen> getAllergensList() {
+        return allergensList;
+    }
 }
