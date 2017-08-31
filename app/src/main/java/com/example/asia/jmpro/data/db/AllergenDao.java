@@ -7,6 +7,7 @@ import com.example.asia.jmpro.data.SubstituteRealm;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 /**
@@ -30,16 +31,14 @@ public class AllergenDao {
     }
 
     public ArrayList<String> getAllAllergensNames() {
-        ArrayList<String> list = new ArrayList<String>();
-        RealmResults<AllergenRealm> allergensList;
-
+        ArrayList<String> list = new ArrayList<>();
         realmDatabase.beginTransaction();
-        allergensList = realmDatabase.where(AllergenRealm.class)
-                .findAll();
+        RealmQuery<AllergenRealm> query = realmDatabase.where(AllergenRealm.class);
+        RealmResults<AllergenRealm> allergensList = query.findAll();
+
         for (AllergenRealm item : allergensList) {
             list.add(item.getAllergenName());
         }
-        realmDatabase.commitTransaction();
         return list;
     }
 

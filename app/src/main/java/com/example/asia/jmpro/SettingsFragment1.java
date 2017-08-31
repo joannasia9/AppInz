@@ -28,14 +28,14 @@ public class SettingsFragment1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Log.w("HAHAHAHAHHAHAHA", "onCreateView: FRAGMENT 1 CREATED");
 
-        View fragmentLayout = inflater.inflate(R.layout.settings_fragment1,container,false);
+        View fragmentLayout = inflater.inflate(R.layout.settings_fragment1, container, false);
         settingsMyAllergensListView = (ListView) fragmentLayout.findViewById(R.id.settingsMyAllergensListView);
         showAllergensList();
 
         return fragmentLayout;
     }
 
-    public void showAllergensList(){
+    public void showAllergensList() {
         allergens = allergenDao.getAllAllergensNames();
         AllergensListAdapter allergenListAdapter = new AllergensListAdapter(getContext(), allergens);
         settingsMyAllergensListView.setAdapter(allergenListAdapter);
