@@ -13,12 +13,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.db.UserDao;
 
 import java.util.Date;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import io.realm.Realm;
+import io.realm.SyncUser;
 
 import static com.example.asia.jmpro.R.id.emailEditText;
 
@@ -41,16 +45,46 @@ public class Registration extends AppCompatActivity {
     }
 
     public void registerUser(View view) {
-        UserDao userDao = new UserDao(this);
+
         if (isUserValid(login, password, repeatedPassword, email, birthDateDate)) {
-            userDao.registerUser(login, password, email, birthDateDate, new UserDao.UserRegistrationCallback() {
+            final DbConnector dbConnector = DbConnector.getInstance();
+            dbConnector.clearData();
+
+            dbConnector.registerNewUser(login, password, new DbConnector.DBConnectorRegistrationCallback() {
                 @Override
-                public void onRegistrationSuccess() {
-                    showRegisterUserSuccessfulScreen();
+                public void onRegistrationSuccess(final SyncUser user) {
+                    dbConnector.setSyncUser(user);
+                    dbConnector.setConfiguration(user);
+
+                    dbConnector.connectToDatabase(new DbConnector.DBConnectorDatabaseCallback() {
+                        @Override
+                        public void onSuccess(Realm realm) {
+                            UserDao userDao = new UserDao();
+
+//                            userDao.insertUser(login, password, email, birthDateDate, new UserDao.UserRegistrationCallback() {
+//                                @Override
+//                                public void onUserRegistrationSuccess() {
+//
+//                                }
+//
+//                                @Override
+//                                public void onUserRegistrationFailure(String errorMessage) {
+//
+//                                }
+//                            });
+
+                        }
+
+                        @Override
+                        public void onError(Throwable exception) {
+
+                        }
+                    });
                 }
 
                 @Override
-                public void onRegistrationFailure(String errorMessage) {
+                public void onRegistrationFailure(Throwable error) {
+                    login.setError(getResources().getString(R.string.occupied_login));
                 }
             });
         }

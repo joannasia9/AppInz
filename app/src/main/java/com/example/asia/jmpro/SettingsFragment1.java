@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.asia.jmpro.adapters.AllergensListAdapter;
 import com.example.asia.jmpro.data.db.AllergenDao;
@@ -29,9 +28,9 @@ public class SettingsFragment1 extends Fragment {
     Button addMyAllergen;
     EditText allergenNameEditText;
 
-    List<Allergen> allergensObjects = null;
-    List<String> myAllergens = null;
-    AllergenDao allergenDao;
+    List<Allergen> allAllergensObjects = null;
+    List<Allergen> myAllergens = null;
+    AllergenDao allergenDao = new AllergenDao();
     AllergensListAdapter allergenListAdapter;
 
 
@@ -51,7 +50,7 @@ public class SettingsFragment1 extends Fragment {
         settingsMyAllergensListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Allergen model = allergensObjects.get(position);
+                Allergen model = allAllergensObjects.get(position);
 
                 if(model.isSelected()){
                     model.setSelected(false);
@@ -59,8 +58,8 @@ public class SettingsFragment1 extends Fragment {
                     model.setSelected(true);
                 }
 
-                allergensObjects.set(position,model);
-                allergenListAdapter.updateAdapter(allergensObjects);
+                allAllergensObjects.set(position,model);
+                allergenListAdapter.updateAdapter(allAllergensObjects);
             }
         });
 
@@ -68,7 +67,7 @@ public class SettingsFragment1 extends Fragment {
             @Override
             public void onClick(View v) {
                 myAllergens = getAllCheckedAllergens();
-                Toast.makeText(getContext(),"My allergens: "+ myAllergens.toString(),Toast.LENGTH_LONG).show();
+                allergenDao.insertMyAllergenList(myAllergens);
                 //insert Allergens to userDatabase
             }
         });
@@ -83,30 +82,39 @@ public class SettingsFragment1 extends Fragment {
         return fragmentLayout;
     }
 
-    public List<String>  getAllCheckedAllergens(){
-        List<String> myAllergensList = new ArrayList<>();
+    public List<Allergen>  getAllCheckedAllergens(){
+        List<Allergen> myAllergensList = new ArrayList<>();
         List<Allergen> models = allergenListAdapter.getAllergensList();
         for(Allergen item : models){
             if(item.isSelected()){
-                myAllergensList.add(item.getName());
+                myAllergensList.add(item);
             }
         }
         return myAllergensList;
     }
 
     public void showAllergensList() {
-        allergenDao = new AllergenDao();
-        allergensObjects = allergenDao.getAllAllergens();
-        allergenListAdapter = new AllergensListAdapter(getContext(), allergensObjects);
-        settingsMyAllergensListView.setAdapter(allergenListAdapter);
+        allAllergensObjects = allergenDao.getAllAllergens();
+        myAllergens = allergenDao.getMyAllergensList();
 
+        if(myAllergens!=null){
+            for(Allergen item : myAllergens){
+                for(Allergen aItem : allAllergensObjects){
+                    if(item.getName().equals(aItem.getName())){
+                        aItem.setSelected(true);
+                    }
+
+                }
+            }
+        }
+
+        allergenListAdapter = new AllergensListAdapter(getContext(), allAllergensObjects);
+        settingsMyAllergensListView.setAdapter(allergenListAdapter);
     }
 
     public void addAllergen(String name) {
-        allergenDao = new AllergenDao();
         allergenDao.insertAllergenItem(name);
         allergenNameEditText.setText("");
         showAllergensList();
-
     }
 }

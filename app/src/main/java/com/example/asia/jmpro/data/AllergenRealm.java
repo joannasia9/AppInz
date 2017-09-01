@@ -2,12 +2,15 @@ package com.example.asia.jmpro.data;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
 /**
  * Created by asia on 24/08/2017.
  */
-
+@RealmClass
 public class AllergenRealm extends RealmObject {
+    @PrimaryKey
     private String allergenName;
     public RealmList<SubstituteRealm> substitutes;
 
@@ -24,8 +27,8 @@ public class AllergenRealm extends RealmObject {
         return substitutes;
     }
 
-    public void setSubstitutes(RealmList<SubstituteRealm> substitues) {
-        this.substitutes = substitues;
+    public void setSubstitutes(RealmList<SubstituteRealm> substitutes) {
+        this.substitutes = substitutes;
     }
 
 }

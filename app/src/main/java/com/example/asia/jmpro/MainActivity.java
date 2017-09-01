@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        userDao = new UserDao(this);
+        userDao = new UserDao();
         welcome = (TextView) findViewById(R.id.textView2);
         login = (EditText) findViewById(R.id.loginEditText);
         password = (EditText) findViewById(R.id.passwordEditText);

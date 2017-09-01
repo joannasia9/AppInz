@@ -1,12 +1,18 @@
 package com.example.asia.jmpro.models;
 
+import io.realm.RealmObject;
+
 /**
  * Created by asia on 31/08/2017.
  */
 
-public class Allergen {
+public class Allergen extends RealmObject{
     private String name;
     private boolean isSelected;
+
+    public Allergen(){
+
+    }
 
     public Allergen(String name, boolean isSelected) {
         this.name = name;

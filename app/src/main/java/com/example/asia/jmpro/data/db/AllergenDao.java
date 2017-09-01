@@ -6,6 +6,7 @@ import com.example.asia.jmpro.data.SubstituteRealm;
 import com.example.asia.jmpro.models.Allergen;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -18,6 +19,7 @@ public class AllergenDao {
     private Realm realmDatabase;
     private Realm privateDatabase;
     private RealmResults<AllergenRealm> allergensList=null;
+    private RealmResults<Allergen> myAllergensList = null;
 
 
     public AllergenDao() {
@@ -26,6 +28,7 @@ public class AllergenDao {
     }
 
     public void insertAllergenItem(final String allergenName) {
+        //IF DOES NOT EXIST
         realmDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -35,6 +38,7 @@ public class AllergenDao {
             }
         });
     }
+
 
     public ArrayList<String> getAllAllergensNames() {
         ArrayList<String> list = new ArrayList<>();
@@ -63,8 +67,6 @@ public class AllergenDao {
         });
 
         for (AllergenRealm item : allergensList) {
-            //validation --> if it is not inserted from user's private database
-            //Allergen aItem = new Allergen(item.getAllergenName(),true);
             Allergen aItem = new Allergen(item.getAllergenName(),false);
             list.add(aItem);
         }
@@ -72,6 +74,7 @@ public class AllergenDao {
     }
 
     public void insertSingleSubstitute(String substituteName) {
+       // --> IF DOES NOT EXIST
         realmDatabase.beginTransaction();
         SubstituteRealm substituteItem = realmDatabase.createObject(SubstituteRealm.class);
         substituteItem.setName(substituteName);
@@ -95,5 +98,28 @@ public class AllergenDao {
         realmDatabase.commitTransaction();
     }
 
+    public void insertMyAllergenList(final List<Allergen> list) {
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                for(Allergen item : list){
+                    //IF DOES NOT EXIST --> issue
+                    Allergen myAllergenItem = realm.createObject(Allergen.class);
+                    myAllergenItem.setName(item.getName());
+                    myAllergenItem.setSelected(item.isSelected());
+                }
+            }
+        });
+    }
+
+    public List<Allergen> getMyAllergensList() {
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                myAllergensList = realm.where(Allergen.class).findAll();
+            }
+        });
+        return myAllergensList;
+    }
 }
 
