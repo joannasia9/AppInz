@@ -7,6 +7,7 @@ import io.realm.RealmObject;
  */
 
 public class Allergen extends RealmObject{
+
     private String name;
     private boolean isSelected;
 

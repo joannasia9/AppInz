@@ -15,11 +15,10 @@ import android.widget.TextView;
 
 import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.db.UserDao;
+import com.example.asia.jmpro.logic.validation.EmailValidator;
 
 import java.util.Date;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import io.realm.Realm;
 import io.realm.SyncUser;
@@ -61,17 +60,12 @@ public class Registration extends AppCompatActivity {
                         public void onSuccess(Realm realm) {
                             UserDao userDao = new UserDao();
 
-//                            userDao.insertUser(login, password, email, birthDateDate, new UserDao.UserRegistrationCallback() {
-//                                @Override
-//                                public void onUserRegistrationSuccess() {
-//
-//                                }
-//
-//                                @Override
-//                                public void onUserRegistrationFailure(String errorMessage) {
-//
-//                                }
-//                            });
+                            userDao.insertUser(login, password, email, birthDateDate, new UserDao.UserRegistrationCallback() {
+                                @Override
+                                public void onUserRegistrationSuccess() {
+                                    showRegisterUserSuccessfulScreen();
+                                }
+                            });
 
                         }
 
@@ -133,13 +127,10 @@ public class Registration extends AppCompatActivity {
     }
 
     private boolean isValidEmail(EditText s) {
-        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        EmailValidator validator = new EmailValidator();
+        String emailValue = s.getText().toString().trim();
 
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher matcher = pattern.matcher(s.getText().toString().trim());
-
-        if (matcher.matches()) {
+        if (validator.validate(emailValue)) {
             return true;
         } else {
             email.setError(getString(R.string.incorrect_email));

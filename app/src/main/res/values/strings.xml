@@ -30,12 +30,23 @@
     <string name="wrong_credentials">Błędny login lub hasło</string>
     <string name="correct_credentials">Zalogowano pomyślnie</string>
     <string name="db_error">Błąd połączenia z bazą.</string>
+    <string name="delete_account">Usuń konto</string>
+    <string name="old_password">Stare hasło</string>
+    <string name="new_password">Nowe hasło</string>
+    <string name="new_email">Nowy e-mail</string>
 
     <string-array name="main_menu_items">
-        <item>Dziennik objawów</item>
+        <item>Mój dziennik</item>
         <item>Substytuty</item>
         <item>Spis miejsc</item>
         <item>Ustawienia konta</item>
+    </string-array>
+
+    <string-array name="general_settings_items">
+        <item>Dodaj użytkownika</item>
+        <item>Wybierz język</item>
+        <item>Wybierz motyw</item>
+        <item>Eksportuj dokument dla lekarza</item>
     </string-array>
 
     <string-array name="settings_items">

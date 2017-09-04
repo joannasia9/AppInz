@@ -26,8 +26,6 @@ public class UserDao {
 
     public interface UserRegistrationCallback {
         void onUserRegistrationSuccess();
-
-        void onUserRegistrationFailure(String errorMessage);
     }
 
     public void insertUser(final EditText login, final EditText password, final EditText email, final Date birthDate, final UserRegistrationCallback registrationCallback) {
@@ -41,6 +39,7 @@ public class UserDao {
             @Override
             public void execute(Realm realm) {
                 realm.copyToRealmOrUpdate(newUser);
+                registrationCallback.onUserRegistrationSuccess();
             }
         });
     }

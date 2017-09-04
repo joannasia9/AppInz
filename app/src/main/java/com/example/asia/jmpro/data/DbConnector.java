@@ -11,7 +11,6 @@ import io.realm.RealmConfiguration;
 import io.realm.SyncConfiguration;
 import io.realm.SyncCredentials;
 import io.realm.SyncUser;
-import io.realm.permissions.PermissionChange;
 
 /**
  * Created by asia on 29/08/2017.
@@ -19,11 +18,9 @@ import io.realm.permissions.PermissionChange;
 
 public class DbConnector {
     private static DbConnector instance;
-    private static final String AUTH_URL = "http://10.224.113.147:9080/auth";
-    private static final String REALM_URL = "realm://10.224.113.147:9080/appInz";
-    private static final String PRIVATE_REALM_URL = "realm://10.224.113.147:9080/~/appInz";
-//    private static final String AUTH_URL = "http://192.168.0.12:9080/auth";
-//    private static final String REALM_URL = "realm://192.168.0.12:9080/appIn";
+    private static final String PRIVATE_REALM_URL = "realm://192.168.0.12:9080/~/appInz";
+    private static final String AUTH_URL = "http://192.168.0.12:9080/auth";
+    private static final String REALM_URL = "realm://192.168.0.12:9080/appInz";
 
     private String login;
     private String password;
@@ -111,22 +108,6 @@ public class DbConnector {
         dbConnect(login, password, new DBConnectorLoginCallback() {
             @Override
             public void onSuccess(SyncUser user) {
-                //
-                final PermissionChange permissionChange = new PermissionChange(
-                        REALM_URL,
-                        "*",
-                        true,
-                        true,
-                        true);
-
-                Realm managementRealm = user.getManagementRealm();
-                managementRealm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        realm.insert(permissionChange);
-                    }
-                });
-                //
                 if (realmDatabase != null) {
                     dbCallback.onSuccess(realmDatabase);
                     return;

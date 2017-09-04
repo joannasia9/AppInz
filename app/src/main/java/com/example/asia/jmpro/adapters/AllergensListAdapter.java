@@ -22,11 +22,6 @@ public class AllergensListAdapter extends BaseAdapter{
     private Context context;
     private List<Allergen> allergensList;
 
-//    public AllergensListAdapter(Context context, List<String> allergens) {
-//        super(context, R.layout.single_alergen_item);
-//        this.context = context;
-//        this.allergensList = allergens;
-//    }
 
     public AllergensListAdapter(Context context, List<Allergen> allergensList) {
         this.context = context;
@@ -52,7 +47,7 @@ public class AllergensListAdapter extends BaseAdapter{
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View allergenItem = convertView;
-        AllergenItemViewHolder allergenItemViewHolder = null;
+        AllergenItemViewHolder allergenItemViewHolder;
 
         if (allergenItem == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

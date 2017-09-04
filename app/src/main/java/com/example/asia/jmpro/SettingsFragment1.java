@@ -34,7 +34,6 @@ public class SettingsFragment1 extends Fragment {
     AllergensListAdapter allergenListAdapter;
 
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -52,13 +51,13 @@ public class SettingsFragment1 extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Allergen model = allAllergensObjects.get(position);
 
-                if(model.isSelected()){
+                if (model.isSelected()) {
                     model.setSelected(false);
                 } else {
                     model.setSelected(true);
                 }
 
-                allAllergensObjects.set(position,model);
+                allAllergensObjects.set(position, model);
                 allergenListAdapter.updateAdapter(allAllergensObjects);
             }
         });
@@ -68,7 +67,6 @@ public class SettingsFragment1 extends Fragment {
             public void onClick(View v) {
                 myAllergens = getAllCheckedAllergens();
                 allergenDao.insertMyAllergenList(myAllergens);
-                //insert Allergens to userDatabase
             }
         });
 
@@ -82,11 +80,11 @@ public class SettingsFragment1 extends Fragment {
         return fragmentLayout;
     }
 
-    public List<Allergen>  getAllCheckedAllergens(){
+    public List<Allergen> getAllCheckedAllergens() {
         List<Allergen> myAllergensList = new ArrayList<>();
         List<Allergen> models = allergenListAdapter.getAllergensList();
-        for(Allergen item : models){
-            if(item.isSelected()){
+        for (Allergen item : models) {
+            if (item.isSelected()) {
                 myAllergensList.add(item);
             }
         }
@@ -97,10 +95,10 @@ public class SettingsFragment1 extends Fragment {
         allAllergensObjects = allergenDao.getAllAllergens();
         myAllergens = allergenDao.getMyAllergensList();
 
-        if(myAllergens!=null){
-            for(Allergen item : myAllergens){
-                for(Allergen aItem : allAllergensObjects){
-                    if(item.getName().equals(aItem.getName())){
+        if (myAllergens.size() != 0) {
+            for (Allergen item : myAllergens) {
+                for (Allergen aItem : allAllergensObjects) {
+                    if (item.getName().equals(aItem.getName())) {
                         aItem.setSelected(true);
                     }
 
