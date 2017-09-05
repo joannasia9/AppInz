@@ -18,7 +18,6 @@ public class SettingsFragment3 extends Fragment {
     ListView gSettingsListView;
     String[] gItemsTitles;
     int[] gItemsImages = {R.drawable.item1, R.drawable.item2, R.drawable.item3, R.drawable.item4};
-    int[] mItemsBackground = {R.color.item1, R.color.item2, R.color.item3, R.color.item4};
 
     @Nullable
     @Override
@@ -31,6 +30,6 @@ public class SettingsFragment3 extends Fragment {
        GeneralSettingsListViewAdapter adapter = new GeneralSettingsListViewAdapter(getContext(),gItemsTitles,gItemsImages);
         gSettingsListView.setAdapter(adapter);
 
-        return inflater.inflate(R.layout.settings_fragment3, container, false);
+        return fragmentLayout;
     }
 }

@@ -46,7 +46,7 @@
         <item>Dodaj użytkownika</item>
         <item>Wybierz język</item>
         <item>Wybierz motyw</item>
-        <item>Eksportuj dokument dla lekarza</item>
+        <item>Stwórz pdf</item>
     </string-array>
 
     <string-array name="settings_items">
