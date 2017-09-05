@@ -45,17 +45,10 @@ public class MainActivity extends AppCompatActivity {
             dbConnector.dbConnect(login.getText().toString().trim(), password.getText().toString(), new DbConnector.DBConnectorLoginCallback() {
                 @Override
                 public void onSuccess(SyncUser user) {
-                    dbConnector.setConfiguration(user);
-                    //private database configuration:
-                    dbConnector.setPrivateConfiguration(user);
-                    //
-                    dbConnector.setSyncUser(user);
-
 
                     dbConnector.connectToDatabase(new DbConnector.DBConnectorDatabaseCallback() {
                         @Override
                         public void onSuccess(Realm realm) {
-                            dbConnector.setRealmDatabase(realm);
                             showSignedInUserMainMenuScreen();
                         }
 
@@ -65,18 +58,16 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                    //private database instance
                     dbConnector.connectToPrivateDatabase(new DbConnector.DBConnectorDatabaseCallback() {
                         @Override
                         public void onSuccess(Realm realm) {
-                            dbConnector.setPrivateRealmDatabase(realm);
                         }
 
                         @Override
                         public void onError(Throwable exception) {
                         }
                     });
-                    //
+
                 }
 
                 @Override

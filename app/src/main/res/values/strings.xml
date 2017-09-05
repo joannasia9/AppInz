@@ -35,6 +35,7 @@
     <string name="new_password">Nowe hasło</string>
     <string name="new_email">Nowy e-mail</string>
     <string name="settings_login">Login:</string>
+    <string name="password_changed">Hasło zostało zmienione.</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>

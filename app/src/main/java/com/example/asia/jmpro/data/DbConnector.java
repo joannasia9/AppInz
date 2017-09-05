@@ -93,6 +93,9 @@ public class DbConnector {
             @Override
             public void onSuccess(SyncUser user) {
                 setSyncUser(user);
+                setConfiguration(user);
+                setPrivateConfiguration(user);
+
                 callback.onSuccess(syncUser);
             }
 
@@ -105,72 +108,53 @@ public class DbConnector {
 
 
     public void connectToDatabase(final DBConnectorDatabaseCallback dbCallback) {
-        dbConnect(login, password, new DBConnectorLoginCallback() {
+        if (realmDatabase != null) {
+            dbCallback.onSuccess(realmDatabase);
+            return;
+        }
+
+        Realm.getInstanceAsync(configuration, new Realm.Callback() {
             @Override
-            public void onSuccess(SyncUser user) {
-                if (realmDatabase != null) {
-                    dbCallback.onSuccess(realmDatabase);
-                    return;
-                }
-
-                Realm.getInstanceAsync(configuration, new Realm.Callback() {
-                    @Override
-                    public void onSuccess(Realm realm) {
-                        setRealmDatabase(realm);
-                        dbCallback.onSuccess(realmDatabase);
-                    }
-
-                    @Override
-                    public void onError(Throwable exception) {
-                        exception.printStackTrace();
-                        dbCallback.onError(exception);
-                    }
-                });
+            public void onSuccess(Realm realm) {
+                setRealmDatabase(realm);
+                dbCallback.onSuccess(realmDatabase);
             }
 
-
             @Override
-            public void onError(RuntimeException error) {
+            public void onError(Throwable exception) {
+                exception.printStackTrace();
+                dbCallback.onError(exception);
             }
         });
     }
 
     public void connectToPrivateDatabase(final DBConnectorDatabaseCallback dbCallback) {
-        dbConnect(login, password, new DBConnectorLoginCallback() {
+        if (privateRealmDatabase != null) {
+            dbCallback.onSuccess(privateRealmDatabase);
+            setPrivateRealmDatabase(privateRealmDatabase);
+            return;
+        }
+
+        Realm.getInstanceAsync(privateConfiguration, new Realm.Callback() {
             @Override
-            public void onSuccess(SyncUser user) {
-                if (privateRealmDatabase != null) {
-                    dbCallback.onSuccess(privateRealmDatabase);
-                    return;
-                }
-
-                Realm.getInstanceAsync(privateConfiguration, new Realm.Callback() {
-                    @Override
-                    public void onSuccess(Realm realm) {
-                        setPrivateRealmDatabase(realm);
-                        dbCallback.onSuccess(privateRealmDatabase);
-                    }
-
-                    @Override
-                    public void onError(Throwable exception) {
-                        exception.printStackTrace();
-                        dbCallback.onError(exception);
-                    }
-                });
+            public void onSuccess(Realm realm) {
+                setPrivateRealmDatabase(realm);
+                dbCallback.onSuccess(privateRealmDatabase);
             }
 
             @Override
-            public void onError(RuntimeException error) {
+            public void onError(Throwable exception) {
+                exception.printStackTrace();
+                dbCallback.onError(exception);
             }
         });
-
     }
 
     public void setSyncUser(SyncUser syncUser) {
         this.syncUser = syncUser;
     }
 
-    public void setRealmDatabase(Realm realmDatabase) {
+    private void setRealmDatabase(Realm realmDatabase) {
         this.realmDatabase = realmDatabase;
     }
 
@@ -182,7 +166,7 @@ public class DbConnector {
         return privateRealmDatabase;
     }
 
-    public void setPrivateRealmDatabase(Realm privateRealmDatabase) {
+    private void setPrivateRealmDatabase(Realm privateRealmDatabase) {
         this.privateRealmDatabase = privateRealmDatabase;
     }
 
@@ -205,7 +189,7 @@ public class DbConnector {
         }
     }
 
-    public void setPrivateConfiguration(SyncUser user) {
+    private void setPrivateConfiguration(SyncUser user) {
         if (privateConfiguration == null) {
             privateConfiguration = new SyncConfiguration.Builder(syncUser, PRIVATE_REALM_URL)
                     .modules(new PrivateEntitiesModule())
@@ -216,6 +200,10 @@ public class DbConnector {
 
     public String getLogin() {
         return login;
+    }
+
+    public SyncUser getSyncUser() {
+        return syncUser;
     }
 
 }

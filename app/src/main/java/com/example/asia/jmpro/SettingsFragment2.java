@@ -1,8 +1,11 @@
 package com.example.asia.jmpro;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,9 +70,7 @@ public class SettingsFragment2 extends Fragment {
         removeAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ///1.Dialog - if sure
-                ///2.Removing account from database
-                ///3.Back to login pane
+                showDialogMessage();
             }
         });
 
@@ -77,9 +78,29 @@ public class SettingsFragment2 extends Fragment {
         return fragmentLayout;
     }
 
+    private void showDialogMessage(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Uwaga!")
+                .setMessage("Czy na pewno chcesz usunąć konto?")
+                .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        userDao.deleteUser();
+                        startActivity(new Intent(getContext(),MainActivity.class));
+                    }
+                })
+                .setNegativeButton("Nie", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+        builder.show();
+    }
     private void updateUsersData(EditText password, EditText repeatedPassword, EditText newEmail) {
         if (isValidNewPassword(password, repeatedPassword)) {
-            userDao.updateUserPassword(password.getText().toString().trim());
+            userDao.updateUserPassword(getContext(),password.getText().toString().trim());
         } else if (isValidNewEmail(newEmail)) {
             userDao.updateUserEmail(newEmail.getText().toString().trim());
         }
