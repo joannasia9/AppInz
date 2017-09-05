@@ -214,6 +214,9 @@ public class DbConnector {
         }
     }
 
+    public String getLogin() {
+        return login;
+    }
 
 }
 

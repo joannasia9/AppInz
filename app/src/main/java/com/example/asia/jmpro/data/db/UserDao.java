@@ -15,12 +15,14 @@ import io.realm.Realm;
 
 public class UserDao {
     private Realm realmDatabase;
-    private DbConnector dbConnector;
+    private String userLogin;
+    private UserRealm user;
 
 
     public UserDao() {
-        this.dbConnector = DbConnector.getInstance();
-        this.realmDatabase = DbConnector.getInstance().getRealmDatabase();
+        DbConnector dbConnector = DbConnector.getInstance();
+        this.realmDatabase = dbConnector.getRealmDatabase();
+        this.userLogin = dbConnector.getLogin();
     }
 
 
@@ -29,17 +31,54 @@ public class UserDao {
     }
 
     public void insertUser(final EditText login, final EditText password, final EditText email, final Date birthDate, final UserRegistrationCallback registrationCallback) {
-        final UserRealm newUser = new UserRealm();
-        newUser.setLogin(login.getText().toString().trim());
-        newUser.setPassword(password.getText().toString().trim());
-        newUser.setEmail(email.getText().toString().trim());
-        newUser.setBirthDate(birthDate);
+        user = new UserRealm();
+        user.setLogin(login.getText().toString().trim());
+        user.setPassword(password.getText().toString().trim());
+        user.setEmail(email.getText().toString().trim());
+        user.setBirthDate(birthDate);
 
         realmDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.copyToRealmOrUpdate(newUser);
+                realm.copyToRealmOrUpdate(user);
                 registrationCallback.onUserRegistrationSuccess();
+            }
+        });
+    }
+
+    public UserRealm getUserRealmFromDatabase(){
+        user = new UserRealm();
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                user = realm.where(UserRealm.class)
+                        .equalTo("login", userLogin)
+                        .findFirst();
+            }
+        });
+        return user;
+    }
+
+    public void updateUserPassword(final String password) {
+        user = getUserRealmFromDatabase();
+
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                user.setPassword(password);
+                realm.copyToRealmOrUpdate(user);
+            }
+        });
+    }
+
+    public void updateUserEmail(final String email){
+        user = getUserRealmFromDatabase();
+
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                user.setEmail(email);
+                realm.copyToRealmOrUpdate(user);
             }
         });
     }
