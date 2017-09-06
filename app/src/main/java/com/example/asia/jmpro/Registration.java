@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -15,7 +14,9 @@ import android.widget.TextView;
 
 import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.db.UserDao;
+import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
 import com.example.asia.jmpro.logic.validation.EmailValidator;
+import com.example.asia.jmpro.viewholders.MyBaseActivity;
 
 import java.util.Date;
 import java.util.Objects;
@@ -25,10 +26,11 @@ import io.realm.SyncUser;
 
 import static com.example.asia.jmpro.R.id.emailEditText;
 
-public class Registration extends AppCompatActivity {
+public class Registration extends MyBaseActivity {
     Date birthDateDate = null;
     TextView birthDate;
     EditText login, password, repeatedPassword, email;
+    LanguageChangeObserver languageChangeObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,8 @@ public class Registration extends AppCompatActivity {
         repeatedPassword = (EditText) findViewById(R.id.passwordValue2EditText);
         email = (EditText) findViewById(emailEditText);
         birthDate = (TextView) findViewById(R.id.birthDateTextView);
+
+        languageChangeObserver = new LanguageChangeObserver(this).start();
 
     }
 
@@ -164,5 +168,4 @@ public class Registration extends AppCompatActivity {
             }
         }
     };
-
 }

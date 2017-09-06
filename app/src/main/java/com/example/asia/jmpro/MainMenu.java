@@ -1,8 +1,8 @@
 package com.example.asia.jmpro;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -10,18 +10,24 @@ import android.widget.Toast;
 
 import com.example.asia.jmpro.adapters.MyMenuAdapter;
 import com.example.asia.jmpro.data.DbConnector;
+import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
+import com.example.asia.jmpro.viewholders.MyBaseActivity;
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends MyBaseActivity {
     ListView mItems;
     String[] mItemsTitles;
     int[] mItemsBackground = {R.color.item1, R.color.item2, R.color.item3, R.color.item4};
     int[] mItemsImages = {R.drawable.item1, R.drawable.item2, R.drawable.item3, R.drawable.item4};
+
+    SharedPreferences preferences;
+    LanguageChangeObserver languageChangeObserver;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        preferences = getApplicationContext().getSharedPreferences("UsersData", MODE_PRIVATE);
 
         mItems = (ListView) findViewById(R.id.menuItemsListView);
         mItemsTitles = getResources().getStringArray(R.array.main_menu_items);
@@ -29,6 +35,8 @@ public class MainMenu extends AppCompatActivity {
         MyMenuAdapter myMenuAdapter = new MyMenuAdapter(this, mItemsTitles, mItemsImages, mItemsBackground);
         mItems.setAdapter(myMenuAdapter);
         mItems.setOnItemClickListener(listener);
+
+        languageChangeObserver = new LanguageChangeObserver(this).start();
     }
 
 
@@ -64,4 +72,5 @@ public class MainMenu extends AppCompatActivity {
         super.onBackPressed();
         DbConnector.getInstance().clearData();
     }
+
 }

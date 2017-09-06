@@ -2,11 +2,11 @@ package com.example.asia.jmpro;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 
 import com.example.asia.jmpro.adapters.SettingsFragmentAdapter;
+import com.example.asia.jmpro.viewholders.MyBaseActivity;
 
-public class Settings extends AppCompatActivity {
+public class Settings extends MyBaseActivity {
     ViewPager viewPager;
     String[] settingItemTitle;
 
@@ -25,7 +25,6 @@ public class Settings extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(new SettingsFragmentAdapter(settingItemTitle, getSupportFragmentManager()));
     }
-
 
 }
 

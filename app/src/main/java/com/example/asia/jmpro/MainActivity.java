@@ -2,7 +2,6 @@ package com.example.asia.jmpro;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -10,15 +9,18 @@ import android.widget.Toast;
 
 import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.db.UserDao;
+import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
+import com.example.asia.jmpro.viewholders.MyBaseActivity;
 
 import io.realm.Realm;
 import io.realm.SyncUser;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends MyBaseActivity {
     private static final int REQUEST_CODE = 123;
     TextView welcome;
     EditText login, password;
     UserDao userDao;
+    LanguageChangeObserver languageChangeObserver;
 
 
     @Override
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         welcome = (TextView) findViewById(R.id.textView2);
         login = (EditText) findViewById(R.id.loginEditText);
         password = (EditText) findViewById(R.id.passwordEditText);
+
+        languageChangeObserver = new LanguageChangeObserver(this).start();
     }
 
     public void signIn(View view) {

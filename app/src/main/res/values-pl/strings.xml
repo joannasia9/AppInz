@@ -50,9 +50,9 @@
         <item>Dodaj użytkownika</item>
         <item>Wybierz język</item>
         <item>Wybierz motyw</item>
-        <item>Stwórz pdf</item>
+        <item>Stwórz plik pdf</item>
     </string-array>
-    
+
     <string-array name="support_settings_items">
         <item>Napisz do nas</item>
         <item>Poproś o nową funkcję</item>
