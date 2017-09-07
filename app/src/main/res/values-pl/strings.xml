@@ -38,6 +38,9 @@
     <string name="password_changed">Hasło zostało zmienione.</string>
     <string name="support_us">Wesprzyj nas</string>
     <string name="select_language">Wybierz język</string>
+    <string name="send">Wyślij</string>
+    <string name="email_sender">E-mail sender</string>
+    <string name="suggestions">Sugestie</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
@@ -71,4 +74,12 @@
         <item>polski</item>
         <item>angielski</item>
     </string-array>
+
+    <string-array name="email_subjects">
+        <item name="suggestions">Sugestie</item>
+        <item> Prośba o nową funkcjonalność</item>
+        <item>Uwagi</item>
+        <item>Inne</item>
+    </string-array>
+
 </resources>
