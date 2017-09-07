@@ -80,16 +80,16 @@ public class SettingsFragment2 extends Fragment {
 
     private void showDialogMessage(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Uwaga!")
-                .setMessage("Czy na pewno chcesz usunąć konto?")
-                .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.warning)
+                .setMessage(R.string.are_you_sure)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         userDao.deleteUser();
                         startActivity(new Intent(getContext(),MainActivity.class));
                     }
                 })
-                .setNegativeButton("Nie", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 

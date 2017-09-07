@@ -1,7 +1,11 @@
 package com.example.asia.jmpro;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,7 +28,6 @@ import com.example.asia.jmpro.adapters.SpinnerAdapter;
 
 public class SettingsFragment4 extends Fragment {
     ListView sSettingsListView;
-    Button sendButton;
     EditText messageEditText;
     Spinner spinner;
     Dialog dialog;
@@ -57,9 +60,11 @@ public class SettingsFragment4 extends Fragment {
                     }
 
                     case 2: {
+                        share();
                         break;
                     }
                     case 3: {
+                        showClearPreferencesDialog();
                         break;
                     }
                     default:
@@ -78,12 +83,20 @@ public class SettingsFragment4 extends Fragment {
         dialog.show();
 
         messageEditText = (EditText) dialog.findViewById(R.id.singleSubSenderEt);
-        sendButton = (Button) dialog.findViewById(R.id.singleSubEMailSenderB);
+        Button sendButton = (Button) dialog.findViewById(R.id.singleSubEMailSenderB);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendSpecialMail();
+            }
+        });
+
+        Button cancelButton = (Button) dialog.findViewById(R.id.button3);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
             }
         });
     }
@@ -112,44 +125,91 @@ public class SettingsFragment4 extends Fragment {
         });
 
         messageEditText = (EditText) dialog.findViewById(R.id.messageEditTest);
-        sendButton = (Button) dialog.findViewById(R.id.button);
 
+        Button sendButton = (Button) dialog.findViewById(R.id.button);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendMail();
             }
         });
+
+        Button cancelButton = (Button) dialog.findViewById(R.id.emailSenderButton2);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+    }
+
+    private void showClearPreferencesDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.warning))
+                .setMessage(R.string.are_you_sure2)
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        clearSharedPreferences();
+                    }
+                })
+                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        builder.show();
+    }
+
+
+    private void share() {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType(getString(R.string.intent_type));
+        String shareBody = getString(R.string.offer);
+        String shareSub = getString(R.string.write_to) + getString(R.string.app_mail) + getString(R.string.offer2);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, shareSub);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_using)));
     }
 
     private void sendMail() {
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setData(Uri.parse("mailto:"));
-        String to[] = {"joasia42@interia.eu"};
+        intent.setData(Uri.parse(getString(R.string.mailto)));
+        String to[] = {getString(R.string.app_mail)};
         intent.putExtra(Intent.EXTRA_EMAIL, to);
         intent.putExtra(Intent.EXTRA_SUBJECT, selectedSubject);
         intent.putExtra(Intent.EXTRA_TEXT, messageEditText.getText().toString());
 
-        intent.setType("message/rfc822");
+        intent.setType(getString(R.string.intent_type2));
 
-        Intent chooser = Intent.createChooser(intent, "Email");
+        Intent chooser = Intent.createChooser(intent, getString(R.string.e_mail));
         startActivity(chooser);
         dialog.cancel();
     }
 
     private void sendSpecialMail() {
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setData(Uri.parse("mailto:"));
-        String to[] = {"joasia42@interia.eu"};
+        intent.setData(Uri.parse(getString(R.string.mailto)));
+        String to[] = {getString(R.string.app_mail)};
         intent.putExtra(Intent.EXTRA_EMAIL, to);
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.ask_for_new_func));
         intent.putExtra(Intent.EXTRA_TEXT, messageEditText.getText().toString());
 
-        intent.setType("message/rfc822");
+        intent.setType(getString(R.string.intent_type2));
 
-        Intent chooser = Intent.createChooser(intent, "Email");
+        Intent chooser = Intent.createChooser(intent, getString(R.string.e_mail));
         startActivity(chooser);
         dialog.cancel();
+    }
+
+    private void clearSharedPreferences() {
+        SharedPreferences preferences = getContext().getSharedPreferences("UsersData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+        getActivity().recreate();
     }
 
 

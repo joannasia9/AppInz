@@ -81,11 +81,11 @@ public class SettingsFragment3 extends Fragment {
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putInt(PREFERENCES_INT_KEY, which);
                         if (which == 0) {
-                            editor.putString(PREFERENCES_STRING_KEY, "pl");
+                            editor.putString(PREFERENCES_STRING_KEY, getString(R.string.pl));
 
 
                         } else {
-                            editor.putString(PREFERENCES_STRING_KEY, "en");
+                            editor.putString(PREFERENCES_STRING_KEY, getString(R.string.en));
                         }
                         editor.apply();
                     }
@@ -105,7 +105,7 @@ public class SettingsFragment3 extends Fragment {
 
     @Override
     public void onAttach(Context context) {
-        super.onAttach(MyContextWrapper.wrap(context, context.getSharedPreferences("UsersData",MODE_PRIVATE).getString(PREFERENCES_STRING_KEY,"pl")));
+        super.onAttach(MyContextWrapper.wrap(context, context.getSharedPreferences("UsersData", MODE_PRIVATE).getString(PREFERENCES_STRING_KEY, getString(R.string.pl))));
     }
 
 }

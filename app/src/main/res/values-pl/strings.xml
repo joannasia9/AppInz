@@ -41,6 +41,8 @@
     <string name="send">Wyślij</string>
     <string name="email_sender">E-mail sender</string>
     <string name="suggestions">Sugestie</string>
+    <string name="share_using">Udostępnij za pomocą</string>
+    <string name="mailto">mailto:</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
