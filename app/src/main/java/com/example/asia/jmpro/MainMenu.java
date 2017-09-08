@@ -1,8 +1,13 @@
 package com.example.asia.jmpro;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -12,6 +17,8 @@ import com.example.asia.jmpro.adapters.MyMenuAdapter;
 import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 public class MainMenu extends MyBaseActivity {
     ListView mItems;
@@ -54,7 +61,12 @@ public class MainMenu extends MyBaseActivity {
                 }
 
                 case 2: {
-                    startActivity(new Intent(getApplicationContext(), MainMenuPlaces.class));
+                    if(googleServicesAvailable()) {
+                        startActivity(new Intent(getApplicationContext(), MainMenuPlaces.class));
+                    } else {
+                        showAlertPlayServicesDialog();
+                    }
+
                     break;
                 }
                 case 3: {
@@ -71,6 +83,53 @@ public class MainMenu extends MyBaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         DbConnector.getInstance().clearData();
+    }
+
+
+    public boolean googleServicesAvailable() {
+        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+        int isAvailable = googleApiAvailability.isGooglePlayServicesAvailable(this);
+        if (isAvailable == ConnectionResult.SUCCESS) {
+            return true;
+        } else if (googleApiAvailability.isUserResolvableError(isAvailable)) {
+            Dialog dialog = googleApiAvailability.getErrorDialog(this, isAvailable, 0);
+            dialog.show();
+        } else {
+            Toast.makeText(this, "Play Services are not available.", Toast.LENGTH_LONG).show();
+        }
+
+        return false;
+    }
+
+    public void showAlertPlayServicesDialog(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.warning))
+                .setMessage(R.string.playservices_required)
+                .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openGooglePlayToGetMaps();
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        builder.show();
+    }
+
+    public void openGooglePlayToGetMaps(){
+        final String appPackageName="http://google-play-services.en.uptodown.com/android/download";
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            Log.e("ActivityNotFound", "openGooglePlayToGetMaps: " + anfe.getMessage());
+        }
     }
 
 }

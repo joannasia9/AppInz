@@ -132,4 +132,5 @@ public class MainMenuPlaces extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
     }
+
 }
