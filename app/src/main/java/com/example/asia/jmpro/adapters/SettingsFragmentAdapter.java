@@ -17,9 +17,6 @@ import com.example.asia.jmpro.SettingsFragment4;
 public class SettingsFragmentAdapter extends FragmentPagerAdapter {
     private String[] item;
 
-
-
-
     public SettingsFragmentAdapter (String[] items, FragmentManager fm ) {
         super(fm);
         this.item=items;

@@ -76,7 +76,7 @@
         <item>Wybierz motyw</item>
         <item>Stwórz pdf</item>
     </string-array>
-    
+
     <string-array name="support_settings_items">
         <item>Napisz do nas</item>
         <item>Poproś o nową funkcję</item>
@@ -101,4 +101,24 @@
         <item>Uwagi</item>
         <item>Inne</item>
     </string-array>
+
+    <string-array name="places_options">
+        <item>Ulubione miejsca</item>
+        <item>Polecane</item>
+        <item>Poleć</item>
+    </string-array>
+
+    <string name="title_activity_main_menu_places">MainMenuPlaces</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="fav_places">Ulubione miejsca</string>
+    <string name="suggested">Polecane</string>
+    <string name="suggest">Poleć</string>
+    <string name="share">Udostępnij</string>
+    <string name="facebook">Facebook</string>
+    <string name="messenger">Messenger</string>
+    <string name="places">Miejsca</string>
 </resources>

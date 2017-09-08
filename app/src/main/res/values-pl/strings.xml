@@ -43,6 +43,13 @@
     <string name="suggestions">Sugestie</string>
     <string name="share_using">Udostępnij za pomocą</string>
     <string name="mailto">mailto:</string>
+    <string name="fav_places">Ulubione miejsca</string>
+    <string name="suggested">Polecane</string>
+    <string name="suggest">Poleć</string>
+    <string name="share">Udostępnij</string>
+    <string name="facebook">Facebook</string>
+    <string name="messenger">Messenger</string>
+    <string name="places">Miejsca</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
@@ -78,8 +85,7 @@
     </string-array>
 
     <string-array name="email_subjects">
-        <item name="suggestions">Sugestie</item>
-        <item> Prośba o nową funkcjonalność</item>
+        <item>Sugestie</item>
         <item>Uwagi</item>
         <item>Inne</item>
     </string-array>

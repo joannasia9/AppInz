@@ -54,7 +54,7 @@ public class MainMenu extends MyBaseActivity {
                 }
 
                 case 2: {
-                    Toast.makeText(MainMenu.this, "Position 2: Miejsca", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), MainMenuPlaces.class));
                     break;
                 }
                 case 3: {
