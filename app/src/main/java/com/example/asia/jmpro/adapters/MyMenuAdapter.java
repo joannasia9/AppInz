@@ -1,4 +1,4 @@
-package com.example.asia.jmpro;
+package com.example.asia.jmpro.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+
+import com.example.asia.jmpro.R;
+import com.example.asia.jmpro.viewholders.MenuItemViewHolder;
 
 /**
  * Created by asia on 23/08/2017.
@@ -20,7 +23,7 @@ public class MyMenuAdapter extends ArrayAdapter<String>{
     private int[] menuItemBackgroundArray;
 
 
-    MyMenuAdapter(Context c, String[] mItemTitle, int[] mItemImage, int[] mItemBackground){
+    public MyMenuAdapter(Context c, String[] mItemTitle, int[] mItemImage, int[] mItemBackground){
         super(c, R.layout.single_main_menu_item,R.id.menuItemTitle,mItemTitle);
         this.context = c;
         this.menuItemImagesArray = mItemImage;

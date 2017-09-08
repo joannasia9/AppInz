@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'realm-android'
 
 buildscript {
@@ -7,7 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "io.realm:realm-gradle-plugin:1.2.0"
+        classpath "io.realm:realm-gradle-plugin:3.5.0"
     }
 }
 
@@ -29,6 +28,11 @@ android {
         }
     }
 }
+
+realm {
+    syncEnabled = true
+}
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

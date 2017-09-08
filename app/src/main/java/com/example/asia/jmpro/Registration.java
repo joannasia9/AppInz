@@ -7,26 +7,30 @@ import android.graphics.drawable.ColorDrawable;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.asia.jmpro.data.UserRealm;
+import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.db.UserDao;
+import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
+import com.example.asia.jmpro.logic.validation.EmailValidator;
+import com.example.asia.jmpro.viewholders.MyBaseActivity;
 
 import java.util.Date;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import io.realm.Realm;
+import io.realm.SyncUser;
 
 import static com.example.asia.jmpro.R.id.emailEditText;
 
-public class Registration extends AppCompatActivity {
+public class Registration extends MyBaseActivity {
     Date birthDateDate = null;
     TextView birthDate;
     EditText login, password, repeatedPassword, email;
+    LanguageChangeObserver languageChangeObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,64 +38,92 @@ public class Registration extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         login = (EditText) findViewById(R.id.loginEditText);
-        password=(EditText) findViewById(R.id.passwordEditText);
-        repeatedPassword=(EditText) findViewById(R.id.passwordValue2EditText);
+        password = (EditText) findViewById(R.id.passwordEditText);
+        repeatedPassword = (EditText) findViewById(R.id.passwordValue2EditText);
         email = (EditText) findViewById(emailEditText);
         birthDate = (TextView) findViewById(R.id.birthDateTextView);
+
+        languageChangeObserver = new LanguageChangeObserver(this).start();
 
     }
 
     public void registerUser(View view) {
-        UserRealm userRealm = new UserRealm();
-        UserDao userDao = new UserDao(this);
 
-        if(isUserValid(userDao,login,password,repeatedPassword,email,birthDateDate)) {
-            userRealm.setLogin(login.getText().toString().trim());
-            userRealm.setEmail(email.getText().toString().trim());
-            userRealm.setPassword(password.getText().toString());
-            userRealm.setBirthDate(birthDateDate);
+        if (isUserValid(login, password, repeatedPassword, email, birthDateDate)) {
+            final DbConnector dbConnector = DbConnector.getInstance();
+            dbConnector.clearData();
 
-            userDao.insertUser(userRealm);
+            dbConnector.registerNewUser(login, password, new DbConnector.DBConnectorRegistrationCallback() {
+                @Override
+                public void onRegistrationSuccess(final SyncUser user) {
+                    dbConnector.setSyncUser(user);
+                    dbConnector.setConfiguration(user);
 
-            Intent intent = new Intent();
-            intent.putExtra("registeredLogin",login.getText().toString().trim());
-            intent.putExtra("registeredPassword",password.getText().toString().trim());
-            intent.putExtra("success",getResources().getString(R.string.registered));
-            setResult(RESULT_OK,intent);
-            finish();
+                    dbConnector.connectToDatabase(new DbConnector.DBConnectorDatabaseCallback() {
+                        @Override
+                        public void onSuccess(Realm realm) {
+                            UserDao userDao = new UserDao();
+
+                            userDao.insertUser(login, password, email, birthDateDate, new UserDao.UserRegistrationCallback() {
+                                @Override
+                                public void onUserRegistrationSuccess() {
+                                    showRegisterUserSuccessfulScreen();
+                                }
+                            });
+
+                        }
+
+                        @Override
+                        public void onError(Throwable exception) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onRegistrationFailure(Throwable error) {
+                    login.setError(getResources().getString(R.string.occupied_login));
+                }
+            });
         }
     }
 
-    private boolean isUserValid(UserDao user, EditText login, EditText password, EditText rPassword, EditText email, Date birthDate){
-        return isValidLogin(user, login) && isValidPassword(password, rPassword) && isValidEmail(email) && isValidBirthDate(birthDate);
-}
+    private void showRegisterUserSuccessfulScreen() {
+        Intent intent = new Intent();
+        intent.putExtra("registeredLogin", login.getText().toString().trim());
+        intent.putExtra("registeredPassword", password.getText().toString().trim());
+        intent.putExtra("success", getResources().getString(R.string.registered));
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 
-    private boolean isValidBirthDate(Date bDate){
-        if(bDate==null){
+    private boolean isUserValid(EditText login, EditText password, EditText rPassword, EditText email, Date birthDate) {
+        return isValidLogin(login) && isValidPassword(password, rPassword) && isValidEmail(email) && isValidBirthDate(birthDate);
+    }
+
+    private boolean isValidBirthDate(Date bDate) {
+        if (bDate == null) {
             birthDate.setText(getString(R.string.choose_date));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                birthDate.setTextColor(getResources().getColor(R.color.errorColor,getTheme()));
+                birthDate.setTextColor(getResources().getColor(R.color.errorColor, getTheme()));
             }
             return false;
         } else return true;
     }
-    private boolean isValidLogin(UserDao u, EditText l){
-        String login = l.getText().toString().trim();
 
-        if(login.equals("")){
+    private boolean isValidLogin(EditText l) {
+        String login = l.getText().toString().trim();
+        if (login.equals("")) {
             l.setError(getString(R.string.required));
-            return false;
-        } else if(u.isUserWithLoginRegistered(login)){
-            l.setError(getString(R.string.occupied_login));
             return false;
         } else return true;
     }
 
-    private boolean isValidPassword(EditText p1, EditText p2){
-        if(p1.getText().toString().length() < 6){
+    private boolean isValidPassword(EditText p1, EditText p2) {
+        if (p1.getText().toString().trim().length() < 6) {
             p1.setError(getString(R.string.password_signs));
             return false;
-        } else if (!Objects.equals(p1.getText().toString(), p2.getText().toString())){
+        } else if (!Objects.equals(p1.getText().toString(), p2.getText().toString())) {
             p1.setError(getString(R.string.passwords_not_matched));
             p2.setText("");
             return false;
@@ -99,15 +131,12 @@ public class Registration extends AppCompatActivity {
     }
 
     private boolean isValidEmail(EditText s) {
-        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        EmailValidator validator = new EmailValidator();
+        String emailValue = s.getText().toString().trim();
 
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher matcher = pattern.matcher(s.getText().toString().trim());
-
-        if(matcher.matches()){
+        if (validator.validate(emailValue)) {
             return true;
-        } else{
+        } else {
             email.setError(getString(R.string.incorrect_email));
             return false;
         }
@@ -118,7 +147,7 @@ public class Registration extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             calendar = Calendar.getInstance();
 
-            DatePickerDialog dialog = new DatePickerDialog(this,android.R.style.Theme_Holo_Light_Dialog_MinWidth,datePickerListener,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+            DatePickerDialog dialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, datePickerListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
         }
@@ -127,9 +156,9 @@ public class Registration extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int birthYear, int monthOfAYear, int dayOfMonth) {
-            birthDate.setText(dayOfMonth + "."+ (monthOfAYear+1) + "." + birthYear);
+            birthDate.setText(dayOfMonth + "." + (monthOfAYear + 1) + "." + birthYear);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                birthDate.setTextColor(getResources().getColor(R.color.colorBlack,null));
+                birthDate.setTextColor(getResources().getColor(R.color.colorBlack, null));
             }
             Calendar calendar;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -139,5 +168,4 @@ public class Registration extends AppCompatActivity {
             }
         }
     };
-
 }

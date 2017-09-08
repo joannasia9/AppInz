@@ -39,30 +39,11 @@
     <string name="support_us">Wesprzyj nas</string>
     <string name="select_language">Wybierz język</string>
     <string name="send">Wyślij</string>
-    <string name="send_message">WYŚLIJ WIADOMOŚĆ</string>
-    <string name="to">Do:</string>
-    <string name="your_message">Treść Twojej wiadomości...</string>
     <string name="email_sender">E-mail sender</string>
-    <string name="general_settings">Ustawienia ogólne</string>
-    <string name="subject">Temat:</string>
     <string name="suggestions">Sugestie</string>
-    <string name="ask_for_new_func">Prośba o nową funkcjonalność</string>
     <string name="share_using">Udostępnij za pomocą</string>
     <string name="mailto">mailto:</string>
-    <string name="app_mail">appka.inz@gmail.com</string>
-    <string name="offer">Sprawdź nową aplikację, naprawdę warto!</string>
-    <string name="write_to">Napisz do:</string>
-    <string name="offer2">,   a otrzymasz dostęp to tego wspaniałego narzędzia :)   Wypróbuj już teraz!</string>
-    <string name="intent_type">text/plain</string>
-    <string name="intent_type2">message/rfc822</string>
-    <string name="pl">pl</string>
-    <string name="en">en</string>
-    <string name="warning">Uwaga!</string>
-    <string name="are_you_sure">Czy na pewno chcesz usunąć konto?</string>
-    <string name="yes">Tak</string>
-    <string name="no">Nie</string>
-    <string name="cancel">Anuluj</string>
-    <string name="are_you_sure2">Czy na pewno chcesz zresetować ustawienia?</string>
+
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
         <item>Substytuty</item>
@@ -74,9 +55,9 @@
         <item>Dodaj użytkownika</item>
         <item>Wybierz język</item>
         <item>Wybierz motyw</item>
-        <item>Stwórz pdf</item>
+        <item>Stwórz plik pdf</item>
     </string-array>
-    
+
     <string-array name="support_settings_items">
         <item>Napisz do nas</item>
         <item>Poproś o nową funkcję</item>
@@ -97,8 +78,10 @@
     </string-array>
 
     <string-array name="email_subjects">
-        <item>Sugestie</item>
+        <item name="suggestions">Sugestie</item>
+        <item> Prośba o nową funkcjonalność</item>
         <item>Uwagi</item>
         <item>Inne</item>
     </string-array>
+
 </resources>

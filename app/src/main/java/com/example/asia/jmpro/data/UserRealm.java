@@ -3,15 +3,16 @@ package com.example.asia.jmpro.data;
 import java.util.Date;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
 /**
  * Created by asia on 21/08/2017.
- *
  */
-
+@RealmClass
 public class UserRealm extends RealmObject {
-    @Required
+    @PrimaryKey
     private String login;
     @Required
     private String password;
@@ -50,4 +51,6 @@ public class UserRealm extends RealmObject {
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
+
+
 }

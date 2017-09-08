@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">JMPro</string>
+    <string name="password">Password</string>
+    <string name="welcome">WELCOME</string>
+    <string name="login">Login</string>
+    <string name="sign_in">Sign in</string>
+    <string name="register_now">Sign on</string>
+    <string name="not_registered_question">Do not you have an account yet?</string>
+    <string name="registration">REGISTRATION</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="e_mail">E-mail</string>
+    <string name="birth_date">Birth date</string>
+    <string name="year">rrrr</string>
+    <string name="choose_date">Choose date</string>
+    <string name="incorrect_email">Incorrect e-mail</string>
+    <string name="set_date">Choose date</string>
+    <string name="passwords_not_matched">Passwords not matched</string>
+    <string name="password_signs">The password must be at least 6 characters long.</string>
+    <string name="required">Required</string>
+    <string name="registered">Registered successful.</string>
+    <string name="occupied_login">This login already exists.</string>
+    <string name="wrong_password">Incorrect password.</string>
+    <string name="menu">MENU</string>
+    <string name="settings">Account settings</string>
+    <string name="my_alergy">My allergy:</string>
+    <string name="save">Save</string>
+    <string name="a_deficiency">Is there no allergen you are looking for?</string>
+    <string name="a_name">Allergen name</string>
+    <string name="add">Add</string>
+    <string name="wrong_credentials">Incorrect login or password</string>
+    <string name="correct_credentials">Logged in successfully</string>
+    <string name="db_error">database connection error</string>
+    <string name="delete_account">Delete account</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="new_email">New e-mail</string>
+    <string name="settings_login">Login:</string>
+    <string name="password_changed">Password updated.</string>
+    <string name="support_us">Support us</string>
+    <string name="select_language">Select language</string>
+    <string name="send">Wyślij</string>
+    <string name="email_sender">E-mail sender</string>
+    <string name="suggestions">Sugestie</string>
+    <string name="share_using">Udostępnij za pomocą</string>
+    <string name="mailto">mailto:</string>
+
+    <string-array name="main_menu_items">
+        <item>My notes</item>
+        <item>Substitutes</item>
+        <item>Places</item>
+        <item>Account settings</item>
+    </string-array>
+
+    <string-array name="general_settings_items">
+        <item>Add user</item>
+        <item>Choose language</item>
+        <item>Choose a theme</item>
+        <item>Create pdf file</item>
+    </string-array>
+
+    <string-array name="support_settings_items">
+        <item>Write to us</item>
+        <item>Ask for new function</item>
+        <item>Share</item>
+        <item>Reset your settings</item>
+    </string-array>
+
+    <string-array name="settings_items">
+        <item>Allergy</item>
+        <item>Account data</item>
+        <item>General</item>
+        <item>Support</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>Polish</item>
+        <item>English</item>
+    </string-array>
+
+    <string-array name="email_subjects">
+        <item name="suggestions">Sugestie</item>
+        <item> Prośba o nową funkcjonalność</item>
+        <item>Uwagi</item>
+        <item>Inne</item>
+    </string-array>
+
+</resources>
