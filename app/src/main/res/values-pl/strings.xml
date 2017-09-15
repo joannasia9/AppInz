@@ -53,6 +53,9 @@
     <string name="continue_with_permissions">Aby kontunuować zezwól na włączenie na urządzeniu lokalizacji w ramach usługi lokalizacyjnej Google.</string>
     <string name="loc_permissions_granted">Uprawnienia dostępu do lokalizacji nadane.</string>
     <string name="mem_permissions_granted">Uprawnienia dostępu do pamięci urządzenia nadane.</string>
+    <string name="gps_off">Wyłączono lokalizację.</string>
+    <string name="wanna_gps_on">Czy chcesz włączyć lokalizację?</string>
+    <string name="cant_get_current_location">Lokalizacja jest niedostępna.</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>

@@ -127,4 +127,7 @@
     <string name="ok">OK</string>
     <string name="loc_permissions_granted">Uprawnienia dostępu do lokalizacji nadane.</string>
     <string name="mem_permissions_granted">Uprawnienia dostępu do pamięci urządzenia nadane.</string>
+    <string name="gps_off">Lokalizacja jest wyłączona.</string>
+    <string name="wanna_gps_on">Czy chcesz włączyć lokalizację?</string>
+    <string name="cant_get_current_location">Can\'t get current location</string>
 </resources>
