@@ -50,6 +50,9 @@
     <string name="facebook">Facebook</string>
     <string name="messenger">Messenger</string>
     <string name="places">Miejsca</string>
+    <string name="continue_with_permissions">Aby kontunuować zezwól na włączenie na urządzeniu lokalizacji w ramach usługi lokalizacyjnej Google.</string>
+    <string name="loc_permissions_granted">Uprawnienia dostępu do lokalizacji nadane.</string>
+    <string name="mem_permissions_granted">Uprawnienia dostępu do pamięci urządzenia nadane.</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>

@@ -1,33 +1,49 @@
 package com.example.asia.jmpro;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.IOException;
+import java.util.List;
+
 public class MainMenuPlaces extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
     DrawerLayout drawer;
+    TextView optionsTitle;
     String[] placesOptions;
-
-
+    GoogleMap map;
+    GoogleApiClient googleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu_places);
+
+        optionsTitle = (TextView) findViewById(R.id.optionTitle);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -53,6 +69,9 @@ public class MainMenuPlaces extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         selectItem(0);
+
+        ////Maps Operations
+        initMap();
 
     }
 
@@ -89,21 +108,20 @@ public class MainMenuPlaces extends AppCompatActivity
     }
 
 
-    public void selectItem(int position) {
-        Fragment fragment = null;
-        Bundle args = new Bundle();
+    private void selectItem(int position) {
+
         switch (position) {
             case 0:
-                fragment = new PlacesFragment1();
-                args.putString(PlacesFragment1.ITEM_NAME, placesOptions[position]);
+                optionsTitle.setText(placesOptions[position]);
+
                 break;
             case 1:
-                fragment = new PlacesFragment1();
-                args.putString(PlacesFragment1.ITEM_NAME, placesOptions[position]);
+                optionsTitle.setText(placesOptions[position]);
+
                 break;
             case 2:
-                fragment = new PlacesFragment1();
-                args.putString(PlacesFragment1.ITEM_NAME, placesOptions[position]);
+                optionsTitle.setText(placesOptions[position]);
+
                 break;
 
             case 3:
@@ -119,18 +137,70 @@ public class MainMenuPlaces extends AppCompatActivity
                 break;
         }
 
-        try {
-            assert fragment != null;
-            fragment.setArguments(args);
-        } catch(java.lang.NullPointerException e){
-            Log.e("SMUTECZEK", "selectItem: " + e.getMessage() );
-        }
-        FragmentManager frgManager = getFragmentManager();
-        frgManager.beginTransaction().replace(R.id.places_fragment_layout, fragment)
-                .commit();
-
-
         drawer.closeDrawer(GravityCompat.START);
     }
 
+
+    public void initMap() {
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment);
+        mapFragment.getMapAsync(this);
+    }
+
+    private void goToLocationZoom(double lat, double lng, float zoom) {
+        LatLng latLng = new LatLng(lat, lng);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
+        map.moveCamera(cameraUpdate);
+    }
+
+
+    private void showFavouritePlaces() {
+        double lat = 2;
+        double lon = 5;
+
+        Geocoder geocoder = new Geocoder(this);
+        List<Address> list;
+
+        try {
+            list = geocoder.getFromLocation(lat, lon, 1);
+            Address address = list.get(0);
+            String locality = address.getLocality();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getCurrentLocation() {
+
+    }
+
+    private void showSuggestedPlaces() {
+
+    }
+
+    private void addSuggestedPlace() {
+
+    }
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+        goToLocationZoom(52.156034, 21.034499, 8);
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            return;
+        }
+        map.setMyLocationEnabled(true);
+    }
+
 }
+

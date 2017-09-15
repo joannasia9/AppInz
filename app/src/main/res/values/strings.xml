@@ -122,4 +122,9 @@
     <string name="messenger">Messenger</string>
     <string name="places">Miejsca</string>
     <string name="playservices_required">Ta zakładka wymaga usługi PlayServices. Chcesz ją zainstalować?</string>
+    <string name="continue_with_permissions">Aby kontunuować zezwól na włączenie na urządzeniu lokalizacji w ramach usługi lokalizacyjnej Google.</string>
+    <string name="force_memory_permissions">Aby kontynuować należy zezwolić na dostęp do zdjęć, multimediów i plików na Twoim urządzeniu.</string>
+    <string name="ok">OK</string>
+    <string name="loc_permissions_granted">Uprawnienia dostępu do lokalizacji nadane.</string>
+    <string name="mem_permissions_granted">Uprawnienia dostępu do pamięci urządzenia nadane.</string>
 </resources>
