@@ -1,5 +1,7 @@
 package com.example.asia.jmpro;
 
+import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +16,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -24,9 +25,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asia.jmpro.data.db.PlaceDao;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -41,6 +45,8 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.IOException;
 import java.util.List;
 
+import static com.example.asia.jmpro.MainActivity.MY_PERMISSIONS_REQUEST_ACCESS_LOCATION;
+
 public class MainMenuPlaces extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         OnMapReadyCallback,
@@ -48,6 +54,8 @@ public class MainMenuPlaces extends AppCompatActivity
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
+    PlaceDao placeDao = new PlaceDao();
+    Dialog dialog;
     DrawerLayout drawer;
     TextView optionsTitle;
     String[] placesOptions;
@@ -68,8 +76,7 @@ public class MainMenuPlaces extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Add your location to the favourites places.", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                showAddFavouritePlaceDialog();
             }
         });
 
@@ -129,6 +136,7 @@ public class MainMenuPlaces extends AppCompatActivity
             case 0:
                 optionsTitle.setText(placesOptions[position]);
 
+
                 break;
             case 1:
                 optionsTitle.setText(placesOptions[position]);
@@ -136,6 +144,7 @@ public class MainMenuPlaces extends AppCompatActivity
                 break;
             case 2:
                 optionsTitle.setText(placesOptions[position]);
+               // placeDao.addToSuggestedPlacesDatabase(getCurrentPlaceAddress(getCurrentLocation()),getCurrentLocation());
 
                 break;
 
@@ -167,56 +176,60 @@ public class MainMenuPlaces extends AppCompatActivity
         map.moveCamera(cameraUpdate);
     }
 
+private String getCurrentPlaceAddress(Location location){
+    Geocoder geocoder = new Geocoder(this);
+    List<Address> list;
+    String localityName = "";
 
-    private void showFavouritePlaces() {
-        double lat = 2;
-        double lon = 5;
+    try {
+        list = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+        Address address = list.get(0);
 
-        Geocoder geocoder = new Geocoder(this);
-        List<Address> list;
+        localityName = getString(R.string.street) + address.getAddressLine(0) + ", \n" + address.getAddressLine(1);
 
-        try {
-            list = geocoder.getFromLocation(lat, lon, 1);
-            Address address = list.get(0);
-            String locality = address.getLocality();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return localityName;
+}
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void showAddFavouritePlaceDialog() {
+
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.add_place_dialog);
+        dialog.setTitle(R.string.add_fav_place);
+        dialog.show();
+
+        final EditText placeName = (EditText) dialog.findViewById(R.id.placeName);
+        final EditText placeAddress = (EditText) dialog.findViewById(R.id.placeAddress);
+        Button addPlaceButton = (Button) dialog.findViewById(R.id.addPlaceButton);
+
+        final Location location = getCurrentLocation();
+        placeAddress.setText(getCurrentPlaceAddress(location));
+
+        addPlaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                placeDao.addFavouritePlaceToDatabase(placeName.getText().toString().trim() + ", "+ placeAddress.getText().toString().trim(),location);
+                dialog.cancel();
+            }
+        });
     }
 
-    private void showSuggestedPlaces() {
-        // 1.Get locations from database
-        // 2. Show markers
-    }
 
-    private void addSuggestedPlace() {
-        // 1. Get current coordinates or location / addres (?)
-        // 2. Save place to database
-    }
 
-    private void getCurrentCoordinates() {
+    private Location getCurrentLocation() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, false);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
         }
-
-        Location location = locationManager.getLastKnownLocation(provider);
-        double currentLongitude = location.getLongitude();
-        double currentLatitude = location.getLatitude();
-
-        Toast.makeText(getApplicationContext(), "Lat: " + currentLatitude + "Long: " + currentLongitude, Toast.LENGTH_LONG).show();
+        return locationManager.getLastKnownLocation(provider);
     }
 
     @Override
@@ -242,8 +255,8 @@ public class MainMenuPlaces extends AppCompatActivity
             public boolean onMyLocationButtonClick() {
                 checkIfLocalizationEnabled();
                 setGoogleApiClient();
+                //getCurrentLocation();
 
-                getCurrentCoordinates();
                 return false;
             }
         });

@@ -56,6 +56,10 @@
     <string name="gps_off">Wyłączono lokalizację.</string>
     <string name="wanna_gps_on">Czy chcesz włączyć lokalizację?</string>
     <string name="cant_get_current_location">Lokalizacja jest niedostępna.</string>
+    <string name="name">Nazwa</string>
+    <string name="add_fav_place">Dodaj miejsce do polecanych</string>
+    <string name="addres">Adres</string>
+    <string name="street">ul.</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
