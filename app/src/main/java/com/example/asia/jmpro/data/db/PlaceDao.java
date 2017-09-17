@@ -1,7 +1,9 @@
 package com.example.asia.jmpro.data.db;
 
+import android.content.Context;
 import android.location.Location;
 
+import com.example.asia.jmpro.R;
 import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.Place;
 import com.example.asia.jmpro.data.SuggestedPlace;
@@ -16,15 +18,18 @@ import io.realm.RealmResults;
  */
 
 public class PlaceDao {
+    private Context context;
     private Realm realmDatabase;
     private Realm privateDatabase;
+    private int nextID;
     private RealmResults<Allergen> usersAllergenList;
-    private RealmList<Allergen> list = null;
+    private RealmList<Allergen> allAllergensOfSinglePlace = new RealmList<>();
 
-    public PlaceDao() {
+    public PlaceDao(Context c) {
         DbConnector dbConnector = DbConnector.getInstance();
         this.realmDatabase = dbConnector.getRealmDatabase();
         this.privateDatabase = dbConnector.getPrivateRealmDatabase();
+        this.context = c;
     }
 
     public void addFavouritePlaceToDatabase(final String placeName, Location location) {
@@ -36,16 +41,20 @@ public class PlaceDao {
         privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                if(realm.where(Place.class).equalTo("name", placeName).findFirst() == null) {
-                    int nextID = (int) (realm.where(Place.class).count() + 1);
+                    nextID = (int) (realm.where(Place.class).count() + 1);
                     place.setId(nextID);
                     realm.copyToRealmOrUpdate(place);
-                }
             }
         });
     }
 
-    public void addToSuggestedPlacesDatabase(String placeName, Location location){
+    public void addSuggestedPlaceToDatabase(String placeName, Location location) {
+        final SuggestedPlace suggestedPlace = new SuggestedPlace();
+        suggestedPlace.setLatitude(location.getLatitude());
+        suggestedPlace.setLongitude(location.getLongitude());
+        suggestedPlace.setId();
+        suggestedPlace.setName(placeName);
+
         privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -53,16 +62,35 @@ public class PlaceDao {
             }
         });
 
-        for(Allergen item : usersAllergenList){
-            list.add(item);
-        }
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                SuggestedPlace place = realm.where(SuggestedPlace.class).equalTo("id",suggestedPlace.getId()).findFirst();
 
-        SuggestedPlace suggestedPlace = new SuggestedPlace();
-        suggestedPlace.setLatitude(location.getLatitude());
-        suggestedPlace.setLongitude(location.getLongitude());
-        suggestedPlace.setId();
-        suggestedPlace.setName(placeName);
-        suggestedPlace.setUserAllergensList(list);
+                if(place != null) {
+                    allAllergensOfSinglePlace = place.getUsersAllergensList();
+                }
+            }
+        });
+
+        Allergen allergen = new Allergen(context.getString(R.string.nothing), false);
+
+        if(usersAllergenList.size()!= 0) {
+            for (Allergen item : usersAllergenList) {
+                if(!allAllergensOfSinglePlace.contains(item)) {
+                    allAllergensOfSinglePlace.add(item);
+                }
+            }
+        } else if(!allAllergensOfSinglePlace.contains(allergen)) allAllergensOfSinglePlace.add(allergen);
+
+        suggestedPlace.setUsersAllergensList(allAllergensOfSinglePlace);
+
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(suggestedPlace);
+            }
+        });
 
     }
 }

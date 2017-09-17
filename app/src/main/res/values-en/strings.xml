@@ -60,6 +60,8 @@
     <string name="add_fav_place">Dodaj miejsce do polecanych</string>
     <string name="addres">Adres</string>
     <string name="street">ul.</string>
+    <string name="add_sug_place">Dodaj miejsce do polecanych</string>
+    <string name="nothing">brak</string>
 
     <string-array name="main_menu_items">
         <item>My notes</item>

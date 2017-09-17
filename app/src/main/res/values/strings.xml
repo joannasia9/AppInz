@@ -131,7 +131,9 @@
     <string name="wanna_gps_on">Czy chcesz włączyć lokalizację?</string>
     <string name="cant_get_current_location">Can\'t get current location</string>
     <string name="name">Nazwa</string>
-    <string name="add_fav_place">Dodaj miejsce do polecanych</string>
+    <string name="add_fav_place">Dodaj miejsce do ulubionych</string>
     <string name="addres">Adres</string>
     <string name="street">ul.</string>
+    <string name="add_sug_place">Dodaj miejsce do polecanych</string>
+    <string name="nothing">brak</string>
 </resources>

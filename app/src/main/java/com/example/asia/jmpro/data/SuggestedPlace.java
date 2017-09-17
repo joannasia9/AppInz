@@ -19,7 +19,7 @@ public class SuggestedPlace extends RealmObject {
 
     private double longitude;
     private double latitude;
-    private RealmList<Allergen> userAllergensList;
+    private RealmList<Allergen> usersAllergensList;
 
     public String getId() {
         return id;
@@ -53,11 +53,11 @@ public class SuggestedPlace extends RealmObject {
         this.latitude = latitude;
     }
 
-    public RealmList<Allergen> getUserAllergensList() {
-        return userAllergensList;
+    public RealmList<Allergen> getUsersAllergensList() {
+        return usersAllergensList;
     }
 
-    public void setUserAllergensList(RealmList<Allergen> userAllergensList) {
-        this.userAllergensList = userAllergensList;
+    public void setUsersAllergensList(RealmList<Allergen> userAllergensList) {
+        this.usersAllergensList = userAllergensList;
     }
 }

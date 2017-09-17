@@ -47,6 +47,7 @@ import java.util.List;
 
 import static com.example.asia.jmpro.MainActivity.MY_PERMISSIONS_REQUEST_ACCESS_LOCATION;
 
+
 public class MainMenuPlaces extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         OnMapReadyCallback,
@@ -54,13 +55,14 @@ public class MainMenuPlaces extends AppCompatActivity
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    PlaceDao placeDao = new PlaceDao();
+    PlaceDao placeDao = new PlaceDao(this);
     Dialog dialog;
     DrawerLayout drawer;
     TextView optionsTitle;
     String[] placesOptions;
     GoogleMap map;
     GoogleApiClient googleApiClient;
+    Location userLocation = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,12 @@ public class MainMenuPlaces extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showAddFavouritePlaceDialog();
+                userLocation = getCurrentLocation();
+                if(userLocation!=null) {
+                    showAddFavouritePlaceDialog(userLocation);
+                } else {
+                    checkIfLocalizationEnabled();
+                }
             }
         });
 
@@ -144,8 +151,12 @@ public class MainMenuPlaces extends AppCompatActivity
                 break;
             case 2:
                 optionsTitle.setText(placesOptions[position]);
-               // placeDao.addToSuggestedPlacesDatabase(getCurrentPlaceAddress(getCurrentLocation()),getCurrentLocation());
-
+                userLocation = getCurrentLocation();
+                if(userLocation!=null){
+                    showAddSuggestedPlaceDialog(userLocation);
+                } else {
+                    checkIfLocalizationEnabled();
+                }
                 break;
 
             case 3:
@@ -176,16 +187,17 @@ public class MainMenuPlaces extends AppCompatActivity
         map.moveCamera(cameraUpdate);
     }
 
-private String getCurrentPlaceAddress(Location location){
+    private String getCurrentPlaceAddress(Location location){
     Geocoder geocoder = new Geocoder(this);
     List<Address> list;
     String localityName = "";
 
     try {
-        list = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-        Address address = list.get(0);
+            list = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            Address address = list.get(0);
 
-        localityName = getString(R.string.street) + address.getAddressLine(0) + ", \n" + address.getAddressLine(1);
+            localityName = getString(R.string.street) + address.getAddressLine(0) + ", \n" + address.getAddressLine(1);
+
 
     } catch (IOException e) {
         e.printStackTrace();
@@ -193,7 +205,7 @@ private String getCurrentPlaceAddress(Location location){
     return localityName;
 }
 
-    public void showAddFavouritePlaceDialog() {
+    private void showAddFavouritePlaceDialog(final Location location) {
 
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.add_place_dialog);
@@ -204,8 +216,9 @@ private String getCurrentPlaceAddress(Location location){
         final EditText placeAddress = (EditText) dialog.findViewById(R.id.placeAddress);
         Button addPlaceButton = (Button) dialog.findViewById(R.id.addPlaceButton);
 
-        final Location location = getCurrentLocation();
-        placeAddress.setText(getCurrentPlaceAddress(location));
+            placeAddress.setText(getCurrentPlaceAddress(location));
+            Toast.makeText(this, location.toString(), Toast.LENGTH_LONG).show();
+
 
         addPlaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,9 +229,31 @@ private String getCurrentPlaceAddress(Location location){
         });
     }
 
+    private void showAddSuggestedPlaceDialog(final Location location){
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.add_place_dialog);
+        dialog.setTitle(R.string.add_sug_place);
+        dialog.show();
 
+        final EditText placeName = (EditText) dialog.findViewById(R.id.placeName);
+        final EditText placeAddress = (EditText) dialog.findViewById(R.id.placeAddress);
+        Button addPlaceButton = (Button) dialog.findViewById(R.id.addPlaceButton);
+
+        placeAddress.setText(getCurrentPlaceAddress(location));
+        Toast.makeText(this, userLocation.toString(), Toast.LENGTH_LONG).show();
+
+
+        addPlaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                placeDao.addSuggestedPlaceToDatabase(placeName.getText().toString().trim() + ", "+ placeAddress.getText().toString().trim(),location);
+                dialog.cancel();
+            }
+        });
+    }
 
     private Location getCurrentLocation() {
+
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, false);
@@ -255,7 +290,6 @@ private String getCurrentPlaceAddress(Location location){
             public boolean onMyLocationButtonClick() {
                 checkIfLocalizationEnabled();
                 setGoogleApiClient();
-                //getCurrentLocation();
 
                 return false;
             }

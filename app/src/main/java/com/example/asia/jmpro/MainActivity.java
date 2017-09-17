@@ -54,7 +54,6 @@ public class MainActivity extends MyBaseActivity {
     }
 
     public void signIn(View view) {
-
         if (login.getText().toString().trim().equals("")) {
             login.setError(getResources().getString(R.string.required));
         } else if (password.getText().toString().length() == 0) {

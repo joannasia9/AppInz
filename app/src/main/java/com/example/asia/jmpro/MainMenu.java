@@ -72,8 +72,8 @@ public class MainMenu extends MyBaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         DbConnector.getInstance().clearData();
+        System.exit(0);
+
     }
-
-
 
 }
