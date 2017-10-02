@@ -30,6 +30,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asia.jmpro.data.Place;
+import com.example.asia.jmpro.data.SuggestedPlace;
 import com.example.asia.jmpro.data.db.PlaceDao;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -41,6 +43,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
@@ -79,7 +82,7 @@ public class MainMenuPlaces extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 userLocation = getCurrentLocation();
-                if(userLocation!=null) {
+                if (userLocation != null) {
                     showAddFavouritePlaceDialog(userLocation);
                 } else {
                     checkIfLocalizationEnabled();
@@ -99,9 +102,7 @@ public class MainMenuPlaces extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         selectItem(0);
-
         initMap();
-
     }
 
     @Override
@@ -110,6 +111,7 @@ public class MainMenuPlaces extends AppCompatActivity
 
         if (id == R.id.nav_favourite_places) {
             selectItem(0);
+            showAllFavouritePlaces(placeDao.getUsersFavouritePlacesList());
         } else if (id == R.id.nav_suggested_places) {
             selectItem(1);
         } else if (id == R.id.nav_suggest) {
@@ -143,7 +145,6 @@ public class MainMenuPlaces extends AppCompatActivity
             case 0:
                 optionsTitle.setText(placesOptions[position]);
 
-
                 break;
             case 1:
                 optionsTitle.setText(placesOptions[position]);
@@ -152,7 +153,7 @@ public class MainMenuPlaces extends AppCompatActivity
             case 2:
                 optionsTitle.setText(placesOptions[position]);
                 userLocation = getCurrentLocation();
-                if(userLocation!=null){
+                if (userLocation != null) {
                     showAddSuggestedPlaceDialog(userLocation);
                 } else {
                     checkIfLocalizationEnabled();
@@ -185,25 +186,51 @@ public class MainMenuPlaces extends AppCompatActivity
         LatLng latLng = new LatLng(lat, lng);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
         map.moveCamera(cameraUpdate);
+
     }
 
-    private String getCurrentPlaceAddress(Location location){
-    Geocoder geocoder = new Geocoder(this);
-    List<Address> list;
-    String localityName = "";
+    private void setPlaceMarker(String locality, double lat, double lng) {
+        String[] localityPartsArray = locality.split("\\s*,\\s*");
+        MarkerOptions options = new MarkerOptions()
+                .title(localityPartsArray[0])
+                .position(new LatLng(lat, lng))
+                .snippet(localityPartsArray[1]);
+        map.addMarker(options);
+    }
 
-    try {
+    private void showAllFavouritePlaces(List<Place> placesList) {
+        for (Place item : placesList) {
+            setPlaceMarker(item.getName(), item.getLatitude(), item.getLongitude());
+        }
+    }
+
+    private void showAllSuggestedPlaces(List<SuggestedPlace> suggestedPlacesList) {
+        //check if placeAllergensList contains usersAllergenList
+        //clear all markers
+
+        for (SuggestedPlace item : suggestedPlacesList) {
+            setPlaceMarker(item.getName(), item.getLatitude(), item.getLongitude());
+        }
+
+    }
+
+    private String getCurrentPlaceAddress(Location location) {
+        Geocoder geocoder = new Geocoder(this);
+        List<Address> list;
+        String localityName = "";
+
+        try {
             list = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             Address address = list.get(0);
 
             localityName = getString(R.string.street) + address.getAddressLine(0) + ", \n" + address.getAddressLine(1);
 
 
-    } catch (IOException e) {
-        e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return localityName;
     }
-    return localityName;
-}
 
     private void showAddFavouritePlaceDialog(final Location location) {
 
@@ -216,20 +243,27 @@ public class MainMenuPlaces extends AppCompatActivity
         final EditText placeAddress = (EditText) dialog.findViewById(R.id.placeAddress);
         Button addPlaceButton = (Button) dialog.findViewById(R.id.addPlaceButton);
 
-            placeAddress.setText(getCurrentPlaceAddress(location));
-            Toast.makeText(this, location.toString(), Toast.LENGTH_LONG).show();
+        placeAddress.setText(getCurrentPlaceAddress(location));
+        Toast.makeText(this, location.toString(), Toast.LENGTH_LONG).show();
 
 
         addPlaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                placeDao.addFavouritePlaceToDatabase(placeName.getText().toString().trim() + ", "+ placeAddress.getText().toString().trim(),location);
-                dialog.cancel();
+                if (placeName.getText().toString().trim().length() == 0) {
+                    placeName.setError(getString(R.string.required));
+                } else {
+                    placeDao.addFavouritePlaceToDatabase(placeName.getText().toString().trim() + ", " + placeAddress.getText().toString().trim(), location);
+                    setPlaceMarker(placeName.getText().toString().trim() + ", " + placeAddress.getText().toString().trim(), location.getLatitude(), location.getLongitude());
+                    dialog.cancel();
+                }
             }
         });
     }
 
-    private void showAddSuggestedPlaceDialog(final Location location){
+
+    ////////// TO CHANGE /////////
+    private void showAddSuggestedPlaceDialog(final Location location) {
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.add_place_dialog);
         dialog.setTitle(R.string.add_sug_place);
@@ -240,18 +274,21 @@ public class MainMenuPlaces extends AppCompatActivity
         Button addPlaceButton = (Button) dialog.findViewById(R.id.addPlaceButton);
 
         placeAddress.setText(getCurrentPlaceAddress(location));
-        Toast.makeText(this, userLocation.toString(), Toast.LENGTH_LONG).show();
-
 
         addPlaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                placeDao.addSuggestedPlaceToDatabase(placeName.getText().toString().trim() + ", "+ placeAddress.getText().toString().trim(),location);
+                if (placeName.getText().toString().trim().length() != 0) {
+                    placeDao.addSuggestedPlaceToDatabase(placeName.getText().toString().trim() + ", " + placeAddress.getText().toString().trim(), location);
+                } else {
+                    placeName.setError(getString(R.string.required));
+                }
                 dialog.cancel();
             }
         });
     }
-
+    /////////////////////////////
+    
     private Location getCurrentLocation() {
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -294,6 +331,9 @@ public class MainMenuPlaces extends AppCompatActivity
                 return false;
             }
         });
+
+        //temporary solution
+        showAllFavouritePlaces(placeDao.getUsersFavouritePlacesList());
     }
 
     private void setGoogleApiClient() {

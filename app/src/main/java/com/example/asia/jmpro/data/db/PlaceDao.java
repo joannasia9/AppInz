@@ -9,6 +9,8 @@ import com.example.asia.jmpro.data.Place;
 import com.example.asia.jmpro.data.SuggestedPlace;
 import com.example.asia.jmpro.models.Allergen;
 
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -21,8 +23,9 @@ public class PlaceDao {
     private Context context;
     private Realm realmDatabase;
     private Realm privateDatabase;
-    private int nextID;
+    private Integer nextID;
     private RealmResults<Allergen> usersAllergenList;
+    private RealmResults<Place> usersFavouritePlacesList;
     private RealmList<Allergen> allAllergensOfSinglePlace = new RealmList<>();
 
     public PlaceDao(Context c) {
@@ -34,6 +37,7 @@ public class PlaceDao {
 
     public void addFavouritePlaceToDatabase(final String placeName, Location location) {
         final Place place = new Place();
+
         place.setLatitude(location.getLatitude());
         place.setLongitude(location.getLongitude());
         place.setName(placeName);
@@ -41,9 +45,11 @@ public class PlaceDao {
         privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                    nextID = (int) (realm.where(Place.class).count() + 1);
+                if (realm.where(Place.class).equalTo("name", place.getName()).findFirst() == null) {
+                    nextID = (int) (long) (realm.where(Place.class).max("id")) + 1;
                     place.setId(nextID);
-                    realm.copyToRealmOrUpdate(place);
+                    realm.copyToRealm(place);
+                }
             }
         });
     }
@@ -65,9 +71,9 @@ public class PlaceDao {
         realmDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                SuggestedPlace place = realm.where(SuggestedPlace.class).equalTo("id",suggestedPlace.getId()).findFirst();
+                SuggestedPlace place = realm.where(SuggestedPlace.class).equalTo("id", suggestedPlace.getId()).findFirst();
 
-                if(place != null) {
+                if (place != null) {
                     allAllergensOfSinglePlace = place.getUsersAllergensList();
                 }
             }
@@ -75,13 +81,14 @@ public class PlaceDao {
 
         Allergen allergen = new Allergen(context.getString(R.string.nothing), false);
 
-        if(usersAllergenList.size()!= 0) {
+        if (usersAllergenList.size() != 0) {
             for (Allergen item : usersAllergenList) {
-                if(!allAllergensOfSinglePlace.contains(item)) {
+                if (!allAllergensOfSinglePlace.contains(item)) {
                     allAllergensOfSinglePlace.add(item);
                 }
             }
-        } else if(!allAllergensOfSinglePlace.contains(allergen)) allAllergensOfSinglePlace.add(allergen);
+        } else if (!allAllergensOfSinglePlace.contains(allergen))
+            allAllergensOfSinglePlace.add(allergen);
 
         suggestedPlace.setUsersAllergensList(allAllergensOfSinglePlace);
 
@@ -92,5 +99,19 @@ public class PlaceDao {
             }
         });
 
+    }
+
+    public void addSuggestedPlacesToDatabase(Place place){
+
+    }
+
+    public List<Place> getUsersFavouritePlacesList() {
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                usersFavouritePlacesList = realm.where(Place.class).findAll();
+            }
+        });
+        return usersFavouritePlacesList;
     }
 }
