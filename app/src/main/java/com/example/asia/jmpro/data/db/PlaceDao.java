@@ -9,6 +9,7 @@ import com.example.asia.jmpro.data.Place;
 import com.example.asia.jmpro.data.SuggestedPlace;
 import com.example.asia.jmpro.models.Allergen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -24,11 +25,11 @@ public class PlaceDao {
     private Realm realmDatabase;
     private Realm privateDatabase;
     private Integer nextID;
-    private RealmResults<Allergen> usersAllergenList;
+    private List<Allergen> usersAllergenList;
     private RealmResults<Place> usersFavouritePlacesList;
     private RealmResults<SuggestedPlace> suggestedPlacesList;
     private RealmList<Allergen> allAllergensOfSinglePlace = new RealmList<>();
-    private Place place;
+    private RealmResults<Allergen> usersAllergensNames;
 
     public PlaceDao(Context c) {
         DbConnector dbConnector = DbConnector.getInstance();
@@ -114,7 +115,7 @@ public class PlaceDao {
         return usersFavouritePlacesList;
     }
 
-    public List<SuggestedPlace> getAllSuggestedPlacesList(){
+    public List<SuggestedPlace> getAllSuggestedPlacesList() {
         realmDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -124,14 +125,36 @@ public class PlaceDao {
         return suggestedPlacesList;
     }
 
-    public Place getPlaceFromDatabase(final String placeName){
-        place = new Place();
-        privateDatabase.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                place = realm.where(Place.class).equalTo("name", placeName).findFirst();
+    public List<SuggestedPlace> getSuggestedPlaces() {
+        AllergenDao allergenDao = new AllergenDao();
+
+        ArrayList<String> userAllergensNames = new ArrayList<>();
+
+
+        List<SuggestedPlace> allSuggestedPlacesList;
+        List<SuggestedPlace> userSuggestedPlacesList = new ArrayList<>();
+
+        allSuggestedPlacesList = getAllSuggestedPlacesList();
+        usersAllergenList = allergenDao.getMyAllergensList();
+
+
+        for (Allergen item : usersAllergenList){
+            userAllergensNames.add(item.getName());
+        }
+
+
+        for (SuggestedPlace place : allSuggestedPlacesList) {
+            ArrayList<String> placeAllergensNames = new ArrayList<>();
+            for (Allergen item : place.getUsersAllergensList()) {
+                placeAllergensNames.add(item.getName());
             }
-        });
-        return place;
+
+            if (placeAllergensNames.containsAll(userAllergensNames)) {
+                userSuggestedPlacesList.add(place);
+            }
+        }
+
+        return userSuggestedPlacesList;
     }
+
 }

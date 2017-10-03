@@ -66,6 +66,8 @@
     <string name="sug_positive">Polecono</string>
     <string name="sug_negative">Poleć</string>
     <string name="sug_place">Poleć miejsce</string>
+    <string name="select_point">Przesuń pinezkę w wybrane miejsce</string>
+    <string name="choose_manually">Wybierz manualnie</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
