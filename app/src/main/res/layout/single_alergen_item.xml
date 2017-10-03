@@ -35,6 +35,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/item1"
         tools:ignore="ContentDescription"
-        android:layout_marginRight="16dp"
         app:layout_constraintVertical_bias="0.501" />
 </android.support.constraint.ConstraintLayout>

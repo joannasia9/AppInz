@@ -26,7 +26,9 @@ public class PlaceDao {
     private Integer nextID;
     private RealmResults<Allergen> usersAllergenList;
     private RealmResults<Place> usersFavouritePlacesList;
+    private RealmResults<SuggestedPlace> suggestedPlacesList;
     private RealmList<Allergen> allAllergensOfSinglePlace = new RealmList<>();
+    private Place place;
 
     public PlaceDao(Context c) {
         DbConnector dbConnector = DbConnector.getInstance();
@@ -54,12 +56,12 @@ public class PlaceDao {
         });
     }
 
-    public void addSuggestedPlaceToDatabase(String placeName, Location location) {
+    public void addSuggestedPlaceToDatabase(Place place) {
         final SuggestedPlace suggestedPlace = new SuggestedPlace();
-        suggestedPlace.setLatitude(location.getLatitude());
-        suggestedPlace.setLongitude(location.getLongitude());
+        suggestedPlace.setLatitude(place.getLatitude());
+        suggestedPlace.setLongitude(place.getLongitude());
         suggestedPlace.setId();
-        suggestedPlace.setName(placeName);
+        suggestedPlace.setName(place.getName());
 
         privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override
@@ -101,9 +103,6 @@ public class PlaceDao {
 
     }
 
-    public void addSuggestedPlacesToDatabase(Place place){
-
-    }
 
     public List<Place> getUsersFavouritePlacesList() {
         privateDatabase.executeTransaction(new Realm.Transaction() {
@@ -113,5 +112,26 @@ public class PlaceDao {
             }
         });
         return usersFavouritePlacesList;
+    }
+
+    public List<SuggestedPlace> getAllSuggestedPlacesList(){
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                suggestedPlacesList = realm.where(SuggestedPlace.class).findAll();
+            }
+        });
+        return suggestedPlacesList;
+    }
+
+    public Place getPlaceFromDatabase(final String placeName){
+        place = new Place();
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                place = realm.where(Place.class).equalTo("name", placeName).findFirst();
+            }
+        });
+        return place;
     }
 }

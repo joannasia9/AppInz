@@ -136,4 +136,7 @@
     <string name="street">ul.</string>
     <string name="add_sug_place">Dodaj miejsce do polecanych</string>
     <string name="nothing">brak</string>
+    <string name="sug_positive">Polecono</string>
+    <string name="sug_negative">Poleć</string>
+    <string name="sug_place">Poleć miejsce</string>
 </resources>

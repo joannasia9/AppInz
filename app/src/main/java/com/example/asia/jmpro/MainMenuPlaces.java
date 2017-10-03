@@ -25,11 +25,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asia.jmpro.adapters.SuggestedPlacesListAdapter;
 import com.example.asia.jmpro.data.Place;
 import com.example.asia.jmpro.data.SuggestedPlace;
 import com.example.asia.jmpro.data.db.PlaceDao;
@@ -60,12 +63,16 @@ public class MainMenuPlaces extends AppCompatActivity
 
     PlaceDao placeDao = new PlaceDao(this);
     Dialog dialog;
+    AlertDialog.Builder alertDialog;
     DrawerLayout drawer;
     TextView optionsTitle;
     String[] placesOptions;
     GoogleMap map;
     GoogleApiClient googleApiClient;
+    SuggestedPlacesListAdapter suggestedPlacesListAdapter;
     Location userLocation = null;
+    List<Place> placesList;
+    List<SuggestedPlace> suggestedPlacesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +161,7 @@ public class MainMenuPlaces extends AppCompatActivity
                 optionsTitle.setText(placesOptions[position]);
                 userLocation = getCurrentLocation();
                 if (userLocation != null) {
-                    showAddSuggestedPlaceDialog(userLocation);
+                    showAddSuggestedPlaceDialog();
                 } else {
                     checkIfLocalizationEnabled();
                 }
@@ -261,34 +268,32 @@ public class MainMenuPlaces extends AppCompatActivity
         });
     }
 
-
-    ////////// TO CHANGE /////////
-    private void showAddSuggestedPlaceDialog(final Location location) {
+    private void showAddSuggestedPlaceDialog() {
         dialog = new Dialog(this);
-        dialog.setContentView(R.layout.add_place_dialog);
+        dialog.setContentView(R.layout.add_suggested_place_dialog);
         dialog.setTitle(R.string.add_sug_place);
-        dialog.show();
 
-        final EditText placeName = (EditText) dialog.findViewById(R.id.placeName);
-        final EditText placeAddress = (EditText) dialog.findViewById(R.id.placeAddress);
-        Button addPlaceButton = (Button) dialog.findViewById(R.id.addPlaceButton);
+        ListView suggestedPlacesListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
+        showPlacesList(suggestedPlacesListView);
 
-        placeAddress.setText(getCurrentPlaceAddress(location));
-
-        addPlaceButton.setOnClickListener(new View.OnClickListener() {
+        suggestedPlacesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                if (placeName.getText().toString().trim().length() != 0) {
-                    placeDao.addSuggestedPlaceToDatabase(placeName.getText().toString().trim() + ", " + placeAddress.getText().toString().trim(), location);
-                } else {
-                    placeName.setError(getString(R.string.required));
-                }
-                dialog.cancel();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Place model = placesList.get(position);
+                placeDao.addSuggestedPlaceToDatabase(model);
+                suggestedPlacesListAdapter.updateAdapter(placeDao.getAllSuggestedPlacesList());
             }
         });
+        dialog.show();
     }
-    /////////////////////////////
-    
+
+    private void showPlacesList(ListView list){
+        placesList = placeDao.getUsersFavouritePlacesList();
+        suggestedPlacesList = placeDao.getAllSuggestedPlacesList();
+
+        suggestedPlacesListAdapter = new SuggestedPlacesListAdapter(this,placesList,suggestedPlacesList);
+        list.setAdapter(suggestedPlacesListAdapter);
+    }
     private Location getCurrentLocation() {
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
