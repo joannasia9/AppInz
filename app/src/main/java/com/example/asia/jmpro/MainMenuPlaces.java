@@ -44,7 +44,9 @@ import com.example.asia.jmpro.data.Place;
 import com.example.asia.jmpro.data.SuggestedPlace;
 import com.example.asia.jmpro.data.db.PlaceDao;
 import com.example.asia.jmpro.data.db.UserDao;
+import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.MessageDialog;
 import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -184,18 +186,18 @@ public class MainMenuPlaces extends AppCompatActivity
                 break;
 
             case 3:
-                showSelectPlacesDialog(3,SuggestedPlacesListAdapter.SELECT_CODE);
+                showSelectPlacesDialog(3, SuggestedPlacesListAdapter.SELECT_CODE);
                 break;
 
             case 4:
-                showSelectPlacesDialog(4,SuggestedPlacesListAdapter.SELECT_FOR_SHARE_VIA_FACEBOOK_CODE);
+                showSelectPlacesDialog(4, SuggestedPlacesListAdapter.SELECT_FOR_SHARE_VIA_FACEBOOK_CODE);
                 break;
 
             case 5:
-                showSelectPlacesDialog(5,SuggestedPlacesListAdapter.SELECT_FOR_SHARE_VIA_FACEBOOK_CODE);
+                showSelectPlacesDialog(5, SuggestedPlacesListAdapter.SELECT_FOR_SHARE_VIA_FACEBOOK_CODE);
                 break;
             case 6:
-                showSelectPlacesDialog(6,SuggestedPlacesListAdapter.SELECT_CODE);
+                showSelectPlacesDialog(6, SuggestedPlacesListAdapter.SELECT_CODE);
                 break;
 
             default:
@@ -350,7 +352,7 @@ public class MainMenuPlaces extends AppCompatActivity
                 Place model = placesList.get(position);
                 selectedPlacesList.add(model);
 
-                if(code == SuggestedPlacesListAdapter.SELECT_FOR_SHARE_VIA_FACEBOOK_CODE){
+                if (code == SuggestedPlacesListAdapter.SELECT_FOR_SHARE_VIA_FACEBOOK_CODE) {
                     selectedPlacesList.clear();
                     selectedPlacesList.add(model);
                 }
@@ -371,12 +373,12 @@ public class MainMenuPlaces extends AppCompatActivity
                         shareViaFacebook(selectedPlacesList.get(0));
                         break;
                     case 5:
-
+                        shareViaMessenger(selectedPlacesList.get(0));
                         break;
                     case 6:
                         shareViaHangouts(selectedPlacesList);
                     default:
-                        //sharingIntent
+                        shareSelectedPlaces(selectedPlacesList);
                         break;
                 }
                 dialog.cancel();
@@ -384,7 +386,29 @@ public class MainMenuPlaces extends AppCompatActivity
         });
     }
 
-    public void shareViaHangouts(ArrayList<Place> selectedPlaces) {
+    private void shareSelectedPlaces(ArrayList<Place> selectedPlaces){
+        StringBuilder builder = new StringBuilder();
+        builder.append(getString(R.string.recommended_places))
+                .append("\n")
+                .append("\n")
+                .append(getString(R.string.addresses))
+                .append("\n");
+
+        for (Place item : selectedPlaces) {
+            builder.append(getString(R.string.arrow)).append(item.getName()).append("\n").append("\n");
+        }
+        String sharedText = builder.toString();
+
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(Intent.EXTRA_TITLE, getString(R.string.recommended_places));
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, sharedText);
+        startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_using)));
+
+
+    }
+
+    private void shareViaHangouts(ArrayList<Place> selectedPlaces) {
         StringBuilder builder = new StringBuilder();
         builder.append(getString(R.string.recommended_places))
                 .append("\n")
@@ -410,21 +434,41 @@ public class MainMenuPlaces extends AppCompatActivity
 
     private void shareViaFacebook(Place selectedPlace) {
         String singleUri;
-            singleUri = "https://www.google.com/maps/search/?api=1&query="+ selectedPlace.getLatitude() + "," + selectedPlace.getLongitude();
+        singleUri = "https://www.google.com/maps/search/?api=1&query=" + selectedPlace.getLatitude() + "," + selectedPlace.getLongitude();
 
-        if(isAppInstalled("com.facebook.katana")){
+        if (isAppInstalled("com.facebook.katana")) {
 
-        ShareDialog shareDialog = new ShareDialog(this);
-        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            ShareDialog shareDialog = new ShareDialog(this);
+            if (ShareDialog.canShow(ShareLinkContent.class)) {
+                ShareHashtag hashTag = new ShareHashtag.Builder().setHashtag("#" + getString(R.string.app_name)).build();
+                ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                        .setContentUrl(Uri.parse(singleUri))
+                        .setShareHashtag(hashTag)
+                        .build();
+
+                shareDialog.show(linkContent);
+
+            }
+        }
+    }
+
+    private void shareViaMessenger(Place selectedPlace) {
+        String singleUri;
+        singleUri = "https://www.google.com/maps/search/?api=1&query=" + selectedPlace.getLatitude() + "," + selectedPlace.getLongitude();
+
+        if (isAppInstalled("com.facebook.orca")) {
+
+            MessageDialog messageDialog = new MessageDialog(this);
+            if (MessageDialog.canShow(ShareLinkContent.class)) {
 
                 ShareLinkContent linkContent = new ShareLinkContent.Builder()
                         .setContentUrl(Uri.parse(singleUri))
                         .build();
 
-                shareDialog.show(linkContent);
+                messageDialog.show(linkContent);
 
+            }
         }
-    }
     }
 
     private void shareViaEmail(ArrayList<Place> selectedPlaces) {
