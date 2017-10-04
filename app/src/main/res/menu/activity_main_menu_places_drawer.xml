@@ -20,6 +20,10 @@
     <item android:title="@string/share">
         <menu>
             <item
+                android:id="@+id/nav_share_hangouts"
+                android:icon="@drawable/item4"
+                android:title="@string/hangouts" />
+            <item
                 android:id="@+id/nav_share_email"
                 android:icon="@drawable/item2"
                 android:title="@string/e_mail" />

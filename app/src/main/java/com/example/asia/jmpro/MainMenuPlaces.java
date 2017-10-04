@@ -12,18 +12,23 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,6 +43,9 @@ import com.example.asia.jmpro.adapters.SuggestedPlacesListAdapter;
 import com.example.asia.jmpro.data.Place;
 import com.example.asia.jmpro.data.SuggestedPlace;
 import com.example.asia.jmpro.data.db.PlaceDao;
+import com.example.asia.jmpro.data.db.UserDao;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -51,6 +59,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.asia.jmpro.MainActivity.MY_PERMISSIONS_REQUEST_ACCESS_LOCATION;
@@ -73,8 +82,9 @@ public class MainMenuPlaces extends AppCompatActivity
     GoogleMap map;
     GoogleApiClient googleApiClient;
     SuggestedPlacesListAdapter suggestedPlacesListAdapter;
-    Location userLocation = null;
+    Location userLocation = new Location("");
     List<Place> placesList;
+    ArrayList<Place> selectedPlacesList = new ArrayList<>();
     List<SuggestedPlace> suggestedPlacesList;
 
     @Override
@@ -124,16 +134,18 @@ public class MainMenuPlaces extends AppCompatActivity
             showAllFavouritePlaces(placeDao.getUsersFavouritePlacesList());
         } else if (id == R.id.nav_suggested_places) {
             selectItem(1);
-            showAllSuggestedPlaces(placeDao.getSuggestedPlaces());
         } else if (id == R.id.nav_suggest) {
             selectItem(2);
         } else if (id == R.id.nav_share_email) {
-            Toast.makeText(this, "Share via email clicked", Toast.LENGTH_LONG).show();
+            selectItem(3);
         } else if (id == R.id.nav_share_facebook) {
-            Toast.makeText(this, "Share via fb clicked", Toast.LENGTH_LONG).show();
+            selectItem(4);
         } else if (id == R.id.nav_share_messenger) {
-            Toast.makeText(this, "Share via msn clicked", Toast.LENGTH_LONG).show();
+            selectItem(5);
+        } else if (id == R.id.nav_share_hangouts) {
+            selectItem(6);
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -159,7 +171,7 @@ public class MainMenuPlaces extends AppCompatActivity
                 break;
             case 1:
                 optionsTitle.setText(placesOptions[position]);
-
+                showAllSuggestedPlaces(placeDao.getSuggestedPlaces());
                 break;
             case 2:
                 optionsTitle.setText(placesOptions[position]);
@@ -172,12 +184,18 @@ public class MainMenuPlaces extends AppCompatActivity
                 break;
 
             case 3:
+                showSelectPlacesDialog(3,SuggestedPlacesListAdapter.SELECT_CODE);
                 break;
 
             case 4:
+                showSelectPlacesDialog(4,SuggestedPlacesListAdapter.SELECT_FOR_SHARE_VIA_FACEBOOK_CODE);
                 break;
 
             case 5:
+                showSelectPlacesDialog(5,SuggestedPlacesListAdapter.SELECT_FOR_SHARE_VIA_FACEBOOK_CODE);
+                break;
+            case 6:
+                showSelectPlacesDialog(6,SuggestedPlacesListAdapter.SELECT_CODE);
                 break;
 
             default:
@@ -188,7 +206,7 @@ public class MainMenuPlaces extends AppCompatActivity
     }
 
 
-    public void initMap() {
+    private void initMap() {
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
     }
@@ -220,7 +238,7 @@ public class MainMenuPlaces extends AppCompatActivity
     private void showAllSuggestedPlaces(List<SuggestedPlace> suggestedPlacesList) {
         map.clear();
 
-        if(suggestedPlacesList.size()!= 0) {
+        if (suggestedPlacesList.size() != 0) {
             for (SuggestedPlace item : suggestedPlacesList) {
                 setPlaceMarker(item.getName(), item.getLatitude(), item.getLongitude());
             }
@@ -257,7 +275,7 @@ public class MainMenuPlaces extends AppCompatActivity
         Button addPlaceButton = (Button) dialog.findViewById(R.id.addPlaceButton);
         ImageView locationChooser = (ImageView) dialog.findViewById(R.id.locationChooserImageView);
 
-        placeAddress.setText(getCurrentPlaceAddress(userLocation.getLatitude(),userLocation.getLongitude()));
+        placeAddress.setText(getCurrentPlaceAddress(userLocation.getLatitude(), userLocation.getLongitude()));
 
         addPlaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,24 +300,24 @@ public class MainMenuPlaces extends AppCompatActivity
 
     }
 
-
     private void showAddSuggestedPlaceDialog() {
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.add_suggested_place_dialog);
-        dialog.setTitle(R.string.add_sug_place);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
         Button okButton = (Button) dialog.findViewById(R.id.hideDialogButton);
         ListView suggestedPlacesListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
-        showPlacesList(suggestedPlacesListView);
+        TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
+        title.setText(getString(R.string.add_sug_place));
+        showPlacesList(suggestedPlacesListView, SuggestedPlacesListAdapter.SUGGEST_CODE);
 
         suggestedPlacesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Place model = placesList.get(position);
                 placeDao.addSuggestedPlaceToDatabase(model);
-                suggestedPlacesListAdapter.updateAdapter(placeDao.getAllSuggestedPlacesList());
+                suggestedPlacesListAdapter.updateAdapter(placeDao.getAllSuggestedPlacesList(), selectedPlacesList);
             }
         });
 
@@ -313,13 +331,183 @@ public class MainMenuPlaces extends AppCompatActivity
 
     }
 
-    private void showPlacesList(ListView list){
+    private void showSelectPlacesDialog(final int choice, final int code) {
+        selectedPlacesList.clear();
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.add_suggested_place_dialog);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
+        Button okButton = (Button) dialog.findViewById(R.id.hideDialogButton);
+        TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
+        title.setText(getString(R.string.select_place_to_share));
+        ListView suggestedPlacesListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
+        showPlacesList(suggestedPlacesListView, SuggestedPlacesListAdapter.SELECT_CODE);
+
+        suggestedPlacesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Place model = placesList.get(position);
+                selectedPlacesList.add(model);
+
+                if(code == SuggestedPlacesListAdapter.SELECT_FOR_SHARE_VIA_FACEBOOK_CODE){
+                    selectedPlacesList.clear();
+                    selectedPlacesList.add(model);
+                }
+
+                suggestedPlacesListAdapter.updateAdapter(placeDao.getAllSuggestedPlacesList(), selectedPlacesList);
+            }
+        });
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //selectedPlacesList
+                switch (choice) {
+                    case 3:
+                        shareViaEmail(selectedPlacesList);
+                        break;
+                    case 4:
+                        shareViaFacebook(selectedPlacesList.get(0));
+                        break;
+                    case 5:
+
+                        break;
+                    case 6:
+                        shareViaHangouts(selectedPlacesList);
+                    default:
+                        //sharingIntent
+                        break;
+                }
+                dialog.cancel();
+            }
+        });
+    }
+
+    public void shareViaHangouts(ArrayList<Place> selectedPlaces) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(getString(R.string.recommended_places))
+                .append("\n")
+                .append("\n")
+                .append(getString(R.string.addresses))
+                .append("\n");
+
+        for (Place item : selectedPlaces) {
+            builder.append(getString(R.string.arrow)).append(item.getName()).append("\n").append("\n");
+        }
+        String sharedText = builder.toString();
+
+        Intent shareIntent = ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain")
+                .setText(sharedText)
+                .getIntent();
+
+        if (isAppInstalled("com.google.android.talk")) {
+            shareIntent.setPackage("com.google.android.talk");
+            startActivity(shareIntent);
+        }
+    }
+
+    private void shareViaFacebook(Place selectedPlace) {
+        String singleUri;
+            singleUri = "https://www.google.com/maps/search/?api=1&query="+ selectedPlace.getLatitude() + "," + selectedPlace.getLongitude();
+
+        if(isAppInstalled("com.facebook.katana")){
+
+        ShareDialog shareDialog = new ShareDialog(this);
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+
+                ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                        .setContentUrl(Uri.parse(singleUri))
+                        .build();
+
+                shareDialog.show(linkContent);
+
+        }
+    }
+    }
+
+    private void shareViaEmail(ArrayList<Place> selectedPlaces) {
+        UserDao user = new UserDao();
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(" <font color=\"#3300ff\" face =\"Times New Roman\"><b> Przekonaj się gdzie warto się wybrać! :)\n")
+                .append("</b></font>");
+        for (Place item : selectedPlaces) {
+            builder.append("<p><font color=\"6699ff\" face =\"Times New Roman\">").append(item.getName()).append("</font></p>");
+        }
+        String sharedText = builder.toString();
+
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setData(Uri.parse(getString(R.string.mailto)));
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, user.getUserRealmFromDatabase().getLogin() + ": Polecam Ci nowe miejsca, odwiedź koniecznie! ;)");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, fromHtml(sharedText));
+        shareIntent.setType("text/html");
+
+        Intent chooser = Intent.createChooser(shareIntent, getString(R.string.e_mail));
+        startActivity(chooser);
+
+        if (shareIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(shareIntent);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public static Spanned fromHtml(String html) {
+        Spanned result;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            result = Html.fromHtml(html);
+        }
+        return result;
+    }
+
+    private boolean isAppInstalled(final String uri) {
+        PackageManager pm = getPackageManager();
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.app_does_not_exist))
+                    .setMessage(getString(R.string.want_to_install_question))
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            openPlayStoreToGetApp(uri);
+                        }
+                    })
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .create();
+            builder.show();
+            return false;
+        }
+    }
+
+    private void openPlayStoreToGetApp(String uri) {
+        final String appPackageName = "https://play.google.com/store/apps/details?id=" + uri;
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            Log.e("ActivityNotFound", "openGooglePlayToGetMaps: " + anfe.getMessage());
+        }
+    }
+
+    private void showPlacesList(ListView list, int code) {
         placesList = placeDao.getUsersFavouritePlacesList();
         suggestedPlacesList = placeDao.getAllSuggestedPlacesList();
 
-        suggestedPlacesListAdapter = new SuggestedPlacesListAdapter(this,placesList,suggestedPlacesList);
+        suggestedPlacesListAdapter = new SuggestedPlacesListAdapter(this, placesList, suggestedPlacesList, selectedPlacesList, code);
         list.setAdapter(suggestedPlacesListAdapter);
     }
+
     private Location getCurrentLocation() {
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -338,13 +526,14 @@ public class MainMenuPlaces extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            double latitude = data.getDoubleExtra("lat",getCurrentLocation().getLatitude());
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            double latitude = data.getDoubleExtra("lat", getCurrentLocation().getLatitude());
             double longitude = data.getDoubleExtra("lng", getCurrentLocation().getLongitude());
 
             userLocation.setLatitude(latitude);
             userLocation.setLongitude(longitude);
 
+            showAddFavouritePlaceDialog();
             placeAddress.setText(getCurrentPlaceAddress(latitude, longitude));
         }
     }

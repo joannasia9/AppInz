@@ -68,6 +68,13 @@
     <string name="sug_place">Poleć miejsce</string>
     <string name="select_point">Przesuń pinezkę w wybrane miejsce</string>
     <string name="choose_manually">Wybierz manualnie</string>
+    <string name="select_place_to_share">Wybierz miejsca, które chcesz udostępnić</string>
+    <string name="app_does_not_exist">Aplikacja nie jest zainstalowana</string>
+    <string name="want_to_install_question">Czy chcesz ją zainstalować?</string>
+    <string name="hangouts">Hangouts</string>
+    <string name="addresses">Oto adres/y:</string>
+    <string name="recommended_places">Przekonaj się, które miejsca warto odwiedzić :)</string>
+    <string name="arrow"><![CDATA[->]]></string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>

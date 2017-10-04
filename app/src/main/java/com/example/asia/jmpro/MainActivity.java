@@ -170,30 +170,38 @@ public class MainActivity extends MyBaseActivity {
         }
     }
 
+    private void grantResultsPermissionsCheck(String[] permissions, int[] grantResults){
+        if(grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_DENIED){
+            showLocationPermissionAlertDialog();
+        }
+
+        if (grantResults.length == 2 && grantResults[1] == PackageManager.PERMISSION_DENIED){
+            showMemoryPermissionAlertDialog();
+        }
+
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
+            case ASK_MULTIPLE_PERMISSION_REQUEST_CODE: {
+                grantResultsPermissionsCheck(permissions,grantResults);
+                break;
+            }
+
             case MY_PERMISSIONS_REQUEST_ACCESS_LOCATION: {
                 if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     showLocationPermissionAlertDialog();
                 }
+                break;
             }
 
             case MY_PERMISSIONS_REQUEST_ACCESS_MEMORY: {
                 if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     showMemoryPermissionAlertDialog();
                 }
+                break;
             }
 
-            case ASK_MULTIPLE_PERMISSION_REQUEST_CODE: {
-                if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                    showLocationPermissionAlertDialog();
-                }
-
-                if (grantResults.length == 0 || grantResults[1] == PackageManager.PERMISSION_DENIED) {
-                    showMemoryPermissionAlertDialog();
-                }
-            }
         }
     }
 

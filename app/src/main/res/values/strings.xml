@@ -1,4 +1,5 @@
 <resources>
+    <string name="facebook_app_id">1374989085933502</string>
     <string name="app_name">JMPro</string>
     <string name="password">Hasło</string>
     <string name="welcome">WITAJ</string>
@@ -142,4 +143,11 @@
     <string name="select_point">Przesuń pinezkę w wybrane miejsce</string>
     <string name="choose_manually">Wybierz manualnie</string>
     <string name="choosePlace">Wybierz</string>
+    <string name="select_place_to_share">Wybierz miejsca, które chcesz udostępnić</string>
+    <string name="app_does_not_exist">Aplikacja nie jest zainstalowana</string>
+    <string name="want_to_install_question">Czy chcesz ją zainstalować?</string>
+    <string name="hangouts">Hangouts</string>
+    <string name="addresses">Oto adres/y:</string>
+    <string name="recommended_places">Przekonaj się, które miejsca warto odwiedzić :)</string>
+    <string name="arrow"><![CDATA[->]]></string>
 </resources>

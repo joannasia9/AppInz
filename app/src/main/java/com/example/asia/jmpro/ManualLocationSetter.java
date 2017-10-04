@@ -83,6 +83,7 @@ public class ManualLocationSetter extends AppCompatActivity implements OnMapRead
         finish();
     }
 
+
     private String getCurrentPlaceAddress(double latitude, double longitude) {
         Geocoder geocoder = new Geocoder(this);
         List<Address> list;
