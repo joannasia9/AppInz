@@ -180,7 +180,7 @@ public class DbConnector {
 
     public void setConfiguration(SyncUser user) {
         if (configuration == null) {
-            configuration = new SyncConfiguration.Builder(syncUser, REALM_URL)
+            configuration = new SyncConfiguration.Builder(user, REALM_URL)
                     .modules(new GlobalEntitiesModule())
                     .waitForInitialRemoteData()
                     .build();
@@ -191,7 +191,7 @@ public class DbConnector {
 
     private void setPrivateConfiguration(SyncUser user) {
         if (privateConfiguration == null) {
-            privateConfiguration = new SyncConfiguration.Builder(syncUser, PRIVATE_REALM_URL)
+            privateConfiguration = new SyncConfiguration.Builder(user, PRIVATE_REALM_URL)
                     .modules(new PrivateEntitiesModule())
                     .waitForInitialRemoteData()
                     .build();

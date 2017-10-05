@@ -98,6 +98,12 @@ public class SettingsFragment3 extends Fragment {
 
                     }
                 })
+                .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
                 .create();
         builder.show();
     }

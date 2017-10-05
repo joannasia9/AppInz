@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_favourite_places"
+            android:icon="@drawable/item4"
+            android:title="@string/fav_places" />
+        <item
+            android:id="@+id/nav_suggested_places"
+            android:icon="@android:drawable/presence_online"
+            android:title="@string/suggested" />
+        <item
+            android:id="@+id/nav_suggest"
+            android:icon="@drawable/item4"
+            android:title="@string/suggest" />
+    </group>
+
+    <item android:title="@string/share">
+        <menu>
+            <item
+                android:id="@+id/nav_share_hangouts"
+                android:icon="@drawable/item4"
+                android:title="@string/hangouts" />
+            <item
+                android:id="@+id/nav_share_email"
+                android:icon="@drawable/item2"
+                android:title="@string/e_mail" />
+            <item
+                android:id="@+id/nav_share_messenger"
+                android:icon="@drawable/item2"
+                android:title="@string/messenger" />
+            <item
+                android:id="@+id/nav_share_facebook"
+                android:icon="@drawable/item4"
+                android:title="@string/facebook" />
+        </menu>
+    </item>
+
+</menu>

@@ -43,6 +43,48 @@
     <string name="suggestions">Sugestie</string>
     <string name="share_using">Udostępnij za pomocą</string>
     <string name="mailto">mailto:</string>
+    <string name="fav_places">Ulubione miejsca</string>
+    <string name="suggested">Polecane</string>
+    <string name="suggest">Poleć</string>
+    <string name="share">Udostępnij</string>
+    <string name="facebook">Facebook</string>
+    <string name="messenger">Messenger</string>
+    <string name="places">Miejsca</string>
+    <string name="continue_with_permissions">Aby kontunuować zezwól na włączenie na urządzeniu lokalizacji w ramach usługi lokalizacyjnej Google.</string>
+    <string name="loc_permissions_granted">Uprawnienia dostępu do lokalizacji nadane.</string>
+    <string name="mem_permissions_granted">Uprawnienia dostępu do pamięci urządzenia nadane.</string>
+    <string name="gps_off">Wyłączono lokalizację.</string>
+    <string name="wanna_gps_on">Czy chcesz włączyć lokalizację?</string>
+    <string name="cant_get_current_location">Lokalizacja jest niedostępna.</string>
+    <string name="name">Nazwa</string>
+    <string name="add_fav_place">Dodaj miejsce do polecanych</string>
+    <string name="addres">Adres</string>
+    <string name="street">ul.</string>
+    <string name="add_sug_place">Dodaj miejsce do polecanych</string>
+    <string name="nothing">brak</string>
+    <string name="test">To coś test</string>
+    <string name="sug_positive">Polecono</string>
+    <string name="sug_negative">Poleć</string>
+    <string name="sug_place">Poleć miejsce</string>
+    <string name="select_point">Przesuń pinezkę w wybrane miejsce</string>
+    <string name="choose_manually">Wybierz manualnie</string>
+    <string name="select_place_to_share">Wybierz miejsca, które chcesz udostępnić</string>
+    <string name="app_does_not_exist">Aplikacja nie jest zainstalowana</string>
+    <string name="want_to_install_question">Czy chcesz ją zainstalować?</string>
+    <string name="hangouts">Hangouts</string>
+    <string name="addresses">Oto adres/y:</string>
+    <string name="recommended_places">Przekonaj się, które miejsca warto odwiedzić :)</string>
+    <string name="arrow"><![CDATA[->]]></string>
+    <string name="search_sub">Wyszukaj</string>
+    <string name="my_substitutes">Moje</string>
+    <string name="substitutes">Substytuty</string>
+    <string name="go_to_settings">Go to settings and enable permissions</string>
+    <string name="saved_days">Zapisane dni</string>
+    <string name="statistics">Statystyki</string>
+    <string name="export_as">Eksportuj jako</string>
+    <string name="message">Wiadomość</string>
+    <string name="symptoms_diary">Dziennik objawów</string>
+    <string name="add_day">Dodaj dzień</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
@@ -78,8 +120,7 @@
     </string-array>
 
     <string-array name="email_subjects">
-        <item name="suggestions">Sugestie</item>
-        <item> Prośba o nową funkcjonalność</item>
+        <item>Sugestie</item>
         <item>Uwagi</item>
         <item>Inne</item>
     </string-array>

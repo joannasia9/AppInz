@@ -1,7 +1,14 @@
 package com.example.asia.jmpro;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,12 +18,19 @@ import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.db.UserDao;
 import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
+import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.SyncUser;
 
-public class MainActivity extends MyBaseActivity {
+public class MainActivity extends MyBaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback, PermissionResultCallback {
     private static final int REQUEST_CODE = 123;
+    public static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 111;
+    public static final int MY_PERMISSIONS_REQUEST_ACCESS_MEMORY = 112;
+    public static final int ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 113;
     TextView welcome;
     EditText login, password;
     UserDao userDao;
@@ -33,11 +47,12 @@ public class MainActivity extends MyBaseActivity {
         login = (EditText) findViewById(R.id.loginEditText);
         password = (EditText) findViewById(R.id.passwordEditText);
 
+        checkAllPermissions();
         languageChangeObserver = new LanguageChangeObserver(this).start();
+
     }
 
     public void signIn(View view) {
-
         if (login.getText().toString().trim().equals("")) {
             login.setError(getResources().getString(R.string.required));
         } else if (password.getText().toString().length() == 0) {
@@ -115,4 +130,98 @@ public class MainActivity extends MyBaseActivity {
         this.login.setText(savedInstanceState.getString("login", ""));
         this.password.setText(savedInstanceState.getString("password", ""));
     }
+
+
+    ////// PERMISSIONS //////
+    private void checkAllPermissions() {
+        if (!googleServicesAvailable()) {
+            showPlayServicesAlertDialog();
+        }
+        requestPermissions();
+    }
+
+    private boolean googleServicesAvailable() {
+        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+        int isAvailable = googleApiAvailability.isGooglePlayServicesAvailable(this);
+        if (isAvailable == ConnectionResult.SUCCESS) {
+            return true;
+        } else if (googleApiAvailability.isUserResolvableError(isAvailable)) {
+            Dialog dialog = googleApiAvailability.getErrorDialog(this, isAvailable, 0);
+            dialog.show();
+        } else {
+            Toast.makeText(this, "Play Services are not available.", Toast.LENGTH_LONG).show();
+        }
+
+        return false;
+    }
+
+    private void showPlayServicesAlertDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.warning))
+                .setMessage(R.string.playservices_required)
+                .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openGooglePlayToGetPlayServices();
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        builder.show();
+    }
+
+    private void openGooglePlayToGetPlayServices() {
+        final String appPackageName = "http://google-play-services.en.uptodown.com/android/download";
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            Log.e("ActivityNotFound", "openGooglePlayToGetMaps: " + anfe.getMessage());
+        }
+    }
+
+    PermissionsUtils permissionUtils;
+
+    private void requestPermissions() {
+        ArrayList<String> permissions = new ArrayList<>();
+        permissions.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        permissions.add(android.Manifest.permission.ACCESS_COARSE_LOCATION);
+        permissions.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+
+        permissionUtils = new PermissionsUtils(this, this);
+        permissionUtils.checkPermission(permissions, ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        permissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    @Override
+    public void PermissionGranted(int request_code) {
+        Log.i("PERMISSION", "GRANTED");
+    }
+
+    @Override
+    public void PartialPermissionGranted(int request_code, ArrayList<String> granted_permissions) {
+        Log.i("PERMISSION PARTIALLY", "GRANTED");
+    }
+
+    @Override
+    public void PermissionDenied(int request_code) {
+        Log.i("PERMISSION", "DENIED");
+    }
+
+    @Override
+    public void NeverAskAgain(int request_code) {
+        Log.i("PERMISSION", "NEVER ASK AGAIN");
+    }
 }
+

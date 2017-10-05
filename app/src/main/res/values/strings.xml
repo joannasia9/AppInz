@@ -1,4 +1,5 @@
 <resources>
+    <string name="facebook_app_id">1374989085933502</string>
     <string name="app_name">JMPro</string>
     <string name="password">Hasło</string>
     <string name="welcome">WITAJ</string>
@@ -76,7 +77,7 @@
         <item>Wybierz motyw</item>
         <item>Stwórz pdf</item>
     </string-array>
-    
+
     <string-array name="support_settings_items">
         <item>Napisz do nas</item>
         <item>Poproś o nową funkcję</item>
@@ -101,4 +102,72 @@
         <item>Uwagi</item>
         <item>Inne</item>
     </string-array>
+
+    <string-array name="places_options">
+        <item>Ulubione miejsca</item>
+        <item>Polecane</item>
+        <item>Poleć</item>
+    </string-array>
+
+    <string name="title_activity_main_menu_places">MainMenuPlaces</string>
+    <string name="title_activity_registration">Registration</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="fav_places">Ulubione miejsca</string>
+    <string name="suggested">Polecane</string>
+    <string name="suggest">Poleć</string>
+    <string name="share">Udostępnij</string>
+    <string name="facebook">Facebook</string>
+    <string name="messenger">Messenger</string>
+    <string name="places">Miejsca</string>
+    <string name="playservices_required">Ta zakładka wymaga usługi PlayServices. Chcesz ją zainstalować?</string>
+    <string name="continue_with_permissions">Aby kontunuować zezwól na włączenie na urządzeniu lokalizacji w ramach usługi lokalizacyjnej Google.</string>
+    <string name="force_memory_permissions">Aby kontynuować należy zezwolić na dostęp do zdjęć, multimediów i plików na Twoim urządzeniu.</string>
+    <string name="ok">OK</string>
+    <string name="loc_permissions_granted">Uprawnienia dostępu do lokalizacji nadane.</string>
+    <string name="mem_permissions_granted">Uprawnienia dostępu do pamięci urządzenia nadane.</string>
+    <string name="gps_off">Lokalizacja jest wyłączona.</string>
+    <string name="wanna_gps_on">Czy chcesz włączyć lokalizację?</string>
+    <string name="cant_get_current_location">Can\'t get current location</string>
+    <string name="name">Nazwa</string>
+    <string name="add_fav_place">Dodaj miejsce do ulubionych</string>
+    <string name="addres">Adres</string>
+    <string name="street">ul.</string>
+    <string name="add_sug_place">Dodaj miejsce do polecanych</string>
+    <string name="nothing">brak</string>
+    <string name="sug_positive">Polecono</string>
+    <string name="sug_negative">Poleć</string>
+    <string name="sug_place">Poleć miejsce</string>
+    <string name="select_point">Przesuń pinezkę w wybrane miejsce</string>
+    <string name="choose_manually">Wybierz manualnie</string>
+    <string name="choosePlace">Wybierz</string>
+    <string name="select_place_to_share">Wybierz miejsca, które chcesz udostępnić</string>
+    <string name="app_does_not_exist">Aplikacja nie jest zainstalowana</string>
+    <string name="want_to_install_question">Czy chcesz ją zainstalować?</string>
+    <string name="hangouts">Hangouts</string>
+    <string name="addresses">Oto adres/y:</string>
+    <string name="recommended_places">Przekonaj się, które miejsca warto odwiedzić :)</string>
+    <string name="arrow"><![CDATA[->]]></string>
+
+
+    <string-array name="substitutes_options">
+        <item>Szukaj substytutów</item>
+        <item>Dodaj substytuty</item>
+    </string-array>
+    <string name="title_activity_substitutes">SubstitutesActivity</string>
+    <string name="search_sub">Wyszukaj</string>
+    <string name="my_substitutes">Moje</string>
+    <string name="substitutes">Substytuty</string>
+    <string name="go_to_settings">Go to settings and enable permissions</string>
+    <string name="title_activity_diary">Diary</string>
+    <string name="saved_days">Zapisane dni</string>
+    <string name="statistics">Statystyki</string>
+    <string name="export_as">Eksportuj jako</string>
+    <string name="message">Wiadomość</string>
+    <string name="document">Dokument</string>
+    <string name="symptoms_diary">Dziennik objawów</string>
+    <string name="add_day">Dodaj dzień</string>
 </resources>

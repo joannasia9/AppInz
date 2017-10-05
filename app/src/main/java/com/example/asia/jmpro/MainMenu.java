@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.asia.jmpro.adapters.MyMenuAdapter;
 import com.example.asia.jmpro.data.DbConnector;
@@ -45,16 +44,16 @@ public class MainMenu extends MyBaseActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             switch (position) {
                 case 0: {
-                    Toast.makeText(MainMenu.this, "Position 0: Dziennik", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), Diary.class));
                     break;
                 }
                 case 1: {
-                    Toast.makeText(MainMenu.this, "Position 1: Substytuty", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), SubstitutesActivity.class));
                     break;
                 }
 
                 case 2: {
-                    Toast.makeText(MainMenu.this, "Position 2: Miejsca", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), MainMenuPlaces.class));
                     break;
                 }
                 case 3: {
@@ -67,10 +66,13 @@ public class MainMenu extends MyBaseActivity {
         }
     };
 
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         DbConnector.getInstance().clearData();
+        System.exit(0);
+
     }
 
 }

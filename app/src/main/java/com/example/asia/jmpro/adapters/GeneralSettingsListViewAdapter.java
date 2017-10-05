@@ -11,6 +11,7 @@ import com.example.asia.jmpro.viewholders.SettingsViewHolder;
 
 /**
  * Created by asia on 04/09/2017.
+ *
  */
 
 public class GeneralSettingsListViewAdapter extends BaseAdapter {
