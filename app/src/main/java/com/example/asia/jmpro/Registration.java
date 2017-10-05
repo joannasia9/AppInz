@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.db.UserDao;
+import com.example.asia.jmpro.logic.calendar.DateUtilities;
 import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
 import com.example.asia.jmpro.logic.validation.EmailValidator;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
@@ -143,12 +143,17 @@ public class Registration extends MyBaseActivity {
     }
 
     public void showDialogOnClick(View view) {
-        Calendar calendar;
-            calendar = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(
+                this,
+                android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                datePickerListener,
+                DateUtilities.currentYear(),
+                DateUtilities.currentMonth(),
+                DateUtilities.currentDay()
+        );
 
-            DatePickerDialog dialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, datePickerListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.show();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
@@ -156,12 +161,7 @@ public class Registration extends MyBaseActivity {
         public void onDateSet(DatePicker view, int birthYear, int monthOfAYear, int dayOfMonth) {
             birthDate.setText(dayOfMonth + "." + (monthOfAYear + 1) + "." + birthYear);
             birthDate.setTextColor(getResources().getColor(R.color.colorBlack, null));
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(birthYear, monthOfAYear, dayOfMonth);
-                birthDateDate = calendar.getTime();
-            }
+            birthDateDate = DateUtilities.getDate(birthYear, monthOfAYear, dayOfMonth);
         }
     };
 }
