@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -24,8 +23,6 @@ import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-
-import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.SyncUser;
@@ -258,7 +255,6 @@ public class MainActivity extends MyBaseActivity {
 
     private void showLocationPermissionAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-        builder = new AlertDialog.Builder(this)
                 .setMessage(R.string.continue_with_permissions)
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -273,7 +269,6 @@ public class MainActivity extends MyBaseActivity {
 
     private void showMemoryPermissionAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-        builder = new AlertDialog.Builder(this)
                 .setMessage(R.string.force_memory_permissions)
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
