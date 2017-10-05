@@ -144,25 +144,21 @@ public class Registration extends MyBaseActivity {
 
     public void showDialogOnClick(View view) {
         Calendar calendar;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             calendar = Calendar.getInstance();
 
             DatePickerDialog dialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, datePickerListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
-        }
     }
 
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int birthYear, int monthOfAYear, int dayOfMonth) {
             birthDate.setText(dayOfMonth + "." + (monthOfAYear + 1) + "." + birthYear);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                birthDate.setTextColor(getResources().getColor(R.color.colorBlack, null));
-            }
-            Calendar calendar;
+            birthDate.setTextColor(getResources().getColor(R.color.colorBlack, null));
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                calendar = Calendar.getInstance();
+                Calendar calendar = Calendar.getInstance();
                 calendar.set(birthYear, monthOfAYear, dayOfMonth);
                 birthDateDate = calendar.getTime();
             }

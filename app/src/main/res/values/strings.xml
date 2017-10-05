@@ -110,6 +110,7 @@
     </string-array>
 
     <string name="title_activity_main_menu_places">MainMenuPlaces</string>
+    <string name="title_activity_registration">Registration</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -161,4 +162,12 @@
     <string name="my_substitutes">Moje</string>
     <string name="substitutes">Substytuty</string>
     <string name="go_to_settings">Go to settings and enable permissions</string>
+    <string name="title_activity_diary">Diary</string>
+    <string name="saved_days">Zapisane dni</string>
+    <string name="statistics">Statystyki</string>
+    <string name="export_as">Eksportuj jako</string>
+    <string name="message">Wiadomość</string>
+    <string name="document">Dokument</string>
+    <string name="symptoms_diary">Dziennik objawów</string>
+    <string name="add_day">Dodaj dzień</string>
 </resources>

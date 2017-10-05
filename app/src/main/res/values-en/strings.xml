@@ -78,6 +78,12 @@
     <string name="my_substitutes">Moje</string>
     <string name="substitutes">Substytuty</string>
     <string name="go_to_settings">Go to settings and enable permissions</string>
+    <string name="saved_days">Zapisane dni</string>
+    <string name="statistics">Statystyki</string>
+    <string name="export_as">Eksportuj jako</string>
+    <string name="message">Wiadomość</string>
+    <string name="symptoms_diary">Dziennik objawów</string>
+    <string name="add_day">Dodaj dzień</string>
 
     <string-array name="main_menu_items">
         <item>My notes</item>

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import io.realm.Realm;
 import io.realm.SyncUser;
 
-public class MainActivity extends MyBaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback,PermissionResultCallback{
+public class MainActivity extends MyBaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback, PermissionResultCallback {
     private static final int REQUEST_CODE = 123;
     public static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 111;
     public static final int MY_PERMISSIONS_REQUEST_ACCESS_MEMORY = 112;
@@ -188,40 +188,40 @@ public class MainActivity extends MyBaseActivity implements ActivityCompat.OnReq
 
     PermissionsUtils permissionUtils;
 
-    private void requestPermissions(){
+    private void requestPermissions() {
         ArrayList<String> permissions = new ArrayList<>();
         permissions.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         permissions.add(android.Manifest.permission.ACCESS_COARSE_LOCATION);
         permissions.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
 
-        permissionUtils = new PermissionsUtils(this,this);
+        permissionUtils = new PermissionsUtils(this, this);
         permissionUtils.checkPermission(permissions, ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        permissionUtils.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        }
+        permissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 
 
     @Override
     public void PermissionGranted(int request_code) {
-        Log.i("PERMISSION","GRANTED");
+        Log.i("PERMISSION", "GRANTED");
     }
 
     @Override
     public void PartialPermissionGranted(int request_code, ArrayList<String> granted_permissions) {
-        Log.i("PERMISSION PARTIALLY","GRANTED");
+        Log.i("PERMISSION PARTIALLY", "GRANTED");
     }
 
     @Override
     public void PermissionDenied(int request_code) {
-        Log.i("PERMISSION","DENIED");
+        Log.i("PERMISSION", "DENIED");
     }
 
     @Override
     public void NeverAskAgain(int request_code) {
-        Log.i("PERMISSION","NEVER ASK AGAIN");
+        Log.i("PERMISSION", "NEVER ASK AGAIN");
     }
 }
 
