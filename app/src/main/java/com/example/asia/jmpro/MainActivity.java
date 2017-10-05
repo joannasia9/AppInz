@@ -1,12 +1,9 @@
 package com.example.asia.jmpro;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -24,10 +21,12 @@ import com.example.asia.jmpro.viewholders.MyBaseActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import java.util.ArrayList;
+
 import io.realm.Realm;
 import io.realm.SyncUser;
 
-public class MainActivity extends MyBaseActivity {
+public class MainActivity extends MyBaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback,PermissionResultCallback{
     private static final int REQUEST_CODE = 123;
     public static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 111;
     public static final int MY_PERMISSIONS_REQUEST_ACCESS_MEMORY = 112;
@@ -138,73 +137,7 @@ public class MainActivity extends MyBaseActivity {
         if (!googleServicesAvailable()) {
             showPlayServicesAlertDialog();
         }
-        grantMultiplePermissions();
-    }
-
-    private void grantMultiplePermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
-        }
-    }
-
-    private void grantLocationPermissions() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
-        }
-    }
-
-    private void grantMemoryPermissions() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_ACCESS_MEMORY);
-        }
-    }
-
-    private void grantResultsPermissionsCheck(int[] grantResults){
-        if(grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_DENIED){
-           showLocationPermissionAlertDialog();
-        }
-
-        if (grantResults.length == 2 && grantResults[1] == PackageManager.PERMISSION_DENIED){
-            showMemoryPermissionAlertDialog();
-        }
-    }
-
-
-
-    @Override
-    public void onRequestPermissionsResult(final int requestCode, @NonNull String[] permissions, @NonNull final int[] grantResults) {
-
-                switch (requestCode) {
-                    case ASK_MULTIPLE_PERMISSION_REQUEST_CODE: {
-                        grantResultsPermissionsCheck(grantResults);
-                        break;
-                    }
-
-                    case MY_PERMISSIONS_REQUEST_ACCESS_LOCATION: {
-                        if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                            showLocationPermissionAlertDialog();
-                        }
-                        break;
-                    }
-
-                    case MY_PERMISSIONS_REQUEST_ACCESS_MEMORY: {
-                        if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                            showMemoryPermissionAlertDialog();
-                        }
-                        break;
-                    }
-                }
+        requestPermissions();
     }
 
     private boolean googleServicesAvailable() {
@@ -253,34 +186,42 @@ public class MainActivity extends MyBaseActivity {
         }
     }
 
-    private void showLocationPermissionAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setMessage(R.string.continue_with_permissions)
-                .setCancelable(false)
-                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        grantLocationPermissions();
-                        dialog.cancel();
-                    }
-                });
-        builder.show();
+    PermissionsUtils permissionUtils;
+
+    private void requestPermissions(){
+        ArrayList<String> permissions = new ArrayList<>();
+        permissions.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        permissions.add(android.Manifest.permission.ACCESS_COARSE_LOCATION);
+        permissions.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+
+        permissionUtils = new PermissionsUtils(this,this);
+        permissionUtils.checkPermission(permissions, ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
     }
 
-    private void showMemoryPermissionAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setMessage(R.string.force_memory_permissions)
-                .setCancelable(false)
-                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        grantMemoryPermissions();
-                        dialog.cancel();
-                    }
-                });
-        builder.show();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        permissionUtils.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        }
+
+
+    @Override
+    public void PermissionGranted(int request_code) {
+        Log.i("PERMISSION","GRANTED");
     }
 
+    @Override
+    public void PartialPermissionGranted(int request_code, ArrayList<String> granted_permissions) {
+        Log.i("PERMISSION PARTIALLY","GRANTED");
+    }
 
+    @Override
+    public void PermissionDenied(int request_code) {
+        Log.i("PERMISSION","DENIED");
+    }
+
+    @Override
+    public void NeverAskAgain(int request_code) {
+        Log.i("PERMISSION","NEVER ASK AGAIN");
+    }
 }
 

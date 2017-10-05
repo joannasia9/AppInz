@@ -78,6 +78,7 @@
     <string name="search_sub">Wyszukaj</string>
     <string name="my_substitutes">Moje</string>
     <string name="substitutes">Substytuty</string>
+    <string name="go_to_settings">Go to settings and enable permissions</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
