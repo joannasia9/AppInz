@@ -460,9 +460,10 @@ public class MainMenuPlaces extends AppCompatActivity
 
             MessageDialog messageDialog = new MessageDialog(this);
             if (MessageDialog.canShow(ShareLinkContent.class)) {
-
+                ShareHashtag hashTag = new ShareHashtag.Builder().setHashtag("#" + getString(R.string.app_name)).build();
                 ShareLinkContent linkContent = new ShareLinkContent.Builder()
                         .setContentUrl(Uri.parse(singleUri))
+                        .setShareHashtag(hashTag)
                         .build();
 
                 messageDialog.show(linkContent);

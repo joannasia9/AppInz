@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,8 @@ import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+
+import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.SyncUser;
@@ -170,39 +173,41 @@ public class MainActivity extends MyBaseActivity {
         }
     }
 
-    private void grantResultsPermissionsCheck(String[] permissions, int[] grantResults){
+    private void grantResultsPermissionsCheck(int[] grantResults){
         if(grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_DENIED){
-            showLocationPermissionAlertDialog();
+           showLocationPermissionAlertDialog();
         }
 
         if (grantResults.length == 2 && grantResults[1] == PackageManager.PERMISSION_DENIED){
             showMemoryPermissionAlertDialog();
         }
-
     }
+
+
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case ASK_MULTIPLE_PERMISSION_REQUEST_CODE: {
-                grantResultsPermissionsCheck(permissions,grantResults);
-                break;
-            }
+    public void onRequestPermissionsResult(final int requestCode, @NonNull String[] permissions, @NonNull final int[] grantResults) {
 
-            case MY_PERMISSIONS_REQUEST_ACCESS_LOCATION: {
-                if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    showLocationPermissionAlertDialog();
+                switch (requestCode) {
+                    case ASK_MULTIPLE_PERMISSION_REQUEST_CODE: {
+                        grantResultsPermissionsCheck(grantResults);
+                        break;
+                    }
+
+                    case MY_PERMISSIONS_REQUEST_ACCESS_LOCATION: {
+                        if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                            showLocationPermissionAlertDialog();
+                        }
+                        break;
+                    }
+
+                    case MY_PERMISSIONS_REQUEST_ACCESS_MEMORY: {
+                        if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                            showMemoryPermissionAlertDialog();
+                        }
+                        break;
+                    }
                 }
-                break;
-            }
-
-            case MY_PERMISSIONS_REQUEST_ACCESS_MEMORY: {
-                if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    showMemoryPermissionAlertDialog();
-                }
-                break;
-            }
-
-        }
     }
 
     private boolean googleServicesAvailable() {
@@ -253,7 +258,9 @@ public class MainActivity extends MyBaseActivity {
 
     private void showLocationPermissionAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
+        builder = new AlertDialog.Builder(this)
                 .setMessage(R.string.continue_with_permissions)
+                .setCancelable(false)
                 .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -266,7 +273,9 @@ public class MainActivity extends MyBaseActivity {
 
     private void showMemoryPermissionAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
+        builder = new AlertDialog.Builder(this)
                 .setMessage(R.string.force_memory_permissions)
+                .setCancelable(false)
                 .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -276,5 +285,7 @@ public class MainActivity extends MyBaseActivity {
                 });
         builder.show();
     }
+
+
 }
 

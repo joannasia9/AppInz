@@ -38,9 +38,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Registration"
-            android:configChanges="locale|orientation" />
-        <activity
             android:name=".MainMenu"
             android:configChanges="locale|orientation" />
         <activity
@@ -49,8 +46,7 @@
         <activity
             android:name=".MainMenuPlaces"
             android:label="@string/title_activity_main_menu_places"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -62,14 +58,18 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".ManualLocationSetter">
-        </activity>
+        <activity android:name=".ManualLocationSetter"></activity>
 
-        <provider android:authorities="com.facebook.app.FacebookContentProvider.com.example.asia.jmpro"
+        <provider
             android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider.com.example.asia.jmpro"
             android:exported="true"
             tools:ignore="ExportedContentProvider" />
 
+        <activity
+            android:name=".SubstitutesActivity"
+            android:label="@string/title_activity_substitutes"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

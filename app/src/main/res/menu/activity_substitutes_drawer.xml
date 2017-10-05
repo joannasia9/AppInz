@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_dedicated_substitutes"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/my_substitutes" />
+        <item
+            android:id="@+id/nav_search_substitutes"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/search_sub" />
+        <item
+            android:id="@+id/nav_add_substitutes"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/add" />
+    </group>
+
+    <item android:title="@string/share">
+        <menu>
+            <item
+                android:id="@+id/nav_share_facebook"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="@string/facebook" />
+            <item
+                android:id="@+id/nav_share_email"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/e_mail" />
+            <item
+                android:id="@+id/nav_share_messenger"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/messenger" />
+        </menu>
+    </item>
+
+</menu>

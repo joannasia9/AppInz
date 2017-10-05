@@ -75,6 +75,9 @@
     <string name="addresses">Oto adres/y:</string>
     <string name="recommended_places">Przekonaj się, które miejsca warto odwiedzić :)</string>
     <string name="arrow"><![CDATA[->]]></string>
+    <string name="search_sub">Wyszukaj</string>
+    <string name="my_substitutes">Moje</string>
+    <string name="substitutes">Substytuty</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>

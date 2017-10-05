@@ -150,4 +150,14 @@
     <string name="addresses">Oto adres/y:</string>
     <string name="recommended_places">Przekonaj się, które miejsca warto odwiedzić :)</string>
     <string name="arrow"><![CDATA[->]]></string>
+
+
+    <string-array name="substitutes_options">
+        <item>Szukaj substytutów</item>
+        <item>Dodaj substytuty</item>
+    </string-array>
+    <string name="title_activity_substitutes">SubstitutesActivity</string>
+    <string name="search_sub">Wyszukaj</string>
+    <string name="my_substitutes">Moje</string>
+    <string name="substitutes">Substytuty</string>
 </resources>

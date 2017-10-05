@@ -49,7 +49,7 @@ public class MainMenu extends MyBaseActivity {
                     break;
                 }
                 case 1: {
-                    Toast.makeText(MainMenu.this, "Position 1: Substytuty", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), SubstitutesActivity.class));
                     break;
                 }
 
