@@ -10,6 +10,13 @@ import io.realm.annotations.RealmClass;
  */
 @RealmClass
 public class SubstituteRealm extends RealmObject {
+
+    public SubstituteRealm(String name){
+        setName(name);
+    }
+    public SubstituteRealm(){
+    }
+
     @PrimaryKey
     private String name;
 

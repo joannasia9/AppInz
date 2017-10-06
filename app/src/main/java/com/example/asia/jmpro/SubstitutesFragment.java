@@ -8,14 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.example.asia.jmpro.adapters.MySubstitutesListAdapter;
+import com.example.asia.jmpro.data.db.AllergenDao;
+
 /**
  * Created by asia on 06/10/2017.
  *  MY SUBSTITUTES pane
  */
 
 public class SubstitutesFragment extends Fragment {
-
     ListView listView;
+    AllergenDao allergenDao = new AllergenDao();
+
 
     @Nullable
     @Override
@@ -23,6 +27,9 @@ public class SubstitutesFragment extends Fragment {
         View substitutesFragment = inflater.inflate(R.layout.fragment_substitutes,container,false);
 
         listView = (ListView) substitutesFragment.findViewById(R.id.dedicatedSubstitutesListView);
+
+        MySubstitutesListAdapter adapter = new MySubstitutesListAdapter(getContext(), allergenDao.getMyAllergensList());
+        listView.setAdapter(adapter);
 
         return  substitutesFragment;
     }

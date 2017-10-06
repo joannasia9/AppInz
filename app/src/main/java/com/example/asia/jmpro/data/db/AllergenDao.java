@@ -20,6 +20,7 @@ public class AllergenDao {
     private Realm privateDatabase;
     private RealmResults<AllergenRealm> allergensList = null;
     private RealmResults<Allergen> myAllergensList = null;
+    private AllergenRealm allergenRealm;
 
 
     public AllergenDao() {
@@ -53,6 +54,22 @@ public class AllergenDao {
         for (AllergenRealm item : allergensList) {
             Allergen aItem = new Allergen(item.getAllergenName(), false);
             list.add(aItem);
+        }
+        return list;
+    }
+
+    public ArrayList<AllergenRealm> getAllAllergenRealm() {
+        ArrayList<AllergenRealm> list = new ArrayList<>();
+
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                allergensList = realm.where(AllergenRealm.class).findAll();
+            }
+        });
+
+        for (AllergenRealm item : allergensList) {
+            list.add(item);
         }
         return list;
     }
@@ -101,6 +118,18 @@ public class AllergenDao {
         });
 
         return myAllergensList;
+    }
+
+    public boolean isAllergenExist(final String allergenName){
+
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                allergenRealm = realm.where(AllergenRealm.class).equalTo("allergenName", allergenName).findFirst();
+            }
+        });
+
+        return allergenRealm != null;
     }
 
 }

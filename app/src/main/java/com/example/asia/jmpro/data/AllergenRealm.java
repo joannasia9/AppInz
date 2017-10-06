@@ -12,8 +12,12 @@ import io.realm.annotations.RealmClass;
 public class AllergenRealm extends RealmObject {
     @PrimaryKey
     private String allergenName;
-    public RealmList<SubstituteRealm> substitutes;
+    private RealmList<SubstituteRealm> substitutes;
 
+
+    public AllergenRealm(){
+
+    }
 
     public String getAllergenName() {
         return allergenName;

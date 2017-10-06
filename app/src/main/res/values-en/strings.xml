@@ -92,6 +92,15 @@
     <string name="coose_allergen">Wybierz alergen</string>
     <string name="sub_name">Nazwa substytutu</string>
     <string name="wenter_sub_name">Wpisz nazwę subtytutu</string>
+    <string name="all_does_not_exist">Allergen o podanej nazwie nie istnieje w bazie</string>
+    <string name="press_button">Zatwierdź wybór alergenu przyciskiem</string>
+    <string name="substitutes_of">Substytuty allergenu:</string>
+    <string name="if_definitely">Na pewno chcesz usunąć wybrany element?</string>
+    <string name="no_result">Brak wyników</string>
+    <string name="suggest_sub">Poleć substytuty alergenów:</string>
+    <string name="recommended_sub">Zobacz koniecznie czym możesz zastąpić niektóre składniki :)</string>
+    <string name="html_pack"><![CDATA[<font color=\"#3300ff\" face =\"Times New Roman\"><b> Przekonaj się gdzie warto się wybrać! :)]]></string>
+    <string name="html_pack_subject">: Polecam Ci nowe miejsca, odwiedź koniecznie! ;)</string>
 
     <string-array name="main_menu_items">
         <item>My notes</item>
