@@ -1,9 +1,12 @@
 package com.example.asia.jmpro;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,6 +17,7 @@ import android.view.View;
 
 public class SubstitutesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+        Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,10 @@ public class SubstitutesActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        fragment = new SubstitutesFragment();
+        replaceFragmentContent(fragment);
+        
     }
 
     @Override
@@ -52,27 +60,45 @@ public class SubstitutesActivity extends AppCompatActivity
     }
 
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.nav_dedicated_substitutes) {
-            // Handle the camera action
-        } else if (id == R.id.nav_search_substitutes) {
-
-        } else if (id == R.id.nav_add_substitutes) {
-
-        } else if (id == R.id.nav_share_facebook) {
-
-        } else if (id == R.id.nav_share_email) {
-
-        } else if (id == R.id.nav_share_messenger) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        selectDrawerItem(item);
         return true;
     }
+
+
+    public void selectDrawerItem(MenuItem menuItem) {
+        switch(menuItem.getItemId()) {
+            case R.id.nav_dedicated_substitutes:
+                fragment = new SubstitutesFragment();
+                break;
+            case R.id.nav_search_substitutes:
+                fragment = new SubstitutesFragmentSearch();
+                break;
+            case R.id.nav_add_substitutes:
+                fragment = new SubstitutesFragmentAdd();
+                break;
+            case R.id.nav_share_facebook:
+                break;
+            case R.id.nav_share_email:
+                break;
+            case  R.id.nav_share_messenger:
+                break;
+            default:
+                fragment = new SubstitutesFragment();
+        }
+
+        replaceFragmentContent(fragment);
+
+        menuItem.setChecked(true);
+        setTitle(menuItem.getTitle());
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+    }
+
+    private void replaceFragmentContent(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.contentSubstitutes, fragment).commit();
+    }
+
 }

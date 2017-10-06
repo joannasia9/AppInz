@@ -170,4 +170,14 @@
     <string name="document">Dokument</string>
     <string name="symptoms_diary">Dziennik objawów</string>
     <string name="add_day">Dodaj dzień</string>
+    <string name="my_sub">Moje substytuty</string>
+    <string name="sub_for">Substytuty dla:</string>
+    <string name="sub_search">Wyszukaj substytuty</string>
+    <string name="enter_al_name">Wpisz nazwę alergenu</string>
+    <string name="allergen">Alergen</string>
+    <string name="add_sub">Dodaj substytuty</string>
+    <string name="coose_allergen">Wybierz alergen</string>
+    <string name="all_name">Nazwa alergenu</string>
+    <string name="sub_name">Nazwa substytutu</string>
+    <string name="enter_sub_name">Wpisz nazwę subtytutu</string>
 </resources>
