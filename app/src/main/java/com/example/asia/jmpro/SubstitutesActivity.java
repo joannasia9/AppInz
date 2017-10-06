@@ -46,7 +46,7 @@ public class SubstitutesActivity extends AppCompatActivity
 
         fragment = new SubstitutesFragment();
         replaceFragmentContent(fragment);
-        
+
     }
 
     @Override
