@@ -76,6 +76,7 @@
         <activity
             android:name=".SubstitutesActivity"
             android:label="@string/title_activity_substitutes"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Diary"

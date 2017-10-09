@@ -7,9 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ShareCompat;
@@ -61,15 +59,6 @@ public class SubstitutesActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -186,9 +175,6 @@ public class SubstitutesActivity extends AppCompatActivity
             public void onClick(View v) {
                 //selectedPlacesList
                 switch (choice) {
-                    case R.id.nav_share_facebook:
-                        shareViaFacebook(selectedAllergensList.get(0));
-                        break;
                     case nav_share_email:
                         shareViaEmail(selectedAllergensList);
                         break;
@@ -227,50 +213,6 @@ public class SubstitutesActivity extends AppCompatActivity
 
 
     }
-
-
-    private void shareViaFacebook(AllergenRealm selectedAllergene) {
-//        StringBuilder builder = new StringBuilder();
-//        builder.append(getString(R.string.recommended_sub))
-//                .append("\n")
-//                .append("\n");
-//
-//        builder.append(selectedAllergene.getAllergenName()).append("\n");
-//        ArrayList<SubstituteRealm> substitutes = substituteDao.getAllAllergensSubstituteList(selectedAllergene.getAllergenName());
-//        for (SubstituteRealm substituteRealm : substitutes) {
-//            builder.append(getString(R.string.arrow)).append(substituteRealm.getName()).append("\n");
-//        }
-
-        UserDao user = new UserDao();
-
-        StringBuilder builder = new StringBuilder();
-        builder.append(" <font color=\"#3300ff\" face =\"Times New Roman\"><b>")
-                .append(getString(R.string.recommended_sub))
-                .append("<br>")
-                .append("</b></font>");
-
-            builder.append("<p><font color=\"6699ff\" face =\"Times New Roman\">").append(selectedAllergene.getAllergenName()).append(": ").append("<br></font>");
-            ArrayList<SubstituteRealm> substitutes = substituteDao.getAllAllergensSubstituteList(selectedAllergene.getAllergenName());
-            for (SubstituteRealm substituteRealm : substitutes) {
-                builder.append(getString(R.string.arrow)).append(substituteRealm.getName()).append("<br>");
-            }
-            builder.append("</p>");
-
-        String sharedText = builder.toString();
-
-
-        Intent shareIntent = ShareCompat.IntentBuilder.from(this)
-                .setType("*/*")
-                .setText(sharedText)
-                .getIntent();
-
-        if (isAppInstalled("com.facebook.katana")) {
-            shareIntent.setPackage("com.facebook.katana");
-            startActivity(shareIntent);
-        }
-
-    }
-
 
     private void shareViaMessenger(AllergenRealm selectedAllergene) {
         StringBuilder builder = new StringBuilder();

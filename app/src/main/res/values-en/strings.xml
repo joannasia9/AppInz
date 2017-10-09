@@ -101,6 +101,16 @@
     <string name="recommended_sub">Zobacz koniecznie czym możesz zastąpić niektóre składniki :)</string>
     <string name="html_pack"><![CDATA[<font color=\"#3300ff\" face =\"Times New Roman\"><b> Przekonaj się gdzie warto się wybrać! :)]]></string>
     <string name="html_pack_subject">: Polecam Ci nowe miejsca, odwiedź koniecznie! ;)</string>
+    <string name="added_suc_allergene">Dodano pomyślnie alergen:</string>
+    <string name="eureka">Sukces!</string>
+    <string name="success">Zapisano pomyślnie!</string>
+    <string name="updated_successful">Zaktualizowano pomyślnie:</string>
+    <string name="add_a_to_db">Dodaj alergen do bazy</string>
+    <string name="questin_if_want_add_new">Czy chcesz dodać nowy alergen do bazy?</string>
+    <string name="if_u_sure">Czy na pewno chcesz usunąć:</string>
+    <string name="from_db">z bazy?</string>
+    <string name="removed">Usunięto:</string>
+    <string name="err_remove_allergens">Możesz usunąć jedynie alergeny dodane przed chwilą.</string>
 
     <string-array name="main_menu_items">
         <item>My notes</item>

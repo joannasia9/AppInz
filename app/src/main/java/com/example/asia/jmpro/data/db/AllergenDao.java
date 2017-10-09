@@ -2,7 +2,6 @@ package com.example.asia.jmpro.data.db;
 
 import com.example.asia.jmpro.data.AllergenRealm;
 import com.example.asia.jmpro.data.DbConnector;
-import com.example.asia.jmpro.data.SubstituteRealm;
 import com.example.asia.jmpro.models.Allergen;
 
 import java.util.ArrayList;
@@ -33,10 +32,21 @@ public class AllergenDao {
         allergenRealm.setAllergenName(allergenName);
         allergenRealm.setSubstitutes(null);
 
+        final Allergen allergen = new Allergen();
+        allergen.setName(allergenName);
+        allergen.setSelected(true);
+
         realmDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 realm.copyToRealmOrUpdate(allergenRealm);
+            }
+        });
+
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.insert(allergen);
             }
         });
     }
@@ -74,17 +84,6 @@ public class AllergenDao {
         return list;
     }
 
-    public void insertSingleSubstitute(String substituteName) {
-        final SubstituteRealm substituteRealm = new SubstituteRealm();
-        substituteRealm.setName(substituteName);
-        realmDatabase.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.copyToRealmOrUpdate(substituteRealm);
-            }
-        });
-    }
-
     public void insertMyAllergenList(final List<Allergen> list) {
         Realm.Transaction transactionClearList = new Realm.Transaction() {
             @Override
@@ -102,6 +101,8 @@ public class AllergenDao {
                     myAllergen.setName(item.getName());
                     myAllergen.setSelected(item.isSelected());
                 }
+
+
             }
         };
         privateDatabase.executeTransaction(transactionAdd);
@@ -132,5 +133,33 @@ public class AllergenDao {
         return allergenRealm != null;
     }
 
+    public void insertAllergenItemToTheGlobalDB(String allergenName) {
+        final AllergenRealm allergenRealm = new AllergenRealm();
+        allergenRealm.setAllergenName(allergenName);
+        allergenRealm.setSubstitutes(null);
+
+        final Allergen allergen = new Allergen();
+        allergen.setName(allergenName);
+        allergen.setSelected(true);
+
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(allergenRealm);
+            }
+        });
+    }
+
+    public void deleteAllergen(final Allergen model) {
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                allergenRealm = realm.where(AllergenRealm.class).equalTo("allergenName", model.getName()).findFirst();
+                allergenRealm.deleteFromRealm();
+            }
+        });
+
+
+    }
 }
 

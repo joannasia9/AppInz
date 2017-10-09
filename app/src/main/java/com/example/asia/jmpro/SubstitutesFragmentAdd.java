@@ -1,5 +1,7 @@
 package com.example.asia.jmpro;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,18 +11,24 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.asia.jmpro.adapters.AllergensListAdapter;
 import com.example.asia.jmpro.adapters.SimpleSubstitutesListAdapter;
 import com.example.asia.jmpro.data.SubstituteRealm;
 import com.example.asia.jmpro.data.db.AllergenDao;
 import com.example.asia.jmpro.data.db.SubstituteDao;
+import com.example.asia.jmpro.models.Allergen;
 
 import java.util.ArrayList;
+
+import static com.example.asia.jmpro.R.id.saveAllAllsButton;
 
 /**
  * Created by asia on 06/10/2017.
@@ -34,9 +42,12 @@ public class SubstitutesFragmentAdd extends Fragment {
     Button addSubstitute;
     ListView substitutesList;
     ArrayList<SubstituteRealm> allAllergenSubstitutesList;
+    ArrayList<Allergen> allergensObjects;
+    ArrayList<String> allergens;
     SubstituteDao substituteDao;
     AllergenDao allergenDao;
     SimpleSubstitutesListAdapter adapter;
+    AllergensListAdapter listAdapter;
     String allergen;
 
     @Nullable
@@ -52,6 +63,8 @@ public class SubstitutesFragmentAdd extends Fragment {
         substitutesOf = (TextView) fragmentAddSubstitutes.findViewById(R.id.substitutesOf);
 
         allAllergenSubstitutesList = new ArrayList<>();
+        allergens = new ArrayList<>();
+        allergensObjects = new ArrayList<>();
 
         selectAllergen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,7 +164,7 @@ public class SubstitutesFragmentAdd extends Fragment {
     private void verifyAllergen(EditText allergenName) {
         allergenDao = new AllergenDao();
         if (!allergenDao.isAllergenExist(allergenName.getText().toString().trim())) {
-            allergenName.setError(getString(R.string.all_does_not_exist));
+            showQuestionDialog(allergenName);
             allergen = null;
         } else {
             allergen = allergenName.getText().toString().trim();
@@ -164,5 +177,133 @@ public class SubstitutesFragmentAdd extends Fragment {
             adapter = new SimpleSubstitutesListAdapter(getContext(), allAllergenSubstitutesList);
             substitutesList.setAdapter(adapter);
         }
+    }
+
+    private void showQuestionDialog(final EditText allergenName) {
+        AlertDialog builder = new AlertDialog.Builder(getContext())
+                .setTitle(R.string.warning)
+                .setMessage(getString(R.string.all_does_not_exist) + "\n" + getString(R.string.questin_if_want_add_new))
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showAddAllergenDialog(allergenName, substituteName);
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        allergenName.setError(getString(R.string.all_does_not_exist));
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        builder.show();
+    }
+
+    private void showAskIfSureDialog(int position) {
+                            final Allergen model = allergensObjects.get(position);
+                            final AllergenDao allergenDao = new AllergenDao();
+
+                            AlertDialog dialog = new AlertDialog.Builder(getContext())
+                                    .setTitle(getString(R.string.warning))
+                                    .setMessage(getString(R.string.if_u_sure) + " " + model.getName() + " " + getString(R.string.from_db) )
+                                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            if(allergens.contains(model.getName())) {
+                                                allergenDao.deleteAllergen(model);
+                                                allergens.remove(model.getName());
+                                                allergensObjects = allergenDao.getAllAllergens();
+                                                listAdapter.updateAdapter(allergensObjects);
+                                                Toast.makeText(getContext(), getString(R.string.removed) + " " + model.getName(), Toast.LENGTH_LONG).show();
+                                            } else {
+                            Toast.makeText(getContext(), getString(R.string.err_remove_allergens), Toast.LENGTH_LONG).show();
+                        }
+
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        dialog.show();
+    }
+    private void showAddAllergenDialog(final EditText allergenName, final EditText substituteName) {
+        final AllergenDao allergenDao = new AllergenDao();
+        allergens = new ArrayList<>();
+        allergensObjects = allergenDao.getAllAllergens();
+
+        final Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.add_allergen_dialog);
+
+        final EditText allergen = (EditText) dialog.findViewById(R.id.addAllEditText);
+        Button save = (Button) dialog.findViewById(saveAllAllsButton);
+        final Button cancel = (Button) dialog.findViewById(R.id.cancelAllButton);
+        final Button add = (Button) dialog.findViewById(R.id.addAllButton);
+
+        ListView listView = (ListView) dialog.findViewById(R.id.allAllsList);
+        listAdapter = new AllergensListAdapter(getContext(), allergensObjects);
+        listView.setAdapter(listAdapter);
+
+        allergen.setText(allergenName.getText().toString());
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showAskIfSureDialog(position);
+            }
+        });
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(allergen.getText().toString().trim().length()!= 0) {
+                    allergens.add(allergen.getText().toString().trim());
+                    allergenDao.insertAllergenItemToTheGlobalDB(allergen.getText().toString().trim());
+                    allergen.setText("");
+                    allergensObjects = allergenDao.getAllAllergens();
+                    listAdapter.updateAdapter(allergensObjects);
+                } else {
+                    allergen.setError(getString(R.string.required));
+                }
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringBuilder buffer = new StringBuilder();
+
+                if(allergens.size()!= 0) {
+                    for(String item : allergens){
+                        buffer.append(item).append("\n");
+                    }
+
+                    Toast.makeText(getContext(),getString(R.string.added_suc_allergene) + " \n" + buffer.toString(), Toast.LENGTH_LONG).show();
+                }
+
+                substituteName.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                adapter = new SimpleSubstitutesListAdapter(getContext(), allAllergenSubstitutesList);
+                dialog.cancel();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allergenName.setError(getString(R.string.all_does_not_exist));
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
     }
 }
