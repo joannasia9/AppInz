@@ -20,6 +20,8 @@ public class AllergenDao {
     private RealmResults<AllergenRealm> allergensList = null;
     private RealmResults<Allergen> myAllergensList = null;
     private AllergenRealm allergenRealm;
+    private ArrayList<Allergen> allergenList;
+    private ArrayList<AllergenRealm> allergenRealmList;
 
 
     public AllergenDao() {
@@ -150,7 +152,24 @@ public class AllergenDao {
         });
     }
 
-    public void deleteAllergen(final Allergen model) {
+    public void insertAllergenItemToThePrivateDB(String allergenName) {
+        final AllergenRealm allergenRealm = new AllergenRealm();
+        allergenRealm.setAllergenName(allergenName);
+        allergenRealm.setSubstitutes(null);
+
+        final Allergen allergen = new Allergen();
+        allergen.setName(allergenName);
+        allergen.setSelected(true);
+
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(allergenRealm);
+            }
+        });
+    }
+
+    public void deleteAllergenFromGlobalDb(final Allergen model) {
         realmDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -158,8 +177,81 @@ public class AllergenDao {
                 allergenRealm.deleteFromRealm();
             }
         });
+    }
 
+    public void deleteAllergenFromPrivateDb(final Allergen model) {
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                allergenRealm = realm.where(AllergenRealm.class).equalTo("allergenName", model.getName()).findFirst();
+                allergenRealm.deleteFromRealm();
+            }
+        });
+    }
 
+    public void addAllergensRealmToPrivateDb(ArrayList<Allergen> list){
+        for(Allergen item : list){
+        AllergenRealm allergenRealm = new AllergenRealm();
+        allergenRealm.setAllergenName(item.getName());
+        allergenRealm.setSubstitutes(null);
+            allergenRealmList.add(allergenRealm);
+        }
+
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                for(AllergenRealm item : allergenRealmList){
+                    realm.copyToRealmOrUpdate(item);
+                }
+            }
+        });
+    }
+
+    public void addSingleAllergenRealmItemToPrivateDb(String name){
+        final AllergenRealm allergenRealm = new AllergenRealm();
+        allergenRealm.setAllergenName(name);
+        allergenRealm.setSubstitutes(null);
+
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(allergenRealm);
+            }
+        });
+    }
+
+    public ArrayList<Allergen> getAllAllergensRealmAddedByMe() {
+        allergenList = new ArrayList<>();
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                allergensList = realm.where(AllergenRealm.class).findAll();
+            }
+        });
+
+        for(AllergenRealm item : allergensList){
+            Allergen a = new Allergen(item.getAllergenName(),false);
+            allergenList.add(a);
+        }
+
+        return  allergenList;
+    }
+
+    public ArrayList<String> getAllAllergensRealmAddedByMeString() {
+        ArrayList<String> allergenList = new ArrayList<>();
+
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                allergensList = realm.where(AllergenRealm.class).findAll();
+            }
+        });
+
+        for(AllergenRealm item : allergensList){
+            allergenList.add(item.getAllergenName());
+        }
+
+        return  allergenList;
     }
 }
 

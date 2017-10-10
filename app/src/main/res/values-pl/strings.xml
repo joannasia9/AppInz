@@ -111,9 +111,26 @@
     <string name="from_db">z bazy?</string>
     <string name="removed">Usunięto:</string>
     <string name="err_remove_allergens">Możesz usunąć jedynie alergeny dodane przed chwilą.</string>
+    <string name="modify">Modyfikuj</string>
+    <string name="remove">Usuń</string>
+    <string name="settings_allergens">Ustawienia</string>
+    <string name="add_allergens_to_db">Dodaj alergeny do bazy</string>
+    <string name="add_to_lit">Dodaj do listy</string>
+    <string name="pending">Oczekujące na dodanie do bazy:</string>
+    <string name="add_to_db">Dodaj do bazy</string>
+    <string name="allergen_exists">Alergen o podanej nazwie już istnieje w bazie</string>
+    <string name="u_sure">Czy na pewno chcesz dodać:</string>
+    <string name="to_db">do bazy?</string>
+    <string name="nothing_to_add_warning">0 elementów do dodania.</string>
+    <string name="all">Wszystkie</string>
+    <string name="remove_allergens_from_db">Usuń wybrane alergeny z bazy</string>
+    <string name="all_allergens">Wszystkie alergeny</string>
+    <string name="added_by_me">Alergeny dodane przeze mnie:</string>
+    <string name="remove_only_added_by_yourself">Możesz usunąć jedynie alergeny dodane przez siebie.</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
+        <item>Alergeny</item>
         <item>Substytuty</item>
         <item>Spis miejsc</item>
         <item>Ustawienia konta</item>

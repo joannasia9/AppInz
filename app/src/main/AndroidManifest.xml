@@ -42,18 +42,16 @@
             android:configChanges="locale|orientation" />
         <activity
             android:name=".Settings"
-            android:label="@string/settings"
-            android:configChanges="locale|orientation" />
+            android:configChanges="locale|orientation"
+            android:label="@string/settings" />
         <activity
             android:name=".MainMenuPlaces"
             android:label="@string/title_activity_main_menu_places"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Registration"
             android:label="@string/title_activity_registration"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -76,13 +74,16 @@
         <activity
             android:name=".SubstitutesActivity"
             android:label="@string/title_activity_substitutes"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Diary"
             android:label="@string/title_activity_diary"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".MainMenuAllergens"
+            android:label="@string/title_activity_main_menu_allergens"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

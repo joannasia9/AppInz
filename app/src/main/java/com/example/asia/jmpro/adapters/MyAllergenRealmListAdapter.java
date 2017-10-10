@@ -66,6 +66,7 @@ public class MyAllergenRealmListAdapter extends BaseAdapter {
         SubstituteDao substituteDao = new SubstituteDao(context);
         ArrayList<SubstituteRealm> allergenSubstitutes = substituteDao.getAllAllergensSubstituteList(model.getAllergenName());
         StringBuilder builder = new StringBuilder();
+        builder.append(context.getString(R.string.substitutes)).append(": \n");
 
         if(allergenSubstitutes.size()!= 0) {
             for (SubstituteRealm substituteRealm : allergenSubstitutes) {

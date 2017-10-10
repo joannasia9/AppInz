@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_all_allergens"
+            android:title="@string/all" />
+        <item
+            android:id="@+id/nav_add_allergen"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/add" />
+        <item
+            android:id="@+id/nav_modify"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/modify" />
+        <item
+            android:id="@+id/nav_remove_allergen"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/remove" />
+    </group>
+    <item android:title="@string/settings_allergens">
+        <menu>
+            <item
+                android:id="@+id/nav_set_my_allergens"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/my_substitutes" />
+        </menu>
+    </item>
+
+</menu>

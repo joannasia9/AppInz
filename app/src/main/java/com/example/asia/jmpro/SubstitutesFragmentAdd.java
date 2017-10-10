@@ -211,16 +211,12 @@ public class SubstitutesFragmentAdd extends Fragment {
                                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-
-                                            if(allergens.contains(model.getName())) {
-                                                allergenDao.deleteAllergen(model);
+                                                allergenDao.deleteAllergenFromGlobalDb(model);
+                                                allergenDao.deleteAllergenFromPrivateDb(model);
                                                 allergens.remove(model.getName());
-                                                allergensObjects = allergenDao.getAllAllergens();
+                                                allergensObjects = allergenDao.getAllAllergensRealmAddedByMe();
                                                 listAdapter.updateAdapter(allergensObjects);
                                                 Toast.makeText(getContext(), getString(R.string.removed) + " " + model.getName(), Toast.LENGTH_LONG).show();
-                                            } else {
-                            Toast.makeText(getContext(), getString(R.string.err_remove_allergens), Toast.LENGTH_LONG).show();
-                        }
 
                         dialog.cancel();
                     }
@@ -237,7 +233,7 @@ public class SubstitutesFragmentAdd extends Fragment {
     private void showAddAllergenDialog(final EditText allergenName, final EditText substituteName) {
         final AllergenDao allergenDao = new AllergenDao();
         allergens = new ArrayList<>();
-        allergensObjects = allergenDao.getAllAllergens();
+        allergensObjects = allergenDao.getAllAllergensRealmAddedByMe();
 
         final Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.add_allergen_dialog);
@@ -266,8 +262,9 @@ public class SubstitutesFragmentAdd extends Fragment {
                 if(allergen.getText().toString().trim().length()!= 0) {
                     allergens.add(allergen.getText().toString().trim());
                     allergenDao.insertAllergenItemToTheGlobalDB(allergen.getText().toString().trim());
+                    allergenDao.insertAllergenItemToThePrivateDB(allergen.getText().toString().trim());
                     allergen.setText("");
-                    allergensObjects = allergenDao.getAllAllergens();
+                    allergensObjects = allergenDao.getAllAllergensRealmAddedByMe();
                     listAdapter.updateAdapter(allergensObjects);
                 } else {
                     allergen.setError(getString(R.string.required));

@@ -102,16 +102,36 @@ public class SettingsFragment1 extends Fragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        allergenDao.deleteAllergen(model);
+
+                        if(allergenDao.getAllAllergensRealmAddedByMeString().contains(model.getName())) {
+                            allergenDao.deleteAllergenFromGlobalDb(model);
+                            allergenDao.deleteAllergenFromPrivateDb(model);
+                            Toast.makeText(getContext(), getString(R.string.removed) + " " + model.getName(), Toast.LENGTH_LONG).show();
+                        } else {
+                            showRemovingErrorAlertDialogMessage();
+                        }
 
                         allAllergensObjects = allergenDao.getAllAllergens();
                         allergenListAdapter.updateAdapter(allAllergensObjects);
-                        Toast.makeText(getContext(), getString(R.string.removed) + " " + model.getName(), Toast.LENGTH_LONG).show();
 
                         dialog.cancel();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        dialog.show();
+    }
+
+    private void showRemovingErrorAlertDialogMessage() {
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
+                .setTitle(getString(R.string.warning))
+                .setMessage(R.string.remove_only_added_by_yourself)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -153,6 +173,7 @@ public class SettingsFragment1 extends Fragment {
 
     public void addAllergen(String name) {
         allergenDao.insertAllergenItem(name);
+        allergenDao.addSingleAllergenRealmItemToPrivateDb(name);
         allergenNameEditText.setText("");
         showAllergensList();
         showSuccessDialog(name);
