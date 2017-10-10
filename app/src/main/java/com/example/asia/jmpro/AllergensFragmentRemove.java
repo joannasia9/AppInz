@@ -60,7 +60,7 @@ public class AllergensFragmentRemove extends Fragment {
     }
 
     private void showRemoveAllergenAlertDialog(int position) {
-        AllergenRealm allergenRealm = selectedAllergens.get(position);
+        AllergenRealm allergenRealm = allAllergens.get(position);
         AlertDialog dialog = new AlertDialog.Builder(getContext())
                 .setTitle(getString(R.string.warning))
                 .setMessage(getString(R.string.if_u_sure)+ " " + allergenRealm.getAllergenName() + " " + getString(R.string.from_db))

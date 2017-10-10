@@ -198,7 +198,7 @@
     <string name="updated_successful">Zaktualizowano pomyślnie:</string>
     <string name="add_a_to_db">Dodaj alergen do bazy</string>
     <string name="questin_if_want_add_new">Czy chcesz dodać nowy alergen do bazy?</string>
-    <string name="if_u_sure">Czy na pewno chcesz usunąć:</string>
+    <string name="if_u_sure">Czy na pewno chcesz usunąć element </string>
     <string name="from_db">z bazy?</string>
     <string name="removed">Usunięto:</string>
     <string name="err_remove_allergens">Możesz usunąć jedynie alergeny dodane przed chwilą.</string>

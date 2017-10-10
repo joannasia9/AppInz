@@ -142,7 +142,7 @@ public class AllergensFragment extends Fragment {
                         allergenDao = new AllergenDao();
                         for(Allergen item : allergensToAdd) {
                             allergenDao.insertAllergenItemToTheGlobalDB(item.getName());
-                            allergenDao.insertAllergenItemToThePrivateDB(item.getName());
+                         //   allergenDao.insertAllergenItemToThePrivateDB(item.getName());
                         }
                         Toast.makeText(getContext(),getString(R.string.added_suc_allergene), Toast.LENGTH_LONG).show();
                     }

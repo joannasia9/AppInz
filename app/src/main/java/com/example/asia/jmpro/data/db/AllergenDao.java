@@ -20,7 +20,6 @@ public class AllergenDao {
     private RealmResults<AllergenRealm> allergensList = null;
     private RealmResults<Allergen> myAllergensList = null;
     private AllergenRealm allergenRealm;
-    private ArrayList<Allergen> allergenList;
     private ArrayList<AllergenRealm> allergenRealmList;
 
 
@@ -140,10 +139,6 @@ public class AllergenDao {
         allergenRealm.setAllergenName(allergenName);
         allergenRealm.setSubstitutes(null);
 
-        final Allergen allergen = new Allergen();
-        allergen.setName(allergenName);
-        allergen.setSelected(true);
-
         realmDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -156,10 +151,6 @@ public class AllergenDao {
         final AllergenRealm allergenRealm = new AllergenRealm();
         allergenRealm.setAllergenName(allergenName);
         allergenRealm.setSubstitutes(null);
-
-        final Allergen allergen = new Allergen();
-        allergen.setName(allergenName);
-        allergen.setSelected(true);
 
         privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override
@@ -189,23 +180,6 @@ public class AllergenDao {
         });
     }
 
-    public void addAllergensRealmToPrivateDb(ArrayList<Allergen> list){
-        for(Allergen item : list){
-        AllergenRealm allergenRealm = new AllergenRealm();
-        allergenRealm.setAllergenName(item.getName());
-        allergenRealm.setSubstitutes(null);
-            allergenRealmList.add(allergenRealm);
-        }
-
-        realmDatabase.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                for(AllergenRealm item : allergenRealmList){
-                    realm.copyToRealmOrUpdate(item);
-                }
-            }
-        });
-    }
 
     public void addSingleAllergenRealmItemToPrivateDb(String name){
         final AllergenRealm allergenRealm = new AllergenRealm();
@@ -221,7 +195,7 @@ public class AllergenDao {
     }
 
     public ArrayList<Allergen> getAllAllergensRealmAddedByMe() {
-        allergenList = new ArrayList<>();
+        ArrayList<Allergen> allergenList = new ArrayList<>();
         privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -234,7 +208,7 @@ public class AllergenDao {
             allergenList.add(a);
         }
 
-        return  allergenList;
+        return allergenList;
     }
 
     public ArrayList<String> getAllAllergensRealmAddedByMeString() {
