@@ -127,6 +127,8 @@
     <string name="all_allergens">Wszystkie alergeny</string>
     <string name="added_by_me">Alergeny dodane przeze mnie:</string>
     <string name="remove_only_added_by_yourself">Możesz usunąć jedynie alergeny dodane przez siebie.</string>
+    <string name="added_">Dodano:</string>
+    <string name="save_changes">Chcesz zapisać zmiany?</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>

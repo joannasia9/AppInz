@@ -128,23 +128,25 @@ public class AllergensFragment extends Fragment {
 
     private void showQuestionDialog(final ArrayList<Allergen> allergensToAdd) {
         final StringBuilder buffer = new StringBuilder();
-
+        buffer.append("\n");
         for(Allergen item : allergensToAdd) {
             buffer.append(item.getName()).append("\n");
         }
 
         AlertDialog builder = new AlertDialog.Builder(getContext())
                 .setTitle(getString(R.string.warning))
-                .setMessage(getString(R.string.u_sure)+" \n" + buffer.toString() + getString(R.string.to_db))
+                .setMessage(getString(R.string.u_sure) + buffer.toString() + getString(R.string.to_db))
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         allergenDao = new AllergenDao();
                         for(Allergen item : allergensToAdd) {
                             allergenDao.insertAllergenItemToTheGlobalDB(item.getName());
-                         //   allergenDao.insertAllergenItemToThePrivateDB(item.getName());
+                            allergenDao.insertAllergenItemToThePrivateDB(item.getName());
                         }
-                        Toast.makeText(getContext(),getString(R.string.added_suc_allergene), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(),getString(R.string.added_suc_allergene) + buffer.toString(), Toast.LENGTH_LONG).show();
+                        allergensToAdd.clear();
+                        adapter.updateAdapter(allergensToAdd);
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

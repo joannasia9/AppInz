@@ -103,9 +103,9 @@ public class SettingsFragment1 extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if(allergenDao.getAllAllergensRealmAddedByMeString().contains(model.getName())) {
-                            allergenDao.deleteAllergenFromGlobalDb(model);
-                            allergenDao.deleteAllergenFromPrivateDb(model);
+                        if(allergenDao.getAllAllergensRealmAddedByMe().contains(model.getName())) {
+                            allergenDao.deleteAllergenFromGlobalDb(model.getName());
+                            allergenDao.deleteAllergenFromPrivateDb(model.getName());
                             Toast.makeText(getContext(), getString(R.string.removed) + " " + model.getName(), Toast.LENGTH_LONG).show();
                         } else {
                             showRemovingErrorAlertDialogMessage();
@@ -173,7 +173,7 @@ public class SettingsFragment1 extends Fragment {
 
     public void addAllergen(String name) {
         allergenDao.insertAllergenItem(name);
-        allergenDao.addSingleAllergenRealmItemToPrivateDb(name);
+        allergenDao.addSingleAllergenStringItemToPrivateDb(name);
         allergenNameEditText.setText("");
         showAllergensList();
         showSuccessDialog(name);

@@ -166,7 +166,7 @@ public class SubstitutesActivity extends AppCompatActivity
                     }
                 }
 
-                adapter.updateAdapter(selectedAllergensList);
+                adapter.updateAdapter(allAllergensList,selectedAllergensList);
             }
         });
 

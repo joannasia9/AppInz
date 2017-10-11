@@ -192,7 +192,7 @@
     <string name="recommended_sub">Zobacz koniecznie czym możesz zastąpić niektóre składniki :)</string>
     <string name="html_pack"><![CDATA[<font color=\"#3300ff\" face =\"Times New Roman\"><b> Przekonaj się gdzie warto się wybrać! :)]]></string>
     <string name="html_pack_subject">: Polecam Ci nowe miejsca, odwiedź koniecznie! ;)</string>
-    <string name="added_suc_allergene">Dodano pomyślnie alergen:</string>
+    <string name="added_suc_allergene">Dodano pomyślnie:</string>
     <string name="eureka">Udało się!</string>
     <string name="success">Zapisano pomyślnie!</string>
     <string name="updated_successful">Zaktualizowano pomyślnie:</string>
@@ -220,4 +220,7 @@
     <string name="all_allergens">Wszystkie alergeny</string>
     <string name="added_by_me">Alergeny dodane przeze mnie:</string>
     <string name="remove_only_added_by_yourself">Możesz usunąć jedynie alergeny dodane przez siebie.</string>
+    <string name="added_">Dodano:</string>
+    <string name="save_changes">Chcesz zapisać zmiany?</string>
+    <string name="removed_suc">Usunięto pomyślnie</string>
 </resources>

@@ -92,8 +92,9 @@ public class MyAllergenRealmListAdapter extends BaseAdapter {
         return item;
     }
 
-    public void updateAdapter(ArrayList<AllergenRealm> list){
-        this.selectedAllergensList = list;
+    public void updateAdapter(List<AllergenRealm> allAllergensList, ArrayList<AllergenRealm> selectedAllergensList){
+        this.selectedAllergensList = selectedAllergensList;
+        this.allergensList = allAllergensList;
         notifyDataSetChanged();
     }
 
