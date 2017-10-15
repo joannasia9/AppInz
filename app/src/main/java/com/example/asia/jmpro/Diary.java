@@ -1,19 +1,20 @@
 package com.example.asia.jmpro;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 public class Diary extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,15 +22,6 @@ public class Diary extends AppCompatActivity
         setContentView(R.layout.activity_diary);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -39,6 +31,8 @@ public class Diary extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        replaceFragmentContent(new DiaryMyNotedDaysFragment());
     }
 
     @Override
@@ -53,24 +47,38 @@ public class Diary extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        selectItem(item);
+        return true;
+    }
 
-        if (id == R.id.my_noted_days) {
-            // Handle the camera action
-        } else if (id == R.id.nav_add_day) {
-
-        } else if (id == R.id.nav_statistics) {
-
-        } else if (id == R.id.nav_share_message) {
-
-        } else if (id == R.id.nav_export_document) {
-
+    private void selectItem(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.my_noted_days:
+                fragment = new DiaryMyNotedDaysFragment();
+                break;
+            case R.id.nav_add_day:
+                fragment = new DiaryAddSingleDayFragment();
+                break;
+            case R.id.nav_statistics:
+                fragment = new DiaryStatisticsFragment();
+                break;
+            case R.id.nav_share_message:
+                break;
+            case R.id.nav_export_document:
+                break;
         }
+        replaceFragmentContent(fragment);
+
+        setTitle(item.getTitle());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
+
+    private void replaceFragmentContent(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.contentDiary, fragment).commit();
+    }
+
 }

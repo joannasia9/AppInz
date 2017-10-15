@@ -41,15 +41,22 @@ public class PlaceDao {
     public void addFavouritePlaceToDatabase(final String placeName, Location location) {
         final Place place = new Place();
 
+
         place.setLatitude(location.getLatitude());
         place.setLongitude(location.getLongitude());
         place.setName(placeName);
+
 
         privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 if (realm.where(Place.class).equalTo("name", place.getName()).findFirst() == null) {
-                    nextID = (int) (long) (realm.where(Place.class).max("id")) + 1;
+                    Number num = realm.where(Place.class).max("id");
+                    if(num != null) {
+                        nextID = (int) (long) (realm.where(Place.class).max("id")) + 1;
+                    } else {
+                        nextID = 0;
+                    }
                     place.setId(nextID);
                     realm.copyToRealm(place);
                 }

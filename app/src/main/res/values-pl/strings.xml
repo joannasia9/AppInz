@@ -129,6 +129,13 @@
     <string name="remove_only_added_by_yourself">Możesz usunąć jedynie alergeny dodane przez siebie.</string>
     <string name="added_">Dodano:</string>
     <string name="save_changes">Chcesz zapisać zmiany?</string>
+    <string name="date">Data:</string>
+    <string name="change">Zmień</string>
+    <string name="eaten_products">Zjedzone produkty</string>
+    <string name="medicines">Zażyte leki</string>
+    <string name="symptoms">Objawy</string>
+    <string name="notes">Notatki</string>
+    <string name="no_element">Brak elementu, którego szukasz?</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
