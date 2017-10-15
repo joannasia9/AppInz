@@ -85,9 +85,54 @@
     <string name="message">Wiadomość</string>
     <string name="symptoms_diary">Dziennik objawów</string>
     <string name="add_day">Dodaj dzień</string>
+    <string name="my_sub">Moje substytuty</string>
+    <string name="sub_for">Substytuty dla:</string>
+    <string name="enter_al_name">Wpisz nazwę alergenu</string>
+    <string name="add_sub">Dodaj substytuty</string>
+    <string name="coose_allergen">Wybierz alergen</string>
+    <string name="sub_name">Nazwa substytutu</string>
+    <string name="wenter_sub_name">Wpisz nazwę subtytutu</string>
+    <string name="all_does_not_exist">Allergen o podanej nazwie nie istnieje w bazie</string>
+    <string name="press_button">Zatwierdź wybór alergenu przyciskiem</string>
+    <string name="substitutes_of">Substytuty allergenu:</string>
+    <string name="if_definitely">Na pewno chcesz usunąć wybrany element?</string>
+    <string name="no_result">Brak wyników</string>
+    <string name="suggest_sub">Poleć substytuty alergenów:</string>
+    <string name="recommended_sub">Zobacz koniecznie czym możesz zastąpić niektóre składniki :)</string>
+    <string name="html_pack"><![CDATA[<font color=\"#3300ff\" face =\"Times New Roman\"><b> Przekonaj się gdzie warto się wybrać! :)]]></string>
+    <string name="html_pack_subject">: Polecam Ci nowe miejsca, odwiedź koniecznie! ;)</string>
+    <string name="added_suc_allergene">Dodano pomyślnie alergen:</string>
+    <string name="eureka">Sukces!</string>
+    <string name="success">Zapisano pomyślnie!</string>
+    <string name="updated_successful">Zaktualizowano pomyślnie:</string>
+    <string name="add_a_to_db">Dodaj alergen do bazy</string>
+    <string name="questin_if_want_add_new">Czy chcesz dodać nowy alergen do bazy?</string>
+    <string name="if_u_sure">Czy na pewno chcesz usunąć:</string>
+    <string name="from_db">z bazy?</string>
+    <string name="removed">Usunięto:</string>
+    <string name="err_remove_allergens">Możesz usunąć jedynie alergeny dodane przed chwilą.</string>
+    <string name="modify">Modyfikuj</string>
+    <string name="remove">Usuń</string>
+    <string name="settings_allergens">Ustawienia</string>
+    <string name="add_allergens_to_db">Dodaj alergeny do bazy</string>
+    <string name="add_to_lit">Dodaj do listy</string>
+    <string name="pending">Oczekujące na dodanie do bazy:</string>
+    <string name="add_to_db">Dodaj do bazy</string>
+    <string name="allergen_exists">Alergen o podanej nazwie już istnieje w bazie</string>
+    <string name="u_sure">Czy na pewno chcesz dodać:</string>
+    <string name="to_db">do bazy?</string>
+    <string name="nothing_to_add_warning">0 elementów do dodania.</string>
+    <string name="all">Wszystkie</string>
+    <string name="remove_allergens_from_db">Usuń wybrane alergeny z bazy</string>
+    <string name="all_allergens">Wszystkie alergeny</string>
+    <string name="added_by_me">Alergeny dodane przeze mnie:</string>
+    <string name="remove_only_added_by_yourself">Możesz usunąć jedynie alergeny dodane przez siebie.</string>
+    <string name="added_">Dodano:</string>
+    <string name="save_changes">Chcesz zapisać zmiany?</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
+        <item>Alergeny</item>
         <item>Substytuty</item>
         <item>Spis miejsc</item>
         <item>Ustawienia konta</item>

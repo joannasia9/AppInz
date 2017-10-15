@@ -15,8 +15,8 @@ import com.example.asia.jmpro.viewholders.MyBaseActivity;
 public class MainMenu extends MyBaseActivity {
     ListView mItems;
     String[] mItemsTitles;
-    int[] mItemsBackground = {R.color.item1, R.color.item2, R.color.item3, R.color.item4};
-    int[] mItemsImages = {R.drawable.item1, R.drawable.item2, R.drawable.item3, R.drawable.item4};
+    int[] mItemsBackground = {R.color.item1, R.color.item4, R.color.item2, R.color.item3, R.color.item4};
+    int[] mItemsImages = {R.drawable.item1, R.drawable.item4, R.drawable.item2, R.drawable.item3, R.drawable.item4};
 
     SharedPreferences preferences;
     LanguageChangeObserver languageChangeObserver;
@@ -47,19 +47,23 @@ public class MainMenu extends MyBaseActivity {
                     startActivity(new Intent(getApplicationContext(), Diary.class));
                     break;
                 }
-                case 1: {
+                case 1:
+                    startActivity(new Intent(getApplicationContext(),MainMenuAllergens.class));
+                    break;
+                case 2: {
                     startActivity(new Intent(getApplicationContext(), SubstitutesActivity.class));
                     break;
                 }
 
-                case 2: {
+                case 3: {
                     startActivity(new Intent(getApplicationContext(), MainMenuPlaces.class));
                     break;
                 }
-                case 3: {
+                case 4: {
                     startActivity(new Intent(getApplicationContext(), Settings.class));
                     break;
                 }
+
                 default:
                     break;
             }

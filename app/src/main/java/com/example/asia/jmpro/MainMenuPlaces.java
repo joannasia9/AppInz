@@ -441,6 +441,7 @@ public class MainMenuPlaces extends AppCompatActivity
             ShareDialog shareDialog = new ShareDialog(this);
             if (ShareDialog.canShow(ShareLinkContent.class)) {
                 ShareHashtag hashTag = new ShareHashtag.Builder().setHashtag("#" + getString(R.string.app_name)).build();
+
                 ShareLinkContent linkContent = new ShareLinkContent.Builder()
                         .setContentUrl(Uri.parse(singleUri))
                         .setShareHashtag(hashTag)
@@ -476,7 +477,7 @@ public class MainMenuPlaces extends AppCompatActivity
         UserDao user = new UserDao();
 
         StringBuilder builder = new StringBuilder();
-        builder.append(" <font color=\"#3300ff\" face =\"Times New Roman\"><b> Przekonaj się gdzie warto się wybrać! :)\n")
+        builder.append(getString(R.string.html_pack))
                 .append("</b></font>");
         for (Place item : selectedPlaces) {
             builder.append("<p><font color=\"6699ff\" face =\"Times New Roman\">").append(item.getName()).append("</font></p>");
@@ -486,7 +487,7 @@ public class MainMenuPlaces extends AppCompatActivity
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setData(Uri.parse(getString(R.string.mailto)));
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, user.getUserRealmFromDatabase().getLogin() + ": Polecam Ci nowe miejsca, odwiedź koniecznie! ;)");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, user.getUserRealmFromDatabase().getLogin() + getString(R.string.html_pack_subject));
         shareIntent.putExtra(Intent.EXTRA_TEXT, fromHtml(sharedText));
         shareIntent.setType("text/html");
 

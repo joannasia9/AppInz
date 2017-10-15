@@ -80,7 +80,7 @@ public class SuggestedPlacesListAdapter extends BaseAdapter {
             }
         }
 
-        if (code == SELECT_CODE) {
+        if (code == SELECT_CODE || code == SELECT_FOR_SHARE_VIA_FACEBOOK_CODE) {
             if (selectedPlacesList.size() != 0) {
                 if (selectedPlacesList.contains(model)) {
                     suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.toshare);
@@ -90,10 +90,6 @@ public class SuggestedPlacesListAdapter extends BaseAdapter {
             } else {
                 suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.nottoshare);
             }
-        }
-
-        if(code == SELECT_FOR_SHARE_VIA_FACEBOOK_CODE) {
-
         }
 
         return placeItem;

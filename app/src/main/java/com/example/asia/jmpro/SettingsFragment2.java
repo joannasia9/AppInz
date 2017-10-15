@@ -101,8 +101,10 @@ public class SettingsFragment2 extends Fragment {
     private void updateUsersData(EditText password, EditText repeatedPassword, EditText newEmail) {
         if (isValidNewPassword(password, repeatedPassword)) {
             userDao.updateUserPassword(getContext(),password.getText().toString().trim());
+            showSuccessDialog(getString(R.string.password));
         } else if (isValidNewEmail(newEmail)) {
             userDao.updateUserEmail(newEmail.getText().toString().trim());
+            showSuccessDialog(getString(R.string.e_mail));
         }
     }
 
@@ -156,4 +158,18 @@ public class SettingsFragment2 extends Fragment {
         return simpleDateFormat.format(date);
     }
 
+    private void showSuccessDialog(String name){
+        AlertDialog builder = new AlertDialog.Builder(getContext())
+                .setTitle(R.string.eureka)
+                .setMessage(R.string.updated_successful + " " + name)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        builder.show();
+
+    }
 }

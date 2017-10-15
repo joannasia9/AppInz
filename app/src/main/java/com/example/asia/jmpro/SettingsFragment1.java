@@ -1,8 +1,10 @@
 package com.example.asia.jmpro;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.asia.jmpro.adapters.AllergensListAdapter;
 import com.example.asia.jmpro.data.db.AllergenDao;
@@ -46,6 +49,14 @@ public class SettingsFragment1 extends Fragment {
 
         showAllergensList();
 
+        settingsMyAllergensListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                showAskIfSureDialog(position);
+                return false;
+            }
+        });
+
         settingsMyAllergensListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -67,6 +78,7 @@ public class SettingsFragment1 extends Fragment {
             public void onClick(View v) {
                 myAllergens = getAllCheckedAllergens();
                 allergenDao.insertMyAllergenList(myAllergens);
+                Toast.makeText(getContext(), R.string.success, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -78,6 +90,55 @@ public class SettingsFragment1 extends Fragment {
         });
 
         return fragmentLayout;
+    }
+
+    private void showAskIfSureDialog(int position) {
+        final Allergen model = allAllergensObjects.get(position);
+        final AllergenDao allergenDao = new AllergenDao();
+
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
+                .setTitle(getString(R.string.warning))
+                .setMessage(getString(R.string.if_u_sure) + " " + model.getName() + " " + getString(R.string.from_db))
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        if(allergenDao.getAllAllergensRealmAddedByMe().contains(model.getName())) {
+                            allergenDao.deleteAllergenFromGlobalDb(model.getName());
+                            allergenDao.deleteAllergenFromPrivateDb(model.getName());
+                            Toast.makeText(getContext(), getString(R.string.removed) + " " + model.getName(), Toast.LENGTH_LONG).show();
+                        } else {
+                            showRemovingErrorAlertDialogMessage();
+                        }
+
+                        allAllergensObjects = allergenDao.getAllAllergens();
+                        allergenListAdapter.updateAdapter(allAllergensObjects);
+
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        dialog.show();
+    }
+
+    private void showRemovingErrorAlertDialogMessage() {
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
+                .setTitle(getString(R.string.warning))
+                .setMessage(R.string.remove_only_added_by_yourself)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        dialog.show();
     }
 
     public List<Allergen> getAllCheckedAllergens() {
@@ -112,7 +173,24 @@ public class SettingsFragment1 extends Fragment {
 
     public void addAllergen(String name) {
         allergenDao.insertAllergenItem(name);
+        allergenDao.addSingleAllergenStringItemToPrivateDb(name);
         allergenNameEditText.setText("");
         showAllergensList();
+        showSuccessDialog(name);
+
+    }
+
+    private void showSuccessDialog(String name) {
+        AlertDialog builder = new AlertDialog.Builder(getContext())
+                .setTitle(R.string.eureka)
+                .setMessage(getString(R.string.added_suc_allergene) + " " + name)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        builder.show();
     }
 }

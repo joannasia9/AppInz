@@ -2,23 +2,19 @@ package com.example.asia.jmpro.data;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.RealmClass;
 
 /**
- * Created by asia on 24/08/2017.
+ * Created by asia on 11/10/2017.
  *
  */
-@RealmClass
-public class SubstituteRealm extends RealmObject {
 
-    public SubstituteRealm(String name){
-        setName(name);
-    }
-    public SubstituteRealm(){
-    }
-
+public class AllergenString extends RealmObject {
     @PrimaryKey
     private String name;
+
+    public AllergenString() {
+
+    }
 
     public String getName() {
         return name;
@@ -27,4 +23,6 @@ public class SubstituteRealm extends RealmObject {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }
