@@ -1,6 +1,8 @@
 package com.example.asia.jmpro.data;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -28,7 +30,8 @@ public class Day extends RealmObject {
     }
 
     public void setId(Date date) {
-        this.id = date.toString();
+        SimpleDateFormat simpleDate =  new SimpleDateFormat("dd/MM/yyyy", new Locale("pl"));
+        this.id = simpleDate.format(date);
     }
 
     public Day (Date date) {

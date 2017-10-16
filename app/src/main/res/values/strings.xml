@@ -231,4 +231,16 @@
     <string name="notes">Notatki</string>
     <string name="select_products">Wybierz produkty</string>
     <string name="no_element">Brak elementu, którego szukasz?</string>
+    <string name="select_medicines">Wybierz leki</string>
+    <string name="select_symptoms">Wybierz objawy</string>
+    <string name="add_note">Dodaj notatkę</string>
+    <string name="note_content">Treść notatki</string>
+    <string name="no_results_to_show">Brak elementów do wyświetlenia</string>
+    <string name="select_items">Wybierz</string>
+    <string name="add_rm">Dodaj / Usuń</string>
+    <string name="success_a">Dodano pomyślnie</string>
+    <string name="added_notes">Dodane notatki:</string>
+    <string name="completely_nothing">Brak</string>
+    <string name="day">Dzień:</string>
+    <string name="back">Wróć</string>
 </resources>

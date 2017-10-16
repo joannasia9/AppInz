@@ -2,78 +2,119 @@ package com.example.asia.jmpro;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.asia.jmpro.adapters.UniversalSimpleListAdapter;
+import com.example.asia.jmpro.data.Medicine;
+import com.example.asia.jmpro.data.Product;
+import com.example.asia.jmpro.data.Symptom;
+import com.example.asia.jmpro.data.db.DayDao;
 import com.example.asia.jmpro.logic.calendar.DateUtilities;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+
+import static com.example.asia.jmpro.R.id.addEatenProductsButton;
 
 /**
  * Created by asia on 15/10/2017.
- *
  */
 
 public class DiaryAddSingleDayFragment extends Fragment {
     TextView dateToAdd;
     Button changeDatePickerButton;
     Button saveDayToDbButton;
-    Button addEatenProductsButton, modEatenProductsButton, removeEatenProductsButton;
-    Button addMedicinesButton, modMedicinesButton, removeMedicinesButton;
-    Button addSymptomsButton, modSymptomsButton, removeSymptomsButton;
-    Button addNoteButton, modNotesButton, removeNoteButton;
-    ListView eatenProductsListView, medicinesListView, symptomsListView, notesListView;
+    Button addRemoveEatenProductsButton;
+    Button addRemoveMedicinesButton;
+    Button addRemoveSymptomsButton;
+    Button addRemoveNoteButton;
+    TextView eatenProductsListTV, medicinesTV, symptomsTV, notesTV;
+    UniversalSimpleListAdapter productsAdapter, medicinesAdapter, symptomsAdapter, notesAdapter;
+    ArrayList<String> selectedProducts, selectedMedicines, selectedSymptoms, selectedNotes;
+    DayDao dayDao;
+    ArrayList<Product> productsList;
+    ArrayList<Medicine> medicinesList;
+    ArrayList<Symptom> symptomsList;
+    ArrayList<String> addedNotesList;
 
     Date dateToAddDate;
+    Date currentDate;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View diaryFragment = inflater.inflate(R.layout.diary_add_single_day,container,false);
+        View diaryFragment = inflater.inflate(R.layout.diary_add_single_day, container, false);
+        dayDao = new DayDao(getContext());
+
         dateToAdd = (TextView) diaryFragment.findViewById(R.id.dateToAdd);
         dateToAdd.setText(DateUtilities.currentDay() + "." + (DateUtilities.currentMonth() + 1) + "." + DateUtilities.currentYear());
+
+        currentDate = DateUtilities.getDate(DateUtilities.currentYear(), DateUtilities.currentMonth(), DateUtilities.currentDay());
+        dateToAddDate = currentDate;
 
         changeDatePickerButton = (Button) diaryFragment.findViewById(R.id.changeDateButton);
         saveDayToDbButton = (Button) diaryFragment.findViewById(R.id.saveDayToDbButton);
 
-        addEatenProductsButton = (Button) diaryFragment.findViewById(R.id.addEatenProductsButton);
-        modEatenProductsButton = (Button) diaryFragment.findViewById(R.id.modEatenProductsButton);
-        removeEatenProductsButton = (Button) diaryFragment.findViewById(R.id.removeEatenProdButton);
+        addRemoveEatenProductsButton = (Button) diaryFragment.findViewById(addEatenProductsButton);
+        addRemoveMedicinesButton = (Button) diaryFragment.findViewById(R.id.addMedicinesButton);
+        addRemoveSymptomsButton = (Button) diaryFragment.findViewById(R.id.addSymptomButton);
+        addRemoveNoteButton = (Button) diaryFragment.findViewById(R.id.addNoteButton);
 
-        addMedicinesButton = (Button) diaryFragment.findViewById(R.id.addMedicinesButton);
-        modMedicinesButton = (Button) diaryFragment.findViewById(R.id.modMedicinesButton);
-        removeMedicinesButton = (Button) diaryFragment.findViewById(R.id.removeMedicinesButton);
+        eatenProductsListTV = (TextView) diaryFragment.findViewById(R.id.eatenProductsListTV);
+        medicinesTV = (TextView) diaryFragment.findViewById(R.id.medicinesTV);
+        symptomsTV = (TextView) diaryFragment.findViewById(R.id.symptomsTV);
+        notesTV = (TextView) diaryFragment.findViewById(R.id.notesTV);
 
-        addSymptomsButton = (Button) diaryFragment.findViewById(R.id.addSymptomButton);
-        modSymptomsButton = (Button) diaryFragment.findViewById(R.id.modSymptomButton);
-        removeSymptomsButton = (Button) diaryFragment.findViewById(R.id.removeSymptomButton);
+        setAllArrayListsAndFields(dateToAddDate);
 
-        addNoteButton = (Button) diaryFragment.findViewById(R.id.addNoteButton);
-        modNotesButton = (Button) diaryFragment.findViewById(R.id.modNoteButton);
-        removeNoteButton = (Button) diaryFragment.findViewById(R.id.removeNoteButton);
-
-        eatenProductsListView = (ListView) diaryFragment.findViewById(R.id.eatenProductsListView);
-        medicinesListView = (ListView) diaryFragment.findViewById(R.id.medicinesListView);
-        symptomsListView = (ListView) diaryFragment.findViewById(R.id.symptomsListView);
-        notesListView = (ListView) diaryFragment.findViewById(R.id.notesListView);
-
-
-        addEatenProductsButton.setOnClickListener(new View.OnClickListener() {
+        addRemoveEatenProductsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showAddEatenProductDialog();
+            }
+        });
+        addRemoveMedicinesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddMedicineDialog();
+            }
+        });
+        addRemoveSymptomsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddSymptomDialog();
+            }
+        });
+        addRemoveNoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddNoteDialog();
+            }
+        });
+
+        saveDayToDbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showQuestionDialog(dateToAddDate);
             }
         });
 
@@ -83,7 +124,43 @@ public class DiaryAddSingleDayFragment extends Fragment {
                 showDatePickerDialogOnClick();
             }
         });
-        return  diaryFragment;
+        return diaryFragment;
+    }
+
+
+    private void showQuestionDialog(final Date date) {
+
+        AlertDialog builder = new AlertDialog.Builder(getContext())
+                .setTitle(getString(R.string.warning))
+                .setMessage(getString(R.string.u_sure) + convertDateToString(date) + getString(R.string.to_db))
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dayDao.insertSingleDayToDatabase(date, selectedProducts, selectedMedicines, selectedSymptoms, selectedNotes);
+                        setAllArrayListsAndFields(currentDate);
+                        Toast.makeText(getContext(), getString(R.string.success), Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        builder.show();
+    }
+
+    private void setAllArrayListsAndFields(Date date) {
+        selectedProducts = dayDao.getUsersSelectedProductsFromDb(convertDateToString(date));
+        selectedMedicines = dayDao.getUsersSelectedMedicinesFromDb(convertDateToString(date));
+        selectedSymptoms = dayDao.getUsersSelectedSymptomsFromDb(convertDateToString(date));
+        selectedNotes = dayDao.getUsersSelectedNotesFromDb(convertDateToString(date));
+
+        eatenProductsListTV.setText(convertFromArrayListOfStringToString(selectedProducts));
+        medicinesTV.setText(convertFromArrayListOfStringToString(selectedMedicines));
+        symptomsTV.setText(convertFromArrayListOfStringToString(selectedSymptoms));
+        notesTV.setText(convertFromArrayListOfStringToString(selectedNotes));
     }
 
     public void showDatePickerDialogOnClick() {
@@ -95,7 +172,7 @@ public class DiaryAddSingleDayFragment extends Fragment {
                 DateUtilities.currentMonth(),
                 DateUtilities.currentDay()
         );
-
+        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
@@ -106,21 +183,293 @@ public class DiaryAddSingleDayFragment extends Fragment {
             dateToAdd.setText(dayOfMonth + "." + (monthOfAYear + 1) + "." + birthYear);
             dateToAdd.setTextColor(getResources().getColor(R.color.colorBlack, null));
             dateToAddDate = DateUtilities.getDate(birthYear, monthOfAYear, dayOfMonth);
+
+            setAllArrayListsAndFields(dateToAddDate);
         }
+
     };
 
-    private void showAddEatenProductDialog(){
-        Dialog dialog = new Dialog(getContext());
-                dialog.setContentView(R.layout.universal_simple_content);
-                dialog.create();
-        EditText elementName = (EditText) dialog.findViewById(R.id.editText);
+    private void showAddEatenProductDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.universal_simple_content);
+
+        final EditText elementName = (EditText) dialog.findViewById(R.id.editText);
         TextView dialogTitle = (TextView) dialog.findViewById(R.id.dialogTitle);
         dialogTitle.setText(getString(R.string.select_products));
+
+        ListView listView = (ListView) dialog.findViewById(R.id.listView);
+
+        productsList = dayDao.getAllProductsArrayList();
+
+        productsAdapter = new UniversalSimpleListAdapter(getContext(), UniversalSimpleListAdapter.REQUEST_CODE_PRODUCTS);
+        productsAdapter.setListOfProducts(productsList);
+        productsAdapter.setSelectedItems(selectedProducts);
+
+        listView.setAdapter(productsAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Product model = productsList.get(position);
+
+                if (!selectedProducts.contains(model.getName())) {
+                    selectedProducts.add(model.getName());
+                } else selectedProducts.remove(model.getName());
+
+                productsList = dayDao.getAllProductsArrayList();
+                productsAdapter.updateProductsAdapter(productsList, selectedProducts);
+            }
+        });
+
+        Button button = (Button) dialog.findViewById(R.id.multiTaskButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedProducts.size() > 1) {
+                    selectedProducts.remove(getString(R.string.completely_nothing));
+                }
+                eatenProductsListTV.setText(convertFromArrayListOfStringToString(selectedProducts));
+                dialog.cancel();
+            }
+        });
+
+        Button addToDb = (Button) dialog.findViewById(R.id.button8);
+        addToDb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (elementName.getText().toString().trim().length() != 0) {
+                    dayDao.addSingleProductToDb(elementName.getText().toString().trim());
+                    selectedProducts.add(elementName.getText().toString().trim());
+                } else {
+                    elementName.setError(getString(R.string.required));
+                }
+                elementName.setText("");
+                Toast.makeText(getContext(), getString(R.string.success_a), Toast.LENGTH_LONG).show();
+                productsList = dayDao.getAllProductsArrayList();
+                productsAdapter.updateProductsAdapter(productsList, selectedProducts);
+            }
+        });
+
+        dialog.create();
+        dialog.show();
+
+
+    }
+
+    private void showAddMedicineDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.universal_simple_content);
+        dialog.create();
+
+        final EditText elementName = (EditText) dialog.findViewById(R.id.editText);
+        TextView dialogTitle = (TextView) dialog.findViewById(R.id.dialogTitle);
+        dialogTitle.setText(getString(R.string.select_medicines));
 
         ListView listView = (ListView) dialog.findViewById(R.id.listView);
         Button button = (Button) dialog.findViewById(R.id.multiTaskButton);
         Button addToDb = (Button) dialog.findViewById(R.id.button8);
 
+        medicinesList = dayDao.getAllMedicinesArrayList();
+        medicinesAdapter = new UniversalSimpleListAdapter(getContext(), UniversalSimpleListAdapter.REQUEST_CODE_MEDICINES);
+        medicinesAdapter.setListOfMedicines(medicinesList);
+        medicinesAdapter.setSelectedItems(selectedMedicines);
+        listView.setAdapter(medicinesAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Medicine model = medicinesList.get(position);
+                if (!selectedMedicines.contains(model.getName())) {
+                    selectedMedicines.add(model.getName());
+                } else selectedMedicines.remove(model.getName());
+
+                medicinesList = dayDao.getAllMedicinesArrayList();
+                medicinesAdapter.updateMedicinesAdapter(medicinesList, selectedMedicines);
+
+            }
+        });
+
+        addToDb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (elementName.getText().toString().trim().length() != 0) {
+                    dayDao.addSingleMedicineToDb(elementName.getText().toString().trim());
+                    selectedMedicines.add(elementName.getText().toString().trim());
+                } else {
+                    elementName.setError(getString(R.string.required));
+                }
+                elementName.setText("");
+                Toast.makeText(getContext(), getString(R.string.success_a), Toast.LENGTH_LONG).show();
+                medicinesList = dayDao.getAllMedicinesArrayList();
+                medicinesAdapter.updateMedicinesAdapter(medicinesList, selectedProducts);
+            }
+        });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedMedicines.size() > 1 && selectedMedicines.contains(getString(R.string.completely_nothing))) {
+                    selectedMedicines.remove(getString(R.string.completely_nothing));
+                }
+
+                medicinesTV.setText(convertFromArrayListOfStringToString(selectedMedicines));
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
+
+    }
+
+    private void showAddSymptomDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.universal_simple_content);
+        dialog.create();
+
+        final EditText elementName = (EditText) dialog.findViewById(R.id.editText);
+        TextView dialogTitle = (TextView) dialog.findViewById(R.id.dialogTitle);
+        dialogTitle.setText(getString(R.string.select_symptoms));
+
+        symptomsList = dayDao.getAllSymptomsArrayList();
+        ListView listView = (ListView) dialog.findViewById(R.id.listView);
+        symptomsAdapter = new UniversalSimpleListAdapter(getContext(), UniversalSimpleListAdapter.REQUEST_CODE_SYMPTOMS);
+        symptomsAdapter.setListOfSymptoms(symptomsList);
+        symptomsAdapter.setSelectedItems(selectedSymptoms);
+        listView.setAdapter(symptomsAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Symptom model = symptomsList.get(position);
+                if (!selectedSymptoms.contains(model.getName())) {
+                    selectedSymptoms.add(model.getName());
+                } else selectedSymptoms.remove(model.getName());
+
+                symptomsList = dayDao.getAllSymptomsArrayList();
+                symptomsAdapter.updateSymptomsAdapter(symptomsList, selectedSymptoms);
+            }
+        });
+
+        Button button = (Button) dialog.findViewById(R.id.multiTaskButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedSymptoms.contains(getString(R.string.completely_nothing))) {
+                    selectedSymptoms.remove(getString(R.string.completely_nothing));
+                }
+
+                if (selectedSymptoms.size() == 0) {
+                    selectedSymptoms.add(getString(R.string.completely_nothing));
+                }
+
+                symptomsTV.setText(convertFromArrayListOfStringToString(selectedSymptoms));
+                dialog.cancel();
+            }
+        });
+
+        Button addToDb = (Button) dialog.findViewById(R.id.button8);
+        addToDb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (elementName.getText().toString().trim().length() != 0) {
+                    dayDao.addSingleSymptomToDb(elementName.getText().toString().trim());
+                    selectedSymptoms.add(elementName.getText().toString().trim());
+                } else {
+                    elementName.setError(getString(R.string.required));
+                }
+                elementName.setText("");
+                Toast.makeText(getContext(), getString(R.string.success_a), Toast.LENGTH_LONG).show();
+                symptomsList = dayDao.getAllSymptomsArrayList();
+                symptomsAdapter.updateSymptomsAdapter(symptomsList, selectedSymptoms);
+            }
+        });
+
+        dialog.create();
+        dialog.show();
+
+    }
+
+    private void showAddNoteDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.add_note_dialog);
+        dialog.create();
+
+        final EditText noteContentEt = (EditText) dialog.findViewById(R.id.noteContentEt);
+        Button addToList = (Button) dialog.findViewById(R.id.addToList);
+        Button addToDb = (Button) dialog.findViewById(R.id.addSelectedNotes);
+
+        ListView listView = (ListView) dialog.findViewById(R.id.addedNotesListView);
+
+        notesAdapter = new UniversalSimpleListAdapter(getContext(), UniversalSimpleListAdapter.REQUEST_CODE_NOTES);
+
+
+        addedNotesList = new ArrayList<>();
+        notesAdapter.setSelectedItems(selectedNotes);
+        notesAdapter.setListOfNotes(addedNotesList);
+
+        listView.setAdapter(notesAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String model = addedNotesList.get(position);
+                if (!selectedNotes.contains(model)) {
+                    selectedNotes.add(model);
+                } else selectedNotes.remove(model);
+
+                notesAdapter.updateNotesAdapter(addedNotesList, selectedNotes);
+            }
+        });
+
+
+        addToList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (noteContentEt.getText().toString().trim().length() != 0) {
+                    addedNotesList.add(noteContentEt.getText().toString().trim());
+                    selectedNotes.add(noteContentEt.getText().toString().trim());
+                    notesAdapter.updateNotesAdapter(addedNotesList, selectedNotes);
+                    noteContentEt.setText("");
+                } else {
+                    noteContentEt.setError(getString(R.string.required));
+                }
+            }
+        });
+
+        addToDb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedNotes.contains(getString(R.string.completely_nothing))) {
+                    selectedNotes.remove(getString(R.string.completely_nothing));
+                }
+
+                if (selectedNotes.size() != 0) {
+                    notesTV.setText(convertFromArrayListOfStringToString(selectedNotes));
+                } else notesTV.setText(getString(R.string.completely_nothing));
+                dialog.cancel();
+            }
+        });
+
+        dialog.create();
+        dialog.show();
+
+    }
+
+    private String convertFromArrayListOfStringToString(ArrayList<String> list) {
+        StringBuilder buffer = new StringBuilder();
+        buffer.append("\n");
+
+        if (list.size() != 0) {
+            for (String item : list) {
+                buffer.append("-").append(" ").append(item).append("\n");
+            }
+        } else buffer.append("-").append(" ").append(getString(R.string.completely_nothing));
+
+        return buffer.toString();
+    }
+
+    private String convertDateToString(Date date){
+        SimpleDateFormat simpleDate =  new SimpleDateFormat("dd/MM/yyyy", new Locale("pl"));
+        return simpleDate.format(date);
     }
 
 }

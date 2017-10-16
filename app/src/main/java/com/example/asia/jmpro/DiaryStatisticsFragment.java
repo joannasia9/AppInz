@@ -16,7 +16,7 @@ public class DiaryStatisticsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View diaryFragment = inflater.inflate(R.layout.diary_add_single_day,container,false);
+        View diaryFragment = inflater.inflate(R.layout.diary_statistics_fragment,container,false);
 
         return diaryFragment;
     }

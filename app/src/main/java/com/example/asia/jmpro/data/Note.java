@@ -13,6 +13,13 @@ public class Note extends RealmObject {
 
     private String noteContent;
 
+    public Note() {
+    }
+
+    public Note(String noteContent) {
+        this.noteContent = noteContent;
+    }
+
     public int getId() {
         return id;
     }
