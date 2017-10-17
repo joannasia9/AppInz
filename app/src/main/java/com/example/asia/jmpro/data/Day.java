@@ -30,7 +30,7 @@ public class Day extends RealmObject {
     }
 
     public void setId(Date date) {
-        SimpleDateFormat simpleDate =  new SimpleDateFormat("dd/MM/yyyy", new Locale("pl"));
+        SimpleDateFormat simpleDate =  new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         this.id = simpleDate.format(date);
     }
 

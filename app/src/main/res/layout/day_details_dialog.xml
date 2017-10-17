@@ -82,7 +82,8 @@
                 android:id="@+id/symptomsTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="serif" />
+                android:fontFamily="serif"
+                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/textView57"
@@ -96,7 +97,8 @@
                 android:id="@+id/noteTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="serif" />
+                android:fontFamily="serif"
+                android:textAlignment="center" />
 
         </LinearLayout>
     </ScrollView>

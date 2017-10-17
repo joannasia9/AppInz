@@ -58,7 +58,6 @@ public class DiaryAddSingleDayFragment extends Fragment {
     Date dateToAddDate;
     Date currentDate;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,7 +68,6 @@ public class DiaryAddSingleDayFragment extends Fragment {
         dateToAdd.setText(DateUtilities.currentDay() + "." + (DateUtilities.currentMonth() + 1) + "." + DateUtilities.currentYear());
 
         currentDate = DateUtilities.getDate(DateUtilities.currentYear(), DateUtilities.currentMonth(), DateUtilities.currentDay());
-        dateToAddDate = currentDate;
 
         changeDatePickerButton = (Button) diaryFragment.findViewById(R.id.changeDateButton);
         saveDayToDbButton = (Button) diaryFragment.findViewById(R.id.saveDayToDbButton);
@@ -84,7 +82,7 @@ public class DiaryAddSingleDayFragment extends Fragment {
         symptomsTV = (TextView) diaryFragment.findViewById(R.id.symptomsTV);
         notesTV = (TextView) diaryFragment.findViewById(R.id.notesTV);
 
-        setAllArrayListsAndFields(dateToAddDate);
+        setAllArrayListsAndFields(currentDate);
 
         addRemoveEatenProductsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,12 +149,16 @@ public class DiaryAddSingleDayFragment extends Fragment {
         builder.show();
     }
 
-    private void setAllArrayListsAndFields(Date date) {
+    public void setAllArrayListsAndFields(Date date) {
+        dateToAddDate = date;
+        addedNotesList = new ArrayList<>();
+        addedNotesList.add(getString(R.string.completely_nothing));
         selectedProducts = dayDao.getUsersSelectedProductsFromDb(convertDateToString(date));
         selectedMedicines = dayDao.getUsersSelectedMedicinesFromDb(convertDateToString(date));
         selectedSymptoms = dayDao.getUsersSelectedSymptomsFromDb(convertDateToString(date));
         selectedNotes = dayDao.getUsersSelectedNotesFromDb(convertDateToString(date));
 
+        dateToAdd.setText(convertDateToString(date));
         eatenProductsListTV.setText(convertFromArrayListOfStringToString(selectedProducts));
         medicinesTV.setText(convertFromArrayListOfStringToString(selectedMedicines));
         symptomsTV.setText(convertFromArrayListOfStringToString(selectedSymptoms));
@@ -186,7 +188,6 @@ public class DiaryAddSingleDayFragment extends Fragment {
 
             setAllArrayListsAndFields(dateToAddDate);
         }
-
     };
 
     private void showAddEatenProductDialog() {
@@ -401,8 +402,11 @@ public class DiaryAddSingleDayFragment extends Fragment {
 
         notesAdapter = new UniversalSimpleListAdapter(getContext(), UniversalSimpleListAdapter.REQUEST_CODE_NOTES);
 
+        if (selectedNotes.size() != 0 && addedNotesList.size() == 1 && !selectedNotes.contains(getString(R.string.completely_nothing))) {
+            addedNotesList.clear();
+            addedNotesList = selectedNotes;
+        }
 
-        addedNotesList = new ArrayList<>();
         notesAdapter.setSelectedItems(selectedNotes);
         notesAdapter.setListOfNotes(addedNotesList);
 
@@ -467,8 +471,8 @@ public class DiaryAddSingleDayFragment extends Fragment {
         return buffer.toString();
     }
 
-    private String convertDateToString(Date date){
-        SimpleDateFormat simpleDate =  new SimpleDateFormat("dd/MM/yyyy", new Locale("pl"));
+    private String convertDateToString(Date date) {
+        SimpleDateFormat simpleDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         return simpleDate.format(date);
     }
 

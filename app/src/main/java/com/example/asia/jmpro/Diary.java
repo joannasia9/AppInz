@@ -76,7 +76,7 @@ public class Diary extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
     }
 
-    private void replaceFragmentContent(Fragment fragment) {
+    public void replaceFragmentContent(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.contentDiary, fragment).commit();
     }

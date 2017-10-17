@@ -1,9 +1,12 @@
 package com.example.asia.jmpro;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +29,6 @@ import io.realm.RealmList;
 
 /**
  * Created by asia on 15/10/2017.
- *
  */
 
 public class DiaryMyNotedDaysFragment extends Fragment {
@@ -39,7 +41,7 @@ public class DiaryMyNotedDaysFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View diaryFragment = inflater.inflate(R.layout.fragment_substitutes,container,false);
+        View diaryFragment = inflater.inflate(R.layout.fragment_substitutes, container, false);
 
         dayDao = new DayDao(getContext());
         title = (TextView) diaryFragment.findViewById(R.id.textView23);
@@ -48,7 +50,7 @@ public class DiaryMyNotedDaysFragment extends Fragment {
         allDaysListView = (ListView) diaryFragment.findViewById(R.id.dedicatedSubstitutesListView);
         daysList = dayDao.getAllSavedDays();
 
-        adapter = new DaysListAdapter(daysList,getContext());
+        adapter = new DaysListAdapter(daysList, getContext());
         allDaysListView.setAdapter(adapter);
 
         allDaysListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -67,7 +69,7 @@ public class DiaryMyNotedDaysFragment extends Fragment {
         final Dialog builder = new Dialog(getContext());
         builder.setContentView(R.layout.day_details_dialog);
 
-        TextView dayId = (TextView) builder.findViewById(R.id.dayId);
+        final TextView dayId = (TextView) builder.findViewById(R.id.dayId);
         dayId.setText(model.getId());
 
         TextView productsList = (TextView) builder.findViewById(R.id.eatenProdTV);
@@ -83,6 +85,29 @@ public class DiaryMyNotedDaysFragment extends Fragment {
 
         Button removeDayFromDb = (Button) builder.findViewById(R.id.removeDayButton);
         Button modifyDay = (Button) builder.findViewById(R.id.modDayButton);
+
+        modifyDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Day day = dayDao.getDayFromId(dayId.getText().toString());
+
+                DiaryAddSingleDayFragment diaryAddSingleDayFragment = new DiaryAddSingleDayFragment();
+                diaryAddSingleDayFragment.setAllArrayListsAndFields(day.getDate());
+
+                replaceFragmentContent(diaryAddSingleDayFragment);
+                builder.cancel();
+
+            }
+        });
+
+        removeDayFromDb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showQuestionDialog(dayId);
+                builder.cancel();
+            }
+        });
+
         Button cancelButton = (Button) builder.findViewById(R.id.cancelDayButton);
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +120,31 @@ public class DiaryMyNotedDaysFragment extends Fragment {
         builder.create();
         builder.show();
     }
+
+    private void showQuestionDialog(final TextView dayId) {
+        final AlertDialog builder = new AlertDialog.Builder(getContext())
+                .setTitle(getString(R.string.warning))
+                .setMessage(getString(R.string.if_u_sure) + " " + dayId.getText().toString() + getString(R.string.from_db))
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dayDao.removeSingleDayFromDb(dayId.getText().toString().trim());
+                        daysList = dayDao.getAllSavedDays();
+                        adapter.updateAdapter(daysList);
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        builder.show();
+
+    }
+
 
     private String convertFromArrayListOfStringToString(ArrayList<String> list) {
         StringBuilder buffer = new StringBuilder();
@@ -109,39 +159,44 @@ public class DiaryMyNotedDaysFragment extends Fragment {
         return buffer.toString();
     }
 
-    private ArrayList<String> convertProducts(RealmList<Product> realmList){
+    private ArrayList<String> convertProducts(RealmList<Product> realmList) {
         ArrayList<String> list = new ArrayList<>(realmList.size());
 
-        for(Product item :realmList){
+        for (Product item : realmList) {
             list.add(item.getName());
         }
         return list;
     }
 
-    private ArrayList<String> convertMedicines(RealmList<Medicine> realmList){
+    private ArrayList<String> convertMedicines(RealmList<Medicine> realmList) {
         ArrayList<String> list = new ArrayList<>(realmList.size());
 
-        for(Medicine item :realmList){
+        for (Medicine item : realmList) {
             list.add(item.getName());
         }
         return list;
     }
 
-    private ArrayList<String> convertSymptoms(RealmList<Symptom> realmList){
+    private ArrayList<String> convertSymptoms(RealmList<Symptom> realmList) {
         ArrayList<String> list = new ArrayList<>(realmList.size());
 
-        for(Symptom item :realmList){
+        for (Symptom item : realmList) {
             list.add(item.getName());
         }
         return list;
     }
 
-    private ArrayList<String> convertNotes(RealmList<Note> realmList){
+    private ArrayList<String> convertNotes(RealmList<Note> realmList) {
         ArrayList<String> list = new ArrayList<>(realmList.size());
 
-        for(Note item :realmList){
+        for (Note item : realmList) {
             list.add(item.getNoteContent());
         }
         return list;
+    }
+
+    public void replaceFragmentContent(Fragment fragment) {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.contentDiary, fragment).commit();
     }
 }

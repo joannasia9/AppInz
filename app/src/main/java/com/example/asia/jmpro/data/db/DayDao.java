@@ -31,6 +31,7 @@ public class DayDao {
     private RealmResults<Day> allDaysList;
     private Day singleDay;
     private int nextId;
+    private Day day;
     private Note note;
 
     public DayDao(Context context) {
@@ -292,4 +293,24 @@ public class DayDao {
         return list;
     }
 
+
+    public Day getDayFromId(final String id){
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                day = realm.where(Day.class).equalTo("id",id).findFirst();
+            }
+        });
+        return day;
+    }
+
+    public void removeSingleDayFromDb(final String dayId) {
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                day = realm.where(Day.class).equalTo("id", dayId).findFirst();
+                day.deleteFromRealm();
+            }
+        });
+    }
 }
