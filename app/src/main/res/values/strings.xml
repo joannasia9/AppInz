@@ -159,6 +159,7 @@
         <item>Szukaj substytutów</item>
         <item>Dodaj substytuty</item>
     </string-array>
+
     <string name="title_activity_substitutes">SubstitutesActivity</string>
     <string name="search_sub">Wyszukaj</string>
     <string name="my_substitutes">Moje</string>
@@ -243,4 +244,13 @@
     <string name="completely_nothing">Brak</string>
     <string name="day">Dzień:</string>
     <string name="back">Wróć</string>
+    <string name="in_the_last">W ostatnim:</string>
+    <string name="last_week">Ostatni tydzień</string>
+    <string name="procent">[%]</string>
+
+    <string-array name="spinner_items">
+        <item> Tygodniu </item>
+        <item> Miesiącu </item>
+        <item> Roku </item>
+    </string-array>
 </resources>

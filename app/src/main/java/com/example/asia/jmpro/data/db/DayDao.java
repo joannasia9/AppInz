@@ -9,8 +9,10 @@ import com.example.asia.jmpro.data.Medicine;
 import com.example.asia.jmpro.data.Note;
 import com.example.asia.jmpro.data.Product;
 import com.example.asia.jmpro.data.Symptom;
+import com.example.asia.jmpro.logic.calendar.DateUtilities;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import io.realm.Realm;
@@ -28,11 +30,11 @@ public class DayDao {
     private RealmResults<Product> allProductsList;
     private RealmResults<Medicine> allMedicinesList;
     private RealmResults<Symptom> allSymptomsList;
-    private RealmResults<Day> allDaysList;
+    private RealmResults<Day> daysList;
     private Day singleDay;
     private int nextId;
     private Day day;
-    private Note note;
+    private Date dateFrom;
 
     public DayDao(Context context) {
         this.context = context;
@@ -276,17 +278,17 @@ public class DayDao {
     }
 
 
-    public ArrayList<Day> getAllSavedDays(){
-        ArrayList<Day> list= new ArrayList<>();
+    public ArrayList<Day> getAllSavedDays() {
+        ArrayList<Day> list = new ArrayList<>();
 
         privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                allDaysList = realm.where(Day.class).findAll();
+                daysList = realm.where(Day.class).findAll();
             }
         });
 
-        for(Day item : allDaysList){
+        for (Day item : daysList) {
             list.add(item);
         }
 
@@ -294,11 +296,11 @@ public class DayDao {
     }
 
 
-    public Day getDayFromId(final String id){
+    public Day getDayFromId(final String id) {
         privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                day = realm.where(Day.class).equalTo("id",id).findFirst();
+                day = realm.where(Day.class).equalTo("id", id).findFirst();
             }
         });
         return day;
@@ -313,4 +315,162 @@ public class DayDao {
             }
         });
     }
+
+    public ArrayList<Day> getLastSevenDays(final Date dateTo) {
+        dateFrom = DateUtilities.getDate(DateUtilities.currentYear(),DateUtilities.currentMonth(),DateUtilities.currentDay()-8);
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                daysList = realm.where(Day.class)
+                        .between("date", dateFrom, dateTo)
+                        .findAll();
+            }
+        });
+
+//        Day[] list = new Day[daysList.size()];
+//
+//        for (int i = 0; i < daysList.size(); i++) {
+//            list[i] = daysList.get(i);
+//        }
+
+//        return list;
+        ArrayList<Day> newList = new ArrayList<>(daysList.size());
+        for(Day item : daysList){
+            newList.add(item);
+        }
+        return newList;
+    }
+
+    public Day[] getCurrentMonthDays(final Date currentDate) {
+        dateFrom = DateUtilities.getDate(DateUtilities.currentYear(),DateUtilities.currentMonth()-1,DateUtilities.currentDay());
+
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                daysList = realm.where(Day.class)
+                        .between("date", dateFrom, currentDate)
+                        .findAll();
+            }
+        });
+
+        ArrayList<Day> daysItemList = new ArrayList<>();
+        int currentMonth = DateUtilities.currentMonth();
+        for (Day item : daysList) {
+            if(currentMonth == getMonthOfYear(item.getDate())){
+                daysItemList.add(item);
+            }
+        }
+
+        Day[] list = new Day[daysItemList.size()];
+        for(int i = 0; i<daysItemList.size(); i++){
+            list[i] = daysItemList.get(i);
+        }
+
+        return list;
+    }
+
+    public ArrayList<Day> getCurrentYearDays(final Date currentDate) {
+        ArrayList<Day> daysItemList = new ArrayList<>();
+        dateFrom = DateUtilities.getDate(DateUtilities.currentYear()-1,DateUtilities.currentMonth(),DateUtilities.currentDay());
+
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                daysList = realm.where(Day.class)
+                        .between("date", dateFrom, currentDate)
+                        .findAll();
+            }
+        });
+
+        for (Day item : daysList) {
+                daysItemList.add(item);
+        }
+
+        return daysItemList;
+    }
+    private int getMonthOfYear(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.MONTH);
+    }
+
+    public ArrayList<String> getAllEatenProducts(ArrayList<Day> dayArrayList){
+        ArrayList<String> productsArrayList = new ArrayList<>();
+        RealmList<Product> eatenProductsList;
+
+        for(Day item : dayArrayList) {
+            eatenProductsList = item.getProductsList();
+
+            for(Product product : eatenProductsList) {
+                if (!productsArrayList.contains(product.getName())) {
+                    productsArrayList.add(product.getName());
+                }
+            }
+        }
+
+        if(productsArrayList.size()>1 && productsArrayList.contains(context.getString(R.string.completely_nothing))){
+            productsArrayList.remove(context.getString(R.string.completely_nothing));
+        }
+
+        return productsArrayList;
+    }
+
+    public String[] getAllEatenProductsList(ArrayList<Day> dayArrayList){
+        ArrayList<String> productsArrayList = getAllEatenProducts(dayArrayList);
+
+        String[] newList = new String[productsArrayList.size()];
+        for(int i =0; i < productsArrayList.size(); i++){
+            newList[i] = productsArrayList.get(i);
+        }
+
+
+        return newList;
+    }
+///////////////
+    public ArrayList<Double> countEverySingleEatenProducts(ArrayList<String> productsArrayList, ArrayList<Day> dayArrayList){
+        ArrayList<String> products;
+
+        if(productsArrayList.size() > 1 && productsArrayList.contains(context.getString(R.string.completely_nothing))){
+            productsArrayList.remove(context.getString(R.string.completely_nothing));
+        }
+
+        ArrayList<Integer> countedList = new ArrayList<>(productsArrayList.size());
+
+        for(String item : productsArrayList) {
+            int count = 0;
+            for(Day day : dayArrayList){
+                products = convertRealmListToStringList(day.getProductsList());
+                if(products.contains(item)){
+                    count += 1;
+                }
+            }
+            countedList.add(count);
+        }
+
+        int allProducts = 0;
+        for(int item : countedList){
+            allProducts += item;
+        }
+
+        ArrayList<Double> percentageList = new ArrayList<>(countedList.size());
+
+        for(int item : countedList){
+            double value = item * 100 / allProducts;
+            percentageList.add(value);
+        }
+
+
+        return percentageList;
+    }
+
+    private ArrayList<String> convertRealmListToStringList(RealmList<Product> list){
+        ArrayList<String > newList = new ArrayList<>(list.size());
+
+        for(Product item : list){
+            newList.add(item.getName());
+        }
+
+        return newList;
+    }
+
 }

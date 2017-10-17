@@ -146,6 +146,9 @@
     <string name="added_notes">Dodane notatki:</string>
     <string name="day">Dzień:</string>
     <string name="back">Wróć</string>
+    <string name="in_the_last">W ostatnim:</string>
+    <string name="last_week">Ostatni tydzień</string>
+    <string name="procent">[%]</string>
 
     <string-array name="main_menu_items">
         <item>My notes</item>

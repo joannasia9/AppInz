@@ -1,5 +1,7 @@
 package com.example.asia.jmpro.data;
 
+import android.text.format.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -31,7 +33,8 @@ public class Day extends RealmObject {
 
     public void setId(Date date) {
         SimpleDateFormat simpleDate =  new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        this.id = simpleDate.format(date);
+        String dayOfTheWeek = (String) DateFormat.format("EEEE", date);
+        this.id = dayOfTheWeek + " " + simpleDate.format(date);
     }
 
     public Day (Date date) {
