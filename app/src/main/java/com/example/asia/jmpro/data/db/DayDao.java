@@ -35,6 +35,9 @@ public class DayDao {
     private int nextId;
     private Day day;
     private Date dateFrom;
+    public static final int CODE_PRODUCTS = 1;
+    public static final int CODE_MEDICINES = 2;
+    public static final int CODE_SYMPTOMS = 3;
 
     public DayDao(Context context) {
         this.context = context;
@@ -277,7 +280,6 @@ public class DayDao {
         return nextId;
     }
 
-
     public ArrayList<Day> getAllSavedDays() {
         ArrayList<Day> list = new ArrayList<>();
 
@@ -294,7 +296,6 @@ public class DayDao {
 
         return list;
     }
-
 
     public Day getDayFromId(final String id) {
         privateDatabase.executeTransaction(new Realm.Transaction() {
@@ -376,13 +377,14 @@ public class DayDao {
 
         return daysItemList;
     }
+
     private int getMonthOfYear(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.MONTH);
     }
 
-    public ArrayList<String> getAllEatenProducts(ArrayList<Day> dayArrayList){
+    public ArrayList<String> getAllEatenProductsString(ArrayList<Day> dayArrayList){
         ArrayList<String> productsArrayList = new ArrayList<>();
         RealmList<Product> eatenProductsList;
 
@@ -403,47 +405,144 @@ public class DayDao {
         return productsArrayList;
     }
 
-    public String[] getAllEatenProductsList(ArrayList<Day> dayArrayList){
-        ArrayList<String> productsArrayList = getAllEatenProducts(dayArrayList);
+    public ArrayList<String> getAllMedicinesString(ArrayList<Day> dayArrayList){
+        ArrayList<String> medicinesArrayList = new ArrayList<>();
+        RealmList<Medicine> medicinesList;
 
-        String[] newList = new String[productsArrayList.size()];
-        for(int i =0; i < productsArrayList.size(); i++){
+        for(Day item : dayArrayList) {
+            medicinesList = item.getMedicinesList();
+
+            for(Medicine medicine : medicinesList) {
+                if (!medicinesArrayList.contains(medicine.getName())) {
+                    medicinesArrayList.add(medicine.getName());
+                }
+            }
+        }
+
+        if(medicinesArrayList.size()>1 && medicinesArrayList.contains(context.getString(R.string.completely_nothing))){
+            medicinesArrayList.remove(context.getString(R.string.completely_nothing));
+        }
+
+        return medicinesArrayList;
+    }
+
+    public ArrayList<String> getAllSymptomsString(ArrayList<Day> dayArrayList){
+        ArrayList<String> symptomsArrayList = new ArrayList<>();
+        RealmList<Symptom> symptomsList;
+
+        for(Day item : dayArrayList) {
+            symptomsList = item.getSymptomsList();
+
+            for(Symptom symptom : symptomsList) {
+                if (!symptomsArrayList.contains(symptom.getName())) {
+                    symptomsArrayList.add(symptom.getName());
+                }
+            }
+        }
+
+        if(symptomsArrayList.size()>1 && symptomsArrayList.contains(context.getString(R.string.completely_nothing))){
+            symptomsArrayList.remove(context.getString(R.string.completely_nothing));
+        }
+
+        return symptomsArrayList;
+    }
+
+    public String[] getAllEatenProductsList(ArrayList<Day> dayArrayList){
+        ArrayList<String> productsArrayList = getAllEatenProductsString(dayArrayList);
+
+        String[] newList = new String[productsArrayList.size()+2];
+        for(int i = 0 ; i < productsArrayList.size(); i++){
             newList[i] = productsArrayList.get(i);
         }
 
+        return newList;
+    }
+
+    public String[] getAllEatenMedicinesList(ArrayList<Day> dayArrayList){
+        ArrayList<String> medicinesArrayList = getAllMedicinesString(dayArrayList);
+
+        String[] newList = new String[medicinesArrayList.size()];
+        for(int i = 0; i < medicinesArrayList.size(); i++){
+            newList[i] = medicinesArrayList.get(i);
+        }
 
         return newList;
     }
-///////////////
-    public ArrayList<Double> countEverySingleEatenProducts(ArrayList<String> productsArrayList, ArrayList<Day> dayArrayList){
-        ArrayList<String> products;
 
-        if(productsArrayList.size() > 1 && productsArrayList.contains(context.getString(R.string.completely_nothing))){
-            productsArrayList.remove(context.getString(R.string.completely_nothing));
+    ///
+    public String[] getAllSymptomsList(ArrayList<Day> dayArrayList){
+        ArrayList<String> symptomsArrayList = getAllSymptomsString(dayArrayList);
+
+        String[] newList = new String[symptomsArrayList.size()+2];
+
+        for(int i = 0; i < symptomsArrayList.size(); i++){
+            newList[i] = symptomsArrayList.get(i);
         }
 
-        ArrayList<Integer> countedList = new ArrayList<>(productsArrayList.size());
+        return newList;
+    }
+    ////
 
-        for(String item : productsArrayList) {
-            int count = 0;
-            for(Day day : dayArrayList){
-                products = convertRealmListToStringList(day.getProductsList());
-                if(products.contains(item)){
-                    count += 1;
+    public ArrayList<Double> countEverySingleElements(ArrayList<String> arrayList, ArrayList<Day> dayArrayList, int code){
+        ArrayList<String> elements;
+
+        if(arrayList.size() > 1 && arrayList.contains(context.getString(R.string.completely_nothing))){
+            arrayList.remove(context.getString(R.string.completely_nothing));
+        }
+
+        ArrayList<Integer> countedList = new ArrayList<>(arrayList.size());
+        switch (code){
+            case CODE_PRODUCTS:
+                for(String item : arrayList) {
+                    int count = 0;
+                    for(Day day : dayArrayList){
+                        elements = convertRealmListToStringListProducts(day.getProductsList());
+                        if(elements.contains(item)){
+                            count += 1;
+                        }
+                    }
+                    countedList.add(count);
                 }
-            }
-            countedList.add(count);
+                break;
+            case CODE_MEDICINES:
+                for(String item : arrayList) {
+                    int count = 0;
+                    for(Day day : dayArrayList){
+                        elements = convertRealmListToStringListMedicines(day.getMedicinesList());
+                        if(elements.contains(item)){
+                            count += 1;
+                        }
+                    }
+                    countedList.add(count);
+                }
+                break;
+            case CODE_SYMPTOMS:
+                for(String item : arrayList) {
+                    int count = 0;
+                    for(Day day : dayArrayList){
+                        elements = convertRealmListToStringListSymptoms(day.getSymptomsList());
+                        if(elements.contains(item)){
+                            count += 1;
+                        }
+                    }
+                    countedList.add(count);
+                }
+                break;
         }
 
-        int allProducts = 0;
+        int allItems = 0;
         for(int item : countedList){
-            allProducts += item;
+            allItems += item;
         }
 
         ArrayList<Double> percentageList = new ArrayList<>(countedList.size());
 
+        double value;
         for(int item : countedList){
-            double value = item * 100 / allProducts;
+            if(allItems!= 0) {
+                value = item * 100 / allItems;
+            } else value = 0;
+
             percentageList.add(value);
         }
 
@@ -451,10 +550,30 @@ public class DayDao {
         return percentageList;
     }
 
-    private ArrayList<String> convertRealmListToStringList(RealmList<Product> list){
+    private ArrayList<String> convertRealmListToStringListProducts(RealmList<Product> list){
         ArrayList<String > newList = new ArrayList<>(list.size());
 
         for(Product item : list){
+            newList.add(item.getName());
+        }
+
+        return newList;
+    }
+
+    private ArrayList<String> convertRealmListToStringListSymptoms(RealmList<Symptom> list){
+        ArrayList<String > newList = new ArrayList<>(list.size());
+
+        for(Symptom item : list){
+            newList.add(item.getName());
+        }
+
+        return newList;
+    }
+
+    private ArrayList<String> convertRealmListToStringListMedicines(RealmList<Medicine> list){
+        ArrayList<String > newList = new ArrayList<>(list.size());
+
+        for(Medicine item : list){
             newList.add(item.getName());
         }
 

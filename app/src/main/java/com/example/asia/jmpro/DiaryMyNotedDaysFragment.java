@@ -23,7 +23,10 @@ import com.example.asia.jmpro.data.Product;
 import com.example.asia.jmpro.data.Symptom;
 import com.example.asia.jmpro.data.db.DayDao;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import io.realm.RealmList;
 
@@ -92,9 +95,12 @@ public class DiaryMyNotedDaysFragment extends Fragment {
                 Day day = dayDao.getDayFromId(dayId.getText().toString());
 
                 DiaryAddSingleDayFragment diaryAddSingleDayFragment = new DiaryAddSingleDayFragment();
-                diaryAddSingleDayFragment.setAllArrayListsAndFields(day.getDate());
-
+                Bundle bundle = new Bundle();
+                bundle.putString("date", convertDateToString(day.getDate()));
+                bundle.putString("dateDate", day.getDate().toString());
+                diaryAddSingleDayFragment.setArguments(bundle);
                 replaceFragmentContent(diaryAddSingleDayFragment);
+
                 builder.cancel();
 
             }
@@ -145,6 +151,11 @@ public class DiaryMyNotedDaysFragment extends Fragment {
 
     }
 
+    public  String convertDateToString( Date date) {
+        SimpleDateFormat simpleDate =  new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        String dayOfTheWeek = (String) android.text.format.DateFormat.format("EEEE", date);
+        return simpleDate.format(date) + " " + dayOfTheWeek;
+    }
 
     private String convertFromArrayListOfStringToString(ArrayList<String> list) {
         StringBuilder buffer = new StringBuilder();

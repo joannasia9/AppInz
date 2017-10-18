@@ -30,48 +30,49 @@ import java.util.Date;
 
 public class DiaryStatisticsFragment extends Fragment {
     DayDao dayDao;
-    Spinner spinner;
-    String selectedItem;
-    String[] spinnerItems;
+    Spinner spinner1, spinner2;
+    String[] spinnerItems, spinner2Items;
     GraphView graph;
     DataPoint[] points;
-    ArrayList<Day> lastDaysArrayList, thisMonthDaysArrayList, lastTwelveMonthsDaysList;
-    ArrayList<Double> countedEatenProducts;
-    ArrayList<String> eatenProductsArrayList;
-    String[] allEatenProductsList;
+    ArrayList<Day> lastDaysArrayList;
+    ArrayList<Double> countedElementsList;
+    ArrayList<String> elementsArrayList;
+    String[] allElementsList;
     Date currentDate;
+    int selectedArguments = 0;
+    int selectedPeriod = 0;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View diaryFragment = inflater.inflate(R.layout.diary_statistics_fragment,container,false);
 
-        spinner = (Spinner) diaryFragment.findViewById(R.id.spinner2);
+        spinner1 = (Spinner) diaryFragment.findViewById(R.id.spinner2);
+        spinner2 = (Spinner) diaryFragment.findViewById(R.id.spinner3);
+
         graph = (GraphView) diaryFragment.findViewById(R.id.graph);
 
         spinnerItems = getResources().getStringArray(R.array.spinner_items);
+        spinner2Items = getResources().getStringArray(R.array.spinner2_items);
+
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getContext(), spinnerItems);
-        spinner.setAdapter(spinnerAdapter);
+        spinner1.setAdapter(spinnerAdapter);
+
+        SpinnerAdapter spinner2Adapter = new SpinnerAdapter(getContext(), spinner2Items);
+        spinner2.setAdapter(spinner2Adapter);
 
         currentDate = DateUtilities.getDate(DateUtilities.currentYear(), DateUtilities.currentMonth(), DateUtilities.currentDay());
 
         dayDao = new DayDao(getContext());
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
-                    case 0:
-                        graph.removeAllSeries();
-                        drawGraph(0);
-                        break;
-                    case 1:
-                        graph.removeAllSeries();
-                        drawGraph(1);
-                        break;
-                    case 2:
-                        break;
-                }
+                setSelectedPeriod(position);
+                drawProductsGraph(getSelectedPeriod(),getSelectedArguments());
+
             }
 
             @Override
@@ -79,12 +80,25 @@ public class DiaryStatisticsFragment extends Fragment {
 
             }
         });
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                setSelectedArguments(position);
+                drawProductsGraph(getSelectedPeriod(),getSelectedArguments());
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         return diaryFragment;
     }
 
-    private void drawGraph(int choice){
-        switch (choice){
+    private void drawProductsGraph(int period, int kindOfArguments){
+        graph.removeAllSeries();
+
+        switch (period){
             case 0:
                 lastDaysArrayList = dayDao.getLastSevenDays(currentDate);
                 graph.setTitle(getString(R.string.last_week));
@@ -95,22 +109,38 @@ public class DiaryStatisticsFragment extends Fragment {
                 break;
         }
 
-        allEatenProductsList = dayDao.getAllEatenProductsList(lastDaysArrayList);
-        eatenProductsArrayList = dayDao.getAllEatenProducts(lastDaysArrayList);
-        countedEatenProducts = dayDao.countEverySingleEatenProducts(eatenProductsArrayList,lastDaysArrayList);
+        switch(kindOfArguments){
+            case 0:
+                allElementsList = dayDao.getAllEatenProductsList(lastDaysArrayList);
+                elementsArrayList = dayDao.getAllEatenProductsString(lastDaysArrayList);
+                countedElementsList = dayDao.countEverySingleElements(elementsArrayList,lastDaysArrayList, DayDao.CODE_PRODUCTS);
+                break;
 
-        points = convertToTableList(getDataPointsList(countedEatenProducts));
+            case 1:
+                allElementsList = dayDao.getAllEatenMedicinesList(lastDaysArrayList);
+                elementsArrayList = dayDao.getAllMedicinesString(lastDaysArrayList);
+                countedElementsList = dayDao.countEverySingleElements(elementsArrayList, lastDaysArrayList,DayDao.CODE_MEDICINES);
+                break;
+
+            case 2:
+                allElementsList = dayDao.getAllSymptomsList(lastDaysArrayList);
+                elementsArrayList = dayDao.getAllSymptomsString(lastDaysArrayList);
+                countedElementsList = dayDao.countEverySingleElements(elementsArrayList,lastDaysArrayList, DayDao.CODE_SYMPTOMS);
+                break;
+        }
+
+        points = convertToTableList(getDataPointsList(countedElementsList));
 
 
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>(points);
 
-
         graph.getViewport().setYAxisBoundsManual(true);
+
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(100);
 
-       // graph.getViewport().setScalable(true);
-        // graph.getLayoutParams().height = 100 * allEatenProductsList.length;
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(allElementsList.length + 1);
 
         series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
             @Override
@@ -118,13 +148,20 @@ public class DiaryStatisticsFragment extends Fragment {
                 return Color.rgb(((int) data.getX() + (int) data.getY()) * 255/4, (int) Math.abs(data.getY() * 255/6), 50);
             }
         });
-        series.setSpacing(40);
+        series.setSpacing(20);
         series.setDrawValuesOnTop(true);
         series.setValuesOnTopColor(Color.BLUE);
 
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-        staticLabelsFormatter.setHorizontalLabels(allEatenProductsList);
+        staticLabelsFormatter.setHorizontalLabels(addMoreLabels(allElementsList));
 
+        graph.getGridLabelRenderer().setLabelHorizontalHeight(200);
+        graph.getGridLabelRenderer().setHorizontalLabelsAngle(90);
+        graph.getGridLabelRenderer().setVerticalAxisTitle(getString(R.string.procent));
+
+//        //
+//        graph.getLegendRenderer().setVisible(true);
+//        //
 
         graph.addSeries(series);
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
@@ -132,10 +169,18 @@ public class DiaryStatisticsFragment extends Fragment {
 
     }
 
-    private ArrayList<DataPoint> getDataPointsList(final ArrayList<Double> countedEatenProducts){
+    private String[] addMoreLabels(String[] labels){
+        String[] newLabels = new String[labels.length+2];
+        newLabels[0] = " ";
+        System.arraycopy(labels, 0, newLabels, 1, labels.length);
+        newLabels[labels.length+1] = " ";
+        return newLabels;
+    }
+
+    private ArrayList<DataPoint> getDataPointsList(final ArrayList<Double> countedElements){
         ArrayList<DataPoint> dataPoints = new ArrayList<>();
-        for(int i = 0; i < countedEatenProducts.size(); i++){
-            dataPoints.add(new DataPoint(i, countedEatenProducts.get(i)));
+        for(int i = 0; i < countedElements.size(); i++){
+            dataPoints.add(new DataPoint(i+1, countedElements.get(i)));
         }
         return dataPoints;
     }
@@ -148,4 +193,19 @@ public class DiaryStatisticsFragment extends Fragment {
         return newList;
     }
 
+    public void setSelectedArguments(int selectedArguments) {
+        this.selectedArguments = selectedArguments;
+    }
+
+    public void setSelectedPeriod(int selectedPeriod) {
+        this.selectedPeriod = selectedPeriod;
+    }
+
+    public int getSelectedArguments() {
+        return selectedArguments;
+    }
+
+    public int getSelectedPeriod() {
+        return selectedPeriod;
+    }
 }

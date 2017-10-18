@@ -34,7 +34,7 @@ public class Day extends RealmObject {
     public void setId(Date date) {
         SimpleDateFormat simpleDate =  new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         String dayOfTheWeek = (String) DateFormat.format("EEEE", date);
-        this.id = dayOfTheWeek + " " + simpleDate.format(date);
+        this.id = simpleDate.format(date) + " " + dayOfTheWeek;
     }
 
     public Day (Date date) {

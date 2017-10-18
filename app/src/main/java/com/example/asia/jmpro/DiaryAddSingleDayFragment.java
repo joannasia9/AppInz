@@ -2,6 +2,7 @@ package com.example.asia.jmpro;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -27,6 +28,8 @@ import com.example.asia.jmpro.data.Symptom;
 import com.example.asia.jmpro.data.db.DayDao;
 import com.example.asia.jmpro.logic.calendar.DateUtilities;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,14 +42,14 @@ import static com.example.asia.jmpro.R.id.addEatenProductsButton;
  */
 
 public class DiaryAddSingleDayFragment extends Fragment {
-    TextView dateToAdd;
+    public TextView dateToAdd;
     Button changeDatePickerButton;
     Button saveDayToDbButton;
     Button addRemoveEatenProductsButton;
     Button addRemoveMedicinesButton;
     Button addRemoveSymptomsButton;
     Button addRemoveNoteButton;
-    TextView eatenProductsListTV, medicinesTV, symptomsTV, notesTV;
+    TextView eatenProductsListTV, medicinesTV, symptomsTV, notesTV, pageTitle;
     UniversalSimpleListAdapter productsAdapter, medicinesAdapter, symptomsAdapter, notesAdapter;
     ArrayList<String> selectedProducts, selectedMedicines, selectedSymptoms, selectedNotes;
     DayDao dayDao;
@@ -54,15 +57,21 @@ public class DiaryAddSingleDayFragment extends Fragment {
     ArrayList<Medicine> medicinesList;
     ArrayList<Symptom> symptomsList;
     ArrayList<String> addedNotesList;
+    public static final int CODE_LOCAL_FRAGMENT = 110;
+    public static final int CODE_INNER_FRAGMENT_CONTENT = 111;
 
     Date dateToAddDate;
     Date currentDate;
+    View diaryFragment;
+    Bundle bundle;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View diaryFragment = inflater.inflate(R.layout.diary_add_single_day, container, false);
+        diaryFragment = inflater.inflate(R.layout.diary_add_single_day, container, false);
         dayDao = new DayDao(getContext());
+
+        pageTitle = (TextView) diaryFragment.findViewById(R.id.textView37);
 
         dateToAdd = (TextView) diaryFragment.findViewById(R.id.dateToAdd);
         dateToAdd.setText(DateUtilities.currentDay() + "." + (DateUtilities.currentMonth() + 1) + "." + DateUtilities.currentYear());
@@ -82,7 +91,8 @@ public class DiaryAddSingleDayFragment extends Fragment {
         symptomsTV = (TextView) diaryFragment.findViewById(R.id.symptomsTV);
         notesTV = (TextView) diaryFragment.findViewById(R.id.notesTV);
 
-        setAllArrayListsAndFields(currentDate);
+        setAllArrayListsAndFields(getContext(), currentDate);
+        bundle = null;
 
         addRemoveEatenProductsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,17 +135,16 @@ public class DiaryAddSingleDayFragment extends Fragment {
         return diaryFragment;
     }
 
-
     private void showQuestionDialog(final Date date) {
 
         AlertDialog builder = new AlertDialog.Builder(getContext())
                 .setTitle(getString(R.string.warning))
-                .setMessage(getString(R.string.u_sure) + convertDateToString(date) + getString(R.string.to_db))
+                .setMessage(getString(R.string.u_sure) + convertDateTVToString(date) + getString(R.string.to_db))
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dayDao.insertSingleDayToDatabase(date, selectedProducts, selectedMedicines, selectedSymptoms, selectedNotes);
-                        setAllArrayListsAndFields(currentDate);
+                        setAllArrayListsAndFields(getContext(), currentDate);
                         Toast.makeText(getContext(), getString(R.string.success), Toast.LENGTH_LONG).show();
                     }
                 })
@@ -149,20 +158,53 @@ public class DiaryAddSingleDayFragment extends Fragment {
         builder.show();
     }
 
-    public void setAllArrayListsAndFields(Date date) {
-        dateToAddDate = date;
-        addedNotesList = new ArrayList<>();
-        addedNotesList.add(getString(R.string.completely_nothing));
-        selectedProducts = dayDao.getUsersSelectedProductsFromDb(convertDateToString(date));
-        selectedMedicines = dayDao.getUsersSelectedMedicinesFromDb(convertDateToString(date));
-        selectedSymptoms = dayDao.getUsersSelectedSymptomsFromDb(convertDateToString(date));
-        selectedNotes = dayDao.getUsersSelectedNotesFromDb(convertDateToString(date));
+    public void setAllArrayListsAndFields(Context context, Date date) {
+        dayDao = new DayDao(context);
 
-        dateToAdd.setText(convertDateToString(date));
-        eatenProductsListTV.setText(convertFromArrayListOfStringToString(selectedProducts));
-        medicinesTV.setText(convertFromArrayListOfStringToString(selectedMedicines));
-        symptomsTV.setText(convertFromArrayListOfStringToString(selectedSymptoms));
-        notesTV.setText(convertFromArrayListOfStringToString(selectedNotes));
+        bundle = this.getArguments();
+        if (bundle != null) {
+            String dateString = bundle.getString("date", convertDateToString(currentDate));
+            DateFormat simpleDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+
+            try {
+                dateToAddDate = simpleDate.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                dateToAddDate = currentDate;
+            }
+
+            pageTitle.setText(context.getString(R.string.modify));
+            dateToAdd.setText(convertDateTVToString(dateToAddDate));
+            selectedProducts = dayDao.getUsersSelectedProductsFromDb(dateString);
+            selectedMedicines = dayDao.getUsersSelectedMedicinesFromDb(dateString);
+            selectedSymptoms = dayDao.getUsersSelectedSymptomsFromDb(dateString);
+            selectedNotes = dayDao.getUsersSelectedNotesFromDb(dateString);
+            addedNotesList = new ArrayList<>(selectedNotes.size());
+            addedNotesList = selectedNotes;
+
+            eatenProductsListTV.setText(convertFromArrayListOfStringToString(selectedProducts));
+            medicinesTV.setText(convertFromArrayListOfStringToString(selectedMedicines));
+            symptomsTV.setText(convertFromArrayListOfStringToString(selectedSymptoms));
+            notesTV.setText(convertFromArrayListOfStringToString(selectedNotes));
+
+        } else {
+            pageTitle.setText(context.getString(R.string.add_day));
+            dateToAddDate = date;
+            addedNotesList = new ArrayList<>();
+            addedNotesList.add(context.getString(R.string.completely_nothing));
+            selectedProducts = dayDao.getUsersSelectedProductsFromDb(convertDateToString(date));
+            selectedMedicines = dayDao.getUsersSelectedMedicinesFromDb(convertDateToString(date));
+            selectedSymptoms = dayDao.getUsersSelectedSymptomsFromDb(convertDateToString(date));
+            selectedNotes = dayDao.getUsersSelectedNotesFromDb(convertDateToString(date));
+
+            dateToAdd.setText(convertDateTVToString(date));
+            eatenProductsListTV.setText(convertFromArrayListOfStringToString(selectedProducts));
+            medicinesTV.setText(convertFromArrayListOfStringToString(selectedMedicines));
+            symptomsTV.setText(convertFromArrayListOfStringToString(selectedSymptoms));
+            notesTV.setText(convertFromArrayListOfStringToString(selectedNotes));
+        }
+
+
     }
 
     public void showDatePickerDialogOnClick() {
@@ -186,7 +228,7 @@ public class DiaryAddSingleDayFragment extends Fragment {
             dateToAdd.setTextColor(getResources().getColor(R.color.colorBlack, null));
             dateToAddDate = DateUtilities.getDate(birthYear, monthOfAYear, dayOfMonth);
 
-            setAllArrayListsAndFields(dateToAddDate);
+            setAllArrayListsAndFields(getContext(), dateToAddDate);
         }
     };
 
@@ -240,11 +282,11 @@ public class DiaryAddSingleDayFragment extends Fragment {
                 if (elementName.getText().toString().trim().length() != 0) {
                     dayDao.addSingleProductToDb(elementName.getText().toString().trim());
                     selectedProducts.add(elementName.getText().toString().trim());
+                    elementName.setText("");
+                    Toast.makeText(getContext(), getString(R.string.success_a), Toast.LENGTH_LONG).show();
                 } else {
                     elementName.setError(getString(R.string.required));
                 }
-                elementName.setText("");
-                Toast.makeText(getContext(), getString(R.string.success_a), Toast.LENGTH_LONG).show();
                 productsList = dayDao.getAllProductsArrayList();
                 productsAdapter.updateProductsAdapter(productsList, selectedProducts);
             }
@@ -295,11 +337,12 @@ public class DiaryAddSingleDayFragment extends Fragment {
                 if (elementName.getText().toString().trim().length() != 0) {
                     dayDao.addSingleMedicineToDb(elementName.getText().toString().trim());
                     selectedMedicines.add(elementName.getText().toString().trim());
+                    elementName.setText("");
+                    Toast.makeText(getContext(), getString(R.string.success_a), Toast.LENGTH_LONG).show();
                 } else {
                     elementName.setError(getString(R.string.required));
                 }
-                elementName.setText("");
-                Toast.makeText(getContext(), getString(R.string.success_a), Toast.LENGTH_LONG).show();
+
                 medicinesList = dayDao.getAllMedicinesArrayList();
                 medicinesAdapter.updateMedicinesAdapter(medicinesList, selectedProducts);
             }
@@ -374,11 +417,12 @@ public class DiaryAddSingleDayFragment extends Fragment {
                 if (elementName.getText().toString().trim().length() != 0) {
                     dayDao.addSingleSymptomToDb(elementName.getText().toString().trim());
                     selectedSymptoms.add(elementName.getText().toString().trim());
+                    elementName.setText("");
+                    Toast.makeText(getContext(), getString(R.string.success_a), Toast.LENGTH_LONG).show();
                 } else {
                     elementName.setError(getString(R.string.required));
                 }
-                elementName.setText("");
-                Toast.makeText(getContext(), getString(R.string.success_a), Toast.LENGTH_LONG).show();
+
                 symptomsList = dayDao.getAllSymptomsArrayList();
                 symptomsAdapter.updateSymptomsAdapter(symptomsList, selectedSymptoms);
             }
@@ -471,7 +515,13 @@ public class DiaryAddSingleDayFragment extends Fragment {
         return buffer.toString();
     }
 
-    private String convertDateToString(Date date) {
+    public String convertDateToString(Date date) {
+        SimpleDateFormat simpleDate =  new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        String dayOfTheWeek = (String) android.text.format.DateFormat.format("EEEE", date);
+        return simpleDate.format(date) + " " + dayOfTheWeek;
+    }
+
+    private String convertDateTVToString(Date date){
         SimpleDateFormat simpleDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         return simpleDate.format(date);
     }

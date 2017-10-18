@@ -248,10 +248,18 @@
     <string name="last_week">Ostatni tydzień</string>
     <string name="procent">[%]</string>
     <string name="last_month">Ostatni miesiąc</string>
+    <string name="choosen">Wybrano</string>
 
     <string-array name="spinner_items">
         <item> Tygodniu </item>
         <item> Miesiącu </item>
         <item> Roku </item>
     </string-array>
+
+    <string-array name="spinner2_items">
+        <item> Spożyte produkty </item>
+        <item> Zażyte leki </item>
+        <item> Występowanie symptomów </item>
+    </string-array>
+
 </resources>

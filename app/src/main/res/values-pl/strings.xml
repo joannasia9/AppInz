@@ -150,6 +150,7 @@
     <string name="last_week">Ostatni tydzień</string>
     <string name="procent">[%]</string>
     <string name="last_month">Ostatni miesiąc</string>
+    <string name="choosen">Wybrano</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
