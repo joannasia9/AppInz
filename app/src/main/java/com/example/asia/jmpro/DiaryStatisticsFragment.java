@@ -63,9 +63,11 @@ public class DiaryStatisticsFragment extends Fragment {
                 switch (position){
                     case 0:
                         graph.removeAllSeries();
-                        drawWeeklyGraph();
+                        drawGraph(0);
                         break;
                     case 1:
+                        graph.removeAllSeries();
+                        drawGraph(1);
                         break;
                     case 2:
                         break;
@@ -81,30 +83,18 @@ public class DiaryStatisticsFragment extends Fragment {
         return diaryFragment;
     }
 
-    private DataPoint[] convertToTableList(ArrayList<DataPoint> list){
-        DataPoint[] newList = new DataPoint[list.size()];
-        for(int i = 0; i<list.size(); i++){
-            newList[i] = list.get(i);
-        }
-        return newList;
-    }
-
-    private void updateGraph(int position) {
-        switch (position){
+    private void drawGraph(int choice){
+        switch (choice){
             case 0:
-                drawWeeklyGraph();
+                lastDaysArrayList = dayDao.getLastSevenDays(currentDate);
+                graph.setTitle(getString(R.string.last_week));
                 break;
             case 1:
-                break;
-            case 2:
-                break;
-            default:
+                lastDaysArrayList = dayDao.getCurrentMonthDays(currentDate);
+                graph.setTitle(getString(R.string.last_month));
                 break;
         }
-    }
 
-    private void drawWeeklyGraph(){
-        lastDaysArrayList = dayDao.getLastSevenDays(currentDate);
         allEatenProductsList = dayDao.getAllEatenProductsList(lastDaysArrayList);
         eatenProductsArrayList = dayDao.getAllEatenProducts(lastDaysArrayList);
         countedEatenProducts = dayDao.countEverySingleEatenProducts(eatenProductsArrayList,lastDaysArrayList);
@@ -114,20 +104,28 @@ public class DiaryStatisticsFragment extends Fragment {
 
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>(points);
 
+
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(100);
+
+       // graph.getViewport().setScalable(true);
+        // graph.getLayoutParams().height = 100 * allEatenProductsList.length;
+
         series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
             @Override
             public int get(DataPoint data) {
-                return Color.rgb((int) data.getX() * 255/4, (int) Math.abs(data.getY() * 255/6), 50);
+                return Color.rgb(((int) data.getX() + (int) data.getY()) * 255/4, (int) Math.abs(data.getY() * 255/6), 50);
             }
         });
-        series.setSpacing(50);
-        series.setValuesOnTopColor(Color.RED);
+        series.setSpacing(40);
+        series.setDrawValuesOnTop(true);
+        series.setValuesOnTopColor(Color.BLUE);
 
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
         staticLabelsFormatter.setHorizontalLabels(allEatenProductsList);
 
-        graph.setHorizontalScrollBarEnabled(true);
-        graph.setTitle(getString(R.string.last_week));
+
         graph.addSeries(series);
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
         graph.getViewport().setScalableY(true);
@@ -136,11 +134,18 @@ public class DiaryStatisticsFragment extends Fragment {
 
     private ArrayList<DataPoint> getDataPointsList(final ArrayList<Double> countedEatenProducts){
         ArrayList<DataPoint> dataPoints = new ArrayList<>();
-        dataPoints.add(new DataPoint(0,0));
         for(int i = 0; i < countedEatenProducts.size(); i++){
             dataPoints.add(new DataPoint(i, countedEatenProducts.get(i)));
         }
         return dataPoints;
+    }
+
+    private DataPoint[] convertToTableList(ArrayList<DataPoint> list){
+        DataPoint[] newList = new DataPoint[list.size()];
+        for(int i = 0; i<list.size(); i++){
+            newList[i] = list.get(i);
+        }
+        return newList;
     }
 
 }

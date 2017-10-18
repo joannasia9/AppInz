@@ -327,13 +327,6 @@ public class DayDao {
             }
         });
 
-//        Day[] list = new Day[daysList.size()];
-//
-//        for (int i = 0; i < daysList.size(); i++) {
-//            list[i] = daysList.get(i);
-//        }
-
-//        return list;
         ArrayList<Day> newList = new ArrayList<>(daysList.size());
         for(Day item : daysList){
             newList.add(item);
@@ -341,7 +334,7 @@ public class DayDao {
         return newList;
     }
 
-    public Day[] getCurrentMonthDays(final Date currentDate) {
+    public ArrayList<Day> getCurrentMonthDays(final Date currentDate) {
         dateFrom = DateUtilities.getDate(DateUtilities.currentYear(),DateUtilities.currentMonth()-1,DateUtilities.currentDay());
 
         privateDatabase.executeTransaction(new Realm.Transaction() {
@@ -361,12 +354,7 @@ public class DayDao {
             }
         }
 
-        Day[] list = new Day[daysItemList.size()];
-        for(int i = 0; i<daysItemList.size(); i++){
-            list[i] = daysItemList.get(i);
-        }
-
-        return list;
+        return daysItemList;
     }
 
     public ArrayList<Day> getCurrentYearDays(final Date currentDate) {

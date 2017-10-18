@@ -149,6 +149,7 @@
     <string name="in_the_last">W ostatnim:</string>
     <string name="last_week">Ostatni tydzień</string>
     <string name="procent">[%]</string>
+    <string name="last_month">Ostatni miesiąc</string>
 
     <string-array name="main_menu_items">
         <item>My notes</item>
