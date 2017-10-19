@@ -483,7 +483,7 @@ public class DayDao {
     }
     ////
 
-    public ArrayList<Double> countEverySingleElements(ArrayList<String> arrayList, ArrayList<Day> dayArrayList, int code){
+    public ArrayList<Float> countEverySingleElements(ArrayList<String> arrayList, ArrayList<Day> dayArrayList, int code){
         ArrayList<String> elements;
 
         if(arrayList.size() > 1 && arrayList.contains(context.getString(R.string.completely_nothing))){
@@ -535,9 +535,9 @@ public class DayDao {
             allItems += item;
         }
 
-        ArrayList<Double> percentageList = new ArrayList<>(countedList.size());
+        ArrayList<Float> percentageList = new ArrayList<>(countedList.size());
 
-        double value;
+        float value;
         for(int item : countedList){
             if(allItems!= 0) {
                 value = item * 100 / allItems;

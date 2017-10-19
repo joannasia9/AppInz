@@ -249,6 +249,13 @@
     <string name="procent">[%]</string>
     <string name="last_month">Ostatni miesiąc</string>
     <string name="choosen">Wybrano</string>
+    <string name="max_value">Najwyższą wartość osiąga:</string>
+    <string name="last_year">Ostatni rok</string>
+    <string name="last_year_value">Ilość w ciągu roku: </string>
+    <string name="el">Element</string>
+    <string name="prod">Produkty</string>
+    <string name="med">Leki</string>
+    <string name="sym">Symptomy</string>
 
     <string-array name="spinner_items">
         <item> Tygodniu </item>
@@ -259,7 +266,7 @@
     <string-array name="spinner2_items">
         <item> Spożyte produkty </item>
         <item> Zażyte leki </item>
-        <item> Występowanie symptomów </item>
+        <item> Symptomy </item>
     </string-array>
 
 </resources>

@@ -151,6 +151,7 @@
     <string name="procent">[%]</string>
     <string name="last_month">Ostatni miesiąc</string>
     <string name="choosen">Wybrano</string>
+    <string name="max_value">Najwyższą wartość osiąga:</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
