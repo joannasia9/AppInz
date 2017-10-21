@@ -152,6 +152,10 @@
     <string name="last_month">Ostatni miesiąc</string>
     <string name="choosen">Wybrano</string>
     <string name="max_value">Najwyższą wartość osiąga:</string>
+    <string name="date_of_creating">Data utworzenia dokumentu:</string>
+    <string name="user">Użytkownik:</string>
+    <string name="file_making_problem">Problem z utworzeniem pliku</string>
+    <string name="creating_file_suc">Stworzono pomyślnie plik:</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>

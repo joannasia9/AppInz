@@ -18,10 +18,12 @@ import java.util.ArrayList;
 
 public class DaysListAdapter extends BaseAdapter {
     private ArrayList<Day> daysList;
+    private ArrayList<String> selectedDaysList;
     private Context context;
 
     public DaysListAdapter(ArrayList<Day> daysList, Context context) {
         this.daysList = daysList;
+        this.selectedDaysList = new ArrayList<>();
         this.context = context;
     }
 
@@ -58,11 +60,18 @@ public class DaysListAdapter extends BaseAdapter {
         Day model = daysList.get(position);
         dayItemViewHolder.dayId.setText(model.getId());
 
+        if(selectedDaysList.contains(model.getId())) {
+            dayItemViewHolder.layout.setBackgroundColor(context.getColor(R.color.item5));
+        } else {
+            dayItemViewHolder.layout.setBackgroundColor(context.getColor(R.color.cardview_light_background));
+        }
+
         return dayItem;
     }
 
-    public void updateAdapter(ArrayList<Day> daysList){
+    public void updateAdapter(ArrayList<Day> daysList, ArrayList<String> selectedDaysList){
         this.daysList = daysList;
+        this.selectedDaysList = selectedDaysList;
         notifyDataSetChanged();
     }
 }

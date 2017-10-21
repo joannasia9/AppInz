@@ -29,7 +29,6 @@ import io.realm.SyncUser;
 public class MainActivity extends MyBaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback, PermissionResultCallback {
     private static final int REQUEST_CODE = 123;
     public static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 111;
-    public static final int MY_PERMISSIONS_REQUEST_ACCESS_MEMORY = 112;
     public static final int ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 113;
     TextView welcome;
     EditText login, password;

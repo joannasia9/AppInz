@@ -136,7 +136,7 @@ public class DiaryMyNotedDaysFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         dayDao.removeSingleDayFromDb(dayId.getText().toString().trim());
                         daysList = dayDao.getAllSavedDays();
-                        adapter.updateAdapter(daysList);
+                        adapter.updateAdapter(daysList, new ArrayList<String>());
                         dialog.cancel();
                     }
                 })
