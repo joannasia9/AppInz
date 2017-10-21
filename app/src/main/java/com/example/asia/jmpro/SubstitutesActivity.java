@@ -108,9 +108,11 @@ public class SubstitutesActivity extends AppCompatActivity
                 break;
             case R.id.nav_share_email:
                 showSelectSubstitutesDialog(R.id.nav_share_email, SuggestedPlacesListAdapter.SELECT_CODE);
+                fragment = new SubstitutesFragment();
                 break;
             case R.id.nav_share_messenger:
                 showSelectSubstitutesDialog(R.id.nav_share_messenger, SuggestedPlacesListAdapter.SELECT_FOR_SHARE_VIA_FACEBOOK_CODE);
+                fragment = new SubstitutesFragment();
                 break;
             default:
                 fragment = new SubstitutesFragment();
@@ -322,4 +324,5 @@ public class SubstitutesActivity extends AppCompatActivity
             Log.e("ActivityNotFound", "openGooglePlayToGetMaps: " + anfe.getMessage());
         }
     }
+
 }

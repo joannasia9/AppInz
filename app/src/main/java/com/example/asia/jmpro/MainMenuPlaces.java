@@ -492,10 +492,9 @@ public class MainMenuPlaces extends AppCompatActivity
         shareIntent.setType("text/html");
 
         Intent chooser = Intent.createChooser(shareIntent, getString(R.string.e_mail));
-        startActivity(chooser);
 
         if (shareIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(shareIntent);
+            startActivity(chooser);
         }
     }
 

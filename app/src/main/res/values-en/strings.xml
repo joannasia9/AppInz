@@ -129,6 +129,33 @@
     <string name="remove_only_added_by_yourself">Możesz usunąć jedynie alergeny dodane przez siebie.</string>
     <string name="added_">Dodano:</string>
     <string name="save_changes">Chcesz zapisać zmiany?</string>
+    <string name="date">Data:</string>
+    <string name="change">Zmień</string>
+    <string name="eaten_products">Zjedzone produkty</string>
+    <string name="medicines">Zażyte leki</string>
+    <string name="symptoms">Objawy</string>
+    <string name="notes">Notatki</string>
+    <string name="no_element">Brak elementu, którego szukasz?</string>
+    <string name="select_medicines">Wybierz leki</string>
+    <string name="select_symptoms">Wybierz objawy</string>
+    <string name="add_note">Dodaj notatkę</string>
+    <string name="note_content">Treść notatki</string>
+    <string name="no_results_to_show">Brak elementów do wyświetlenia</string>
+    <string name="select_items">Wybierz</string>
+    <string name="add_rm">Dodaj / Usuń</string>
+    <string name="added_notes">Dodane notatki:</string>
+    <string name="day">Dzień:</string>
+    <string name="back">Wróć</string>
+    <string name="in_the_last">W ostatnim:</string>
+    <string name="last_week">Ostatni tydzień</string>
+    <string name="procent">[%]</string>
+    <string name="last_month">Ostatni miesiąc</string>
+    <string name="choosen">Wybrano</string>
+    <string name="max_value">Najwyższą wartość osiąga:</string>
+    <string name="date_of_creating">Data utworzenia dokumentu:</string>
+    <string name="user">Użytkownik:</string>
+    <string name="file_making_problem">Problem z utworzeniem pliku</string>
+    <string name="creating_file_suc">Stworzono pomyślnie plik:</string>
 
     <string-array name="main_menu_items">
         <item>My notes</item>
