@@ -15,7 +15,6 @@ import io.realm.RealmList;
 
 /**
  * Created by asia on 06/10/2017.
- *
  */
 
 public class SubstituteDao {
@@ -24,7 +23,6 @@ public class SubstituteDao {
     private AllergenRealm allergenRealm;
     private ArrayList<String> stringSubstitutesList;
     private RealmList<SubstituteRealm> allergensSubstitutesList;
-    private ArrayList<SubstituteRealm> list;
     private List<SubstituteRealm> allSubstitutesList;
 
 
@@ -33,7 +31,7 @@ public class SubstituteDao {
         this.context = c;
     }
 
-    public void addSubstituteToDatabase(String substitute, final String allergen){
+    public void addSubstituteToDatabase(String substitute, final String allergen) {
         final SubstituteRealm substituteRealm = new SubstituteRealm(substitute);
 
         allergenRealm = new AllergenRealm();
@@ -50,8 +48,8 @@ public class SubstituteDao {
                 stringSubstitutesList = fromSubstituteRealmToStringList(allergensSubstitutesList);
 
 
-                if(allergensSubstitutesList.size()!= 0) {
-                    if(!stringSubstitutesList.contains(substituteRealm.getName())){
+                if (allergensSubstitutesList.size() != 0) {
+                    if (!stringSubstitutesList.contains(substituteRealm.getName())) {
                         allergensSubstitutesList.add(substituteRealm);
                     }
                 } else {
@@ -65,24 +63,28 @@ public class SubstituteDao {
 
     private ArrayList<String> fromSubstituteRealmToStringList(RealmList<SubstituteRealm> list) {
         ArrayList<String> newList = new ArrayList<>(list.size());
-        for(SubstituteRealm item : list){
+        for (SubstituteRealm item : list) {
             newList.add(item.getName());
         }
         return newList;
     }
 
     public ArrayList<SubstituteRealm> getAllAllergensSubstituteList(final String allergenName) {
-        ArrayList<SubstituteRealm>  allAllergensSubstitutesList = new ArrayList<>();
+        ArrayList<SubstituteRealm> allAllergensSubstitutesList = new ArrayList<>();
+        allergensSubstitutesList = new RealmList<>();
+
         realmDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 allergenRealm = new AllergenRealm();
                 allergenRealm = realm.where(AllergenRealm.class).equalTo("allergenName", allergenName).findFirst();
-                allergensSubstitutesList = allergenRealm.getSubstitutes();
+                if (allergenRealm != null) {
+                    allergensSubstitutesList = allergenRealm.getSubstitutes();
+                }
             }
         });
 
-        if(allergensSubstitutesList.size()!=0) {
+        if (allergensSubstitutesList.size() != 0) {
             for (SubstituteRealm item : allergensSubstitutesList) {
                 allAllergensSubstitutesList.add(item);
             }
@@ -104,8 +106,8 @@ public class SubstituteDao {
                 stringSubstitutesList = fromSubstituteRealmToStringList(allergensSubstitutesList);
 
 
-                if(allergensSubstitutesList.size()!= 0) {
-                    if(stringSubstitutesList.contains(substituteName)){
+                if (allergensSubstitutesList.size() != 0) {
+                    if (stringSubstitutesList.contains(substituteName)) {
                         allergensSubstitutesList.remove(position);
                     }
                 }
@@ -114,21 +116,4 @@ public class SubstituteDao {
         });
     }
 
-
-    public ArrayList<SubstituteRealm> getAllSubstitutesList() {
-        list = new ArrayList<>();
-
-        realmDatabase.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                allSubstitutesList = realm.where(SubstituteRealm.class).findAll();
-            }
-        });
-
-        for(SubstituteRealm item : allSubstitutesList){
-            list.add(item);
-        }
-
-        return list;
-    }
 }

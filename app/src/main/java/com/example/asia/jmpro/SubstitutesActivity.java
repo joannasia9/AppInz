@@ -84,13 +84,11 @@ public class SubstitutesActivity extends AppCompatActivity
         }
     }
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         selectDrawerItem(item);
         return true;
     }
-
 
     public void selectDrawerItem(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
@@ -138,6 +136,7 @@ public class SubstitutesActivity extends AppCompatActivity
         dialog.show();
 
         Button okButton = (Button) dialog.findViewById(R.id.hideDialogButton);
+        Button cancelButton = (Button) dialog.findViewById(R.id.cancelButtonDialog);
         TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
         title.setText(R.string.suggest_sub);
         ListView suggestedSubstitutesListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
@@ -153,11 +152,11 @@ public class SubstitutesActivity extends AppCompatActivity
                 AllergenRealm model = allAllergensList.get(position);
 
                 ArrayList<String> sAllergens = new ArrayList<>();
-                for(AllergenRealm sAllergen: selectedAllergensList){
+                for (AllergenRealm sAllergen : selectedAllergensList) {
                     sAllergens.add(sAllergen.getAllergenName());
                 }
 
-                if(sAllergens.contains(model.getAllergenName())){
+                if (sAllergens.contains(model.getAllergenName())) {
                     selectedAllergensList.remove(model);
                 } else {
                     if (code == SuggestedPlacesListAdapter.SELECT_FOR_SHARE_VIA_FACEBOOK_CODE) {
@@ -168,22 +167,34 @@ public class SubstitutesActivity extends AppCompatActivity
                     }
                 }
 
-                adapter.updateAdapter(allAllergensList,selectedAllergensList);
+                adapter.updateAdapter(allAllergensList, selectedAllergensList);
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
             }
         });
 
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //selectedPlacesList
                 switch (choice) {
                     case nav_share_email:
-                        shareViaEmail(selectedAllergensList);
+                        if(selectedAllergensList.size() != 0) {
+                            shareViaEmail(selectedAllergensList);
+                        } else dialog.cancel();
                         break;
                     case nav_share_messenger:
-                        shareViaMessenger(selectedAllergensList.get(0));
+                        if (selectedAllergensList.size() != 0) {
+                            shareViaMessenger(selectedAllergensList.get(0));
+                        }
                     default:
-                        shareSelectedSubstitutes(selectedAllergensList);
+                        if (selectedAllergensList.size() != 0) {
+                            shareSelectedSubstitutes(selectedAllergensList);
+                        }
                         break;
                 }
                 dialog.cancel();
@@ -242,7 +253,7 @@ public class SubstitutesActivity extends AppCompatActivity
             startActivity(shareIntent);
         }
 
-        }
+    }
 
     private void shareViaEmail(ArrayList<AllergenRealm> selectedAllergens) {
         UserDao user = new UserDao();
@@ -265,7 +276,7 @@ public class SubstitutesActivity extends AppCompatActivity
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setData(Uri.parse(getString(R.string.mailto)));
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, user.getUserRealmFromDatabase().getLogin() + ": "+getString(R.string.recommended_sub));
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, user.getUserRealmFromDatabase().getLogin() + ": " + getString(R.string.recommended_sub));
         shareIntent.putExtra(Intent.EXTRA_TEXT, fromHtml(sharedText));
         shareIntent.setType("text/html");
 

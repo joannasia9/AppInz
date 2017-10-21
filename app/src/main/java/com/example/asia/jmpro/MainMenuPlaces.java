@@ -309,6 +309,7 @@ public class MainMenuPlaces extends AppCompatActivity
         dialog.show();
 
         Button okButton = (Button) dialog.findViewById(R.id.hideDialogButton);
+        Button cancelButton = (Button) dialog.findViewById(R.id.cancelButtonDialog);
         ListView suggestedPlacesListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
         TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
         title.setText(getString(R.string.add_sug_place));
@@ -320,6 +321,12 @@ public class MainMenuPlaces extends AppCompatActivity
                 Place model = placesList.get(position);
                 placeDao.addSuggestedPlaceToDatabase(model);
                 suggestedPlacesListAdapter.updateAdapter(placeDao.getAllSuggestedPlacesList(), selectedPlacesList);
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
             }
         });
 
@@ -341,6 +348,8 @@ public class MainMenuPlaces extends AppCompatActivity
         dialog.show();
 
         Button okButton = (Button) dialog.findViewById(R.id.hideDialogButton);
+        Button cancelButton = (Button) dialog.findViewById(R.id.cancelButtonDialog);
+
         TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
         title.setText(getString(R.string.select_place_to_share));
         ListView suggestedPlacesListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
@@ -361,24 +370,40 @@ public class MainMenuPlaces extends AppCompatActivity
             }
         });
 
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //selectedPlacesList
                 switch (choice) {
                     case 3:
-                        shareViaEmail(selectedPlacesList);
+                        if(selectedPlacesList.size() != 0) {
+                            shareViaEmail(selectedPlacesList);
+                        }
                         break;
                     case 4:
-                        shareViaFacebook(selectedPlacesList.get(0));
+                        if(selectedPlacesList.size() != 0) {
+                            shareViaFacebook(selectedPlacesList.get(0));
+                        }
                         break;
                     case 5:
-                        shareViaMessenger(selectedPlacesList.get(0));
+                        if(selectedPlacesList.size() != 0) {
+                            shareViaMessenger(selectedPlacesList.get(0));
+                        }
                         break;
                     case 6:
-                        shareViaHangouts(selectedPlacesList);
+                        if(selectedPlacesList.size() != 0) {
+                            shareViaHangouts(selectedPlacesList);
+                        }
                     default:
-                        shareSelectedPlaces(selectedPlacesList);
+                        if(selectedPlacesList.size() != 0) {
+                            shareSelectedPlaces(selectedPlacesList);
+                        }
                         break;
                 }
                 dialog.cancel();

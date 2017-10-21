@@ -469,7 +469,6 @@ public class DayDao {
         return newList;
     }
 
-    ///
     public String[] getAllSymptomsList(ArrayList<Day> dayArrayList){
         ArrayList<String> symptomsArrayList = getAllSymptomsString(dayArrayList);
 
@@ -481,7 +480,6 @@ public class DayDao {
 
         return newList;
     }
-    ////
 
     public ArrayList<Float> countEverySingleElements(ArrayList<String> arrayList, ArrayList<Day> dayArrayList, int code){
         ArrayList<String> elements;
