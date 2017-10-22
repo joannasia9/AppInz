@@ -164,4 +164,34 @@ public class PlaceDao {
         return userSuggestedPlacesList;
     }
 
+    public ArrayList<SuggestedPlace>  getPlacesMaxHoundredMetresAway(final double latitude, double longitude, ArrayList<SuggestedPlace> savedPlaces) {
+        final double latitudeMin = latitude - 0.02;
+        final double latitudeMax = latitude + 0.02;
+        final double longitudeMin = longitude - 0.02;
+        final double longitudeMax = longitude + 0.02;
+
+        //1stopień = 110,7km
+        // 1min = 1,845 km
+
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                suggestedPlacesList = realm.where(SuggestedPlace.class)
+                        .beginGroup()
+                        .between("latitude",latitudeMin,latitudeMax)
+                        .between("longitude", longitudeMin, longitudeMax)
+                        .endGroup()
+                        .findAll();
+            }
+        });
+
+        ArrayList<SuggestedPlace> newList = new ArrayList<>(suggestedPlacesList.size());
+
+        for(SuggestedPlace item : suggestedPlacesList){
+            newList.add(item);
+        }
+
+
+        return newList;
+    }
 }

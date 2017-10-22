@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
 import com.example.asia.jmpro.adapters.SettingsFragmentAdapter;
+import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
 
 public class Settings extends MyBaseActivity {
     ViewPager viewPager;
     String[] settingItemTitle;
+    LanguageChangeObserver languageChangeObserver;
 
 
     @Override
@@ -17,6 +19,7 @@ public class Settings extends MyBaseActivity {
         setContentView(R.layout.activity_settings);
         init();
 
+        languageChangeObserver = new LanguageChangeObserver(this).start();
     }
 
 

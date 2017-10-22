@@ -9,18 +9,17 @@ import android.widget.ListView;
 
 import com.example.asia.jmpro.adapters.MyMenuAdapter;
 import com.example.asia.jmpro.data.DbConnector;
-import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
+import com.example.asia.jmpro.logic.location.LocationChangeObserver;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
 
-public class MainMenu extends MyBaseActivity {
+public class MainMenu extends MyBaseActivity{
     ListView mItems;
     String[] mItemsTitles;
     int[] mItemsBackground = {R.color.item1, R.color.item4, R.color.item2, R.color.item3, R.color.item4};
     int[] mItemsImages = {R.drawable.item1, R.drawable.item4, R.drawable.item2, R.drawable.item3, R.drawable.item4};
 
     SharedPreferences preferences;
-    LanguageChangeObserver languageChangeObserver;
-
+    Intent serviceNotificationIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +34,10 @@ public class MainMenu extends MyBaseActivity {
         mItems.setAdapter(myMenuAdapter);
         mItems.setOnItemClickListener(listener);
 
-        languageChangeObserver = new LanguageChangeObserver(this).start();
-    }
+        serviceNotificationIntent = new Intent(this, LocationChangeObserver.class);
+        startService(serviceNotificationIntent);
 
+    }
 
     AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
         @Override
@@ -69,7 +69,6 @@ public class MainMenu extends MyBaseActivity {
             }
         }
     };
-
 
     @Override
     public void onBackPressed() {

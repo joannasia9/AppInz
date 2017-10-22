@@ -21,9 +21,9 @@ public class DbConnector {
 //    private static final String PRIVATE_REALM_URL = "realm://192.168.0.12:9080/~/appInz";
 //    private static final String AUTH_URL = "http://192.168.0.12:9080/auth";
 //    private static final String REALM_URL = "realm://192.168.0.12:9080/appInz";
-    private static final String PRIVATE_REALM_URL = "realm://192.168.1.148:9080/~/appInz";
-    private static final String AUTH_URL = "http://192.168.1.148:9080/auth";
-    private static final String REALM_URL = "realm://192.168.1.148:9080/appInz";
+    private static final String PRIVATE_REALM_URL = "realm://192.168.1.146:9080/~/appInz";
+    private static final String AUTH_URL = "http://192.168.1.146:9080/auth";
+    private static final String REALM_URL = "realm://192.168.1.146:9080/appInz";
 
     private String login;
     private String password;
@@ -208,6 +208,7 @@ public class DbConnector {
     public SyncUser getSyncUser() {
         return syncUser;
     }
+
 
 }
 

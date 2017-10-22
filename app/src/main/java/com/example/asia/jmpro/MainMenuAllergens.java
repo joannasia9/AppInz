@@ -12,9 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
+
 public class MainMenuAllergens extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Fragment fragment;
+    LanguageChangeObserver languageChangeObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class MainMenuAllergens extends AppCompatActivity
 
         fragment = new AllergensFragmentAll();
         replaceFragmentContent(fragment);
-
+        languageChangeObserver = new LanguageChangeObserver(this).start();
     }
 
     @Override

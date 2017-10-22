@@ -34,6 +34,7 @@ import com.example.asia.jmpro.data.SubstituteRealm;
 import com.example.asia.jmpro.data.db.AllergenDao;
 import com.example.asia.jmpro.data.db.SubstituteDao;
 import com.example.asia.jmpro.data.db.UserDao;
+import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,7 @@ public class SubstitutesActivity extends AppCompatActivity
     AllergenDao allergenDao;
     Dialog dialog;
     MyAllergenRealmListAdapter adapter;
+    LanguageChangeObserver languageChangeObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,8 @@ public class SubstitutesActivity extends AppCompatActivity
 
         fragment = new SubstitutesFragment();
         replaceFragmentContent(fragment);
+
+        languageChangeObserver = new LanguageChangeObserver(this).start();
 
     }
 

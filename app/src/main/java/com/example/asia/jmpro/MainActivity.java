@@ -48,7 +48,6 @@ public class MainActivity extends MyBaseActivity implements ActivityCompat.OnReq
 
         checkAllPermissions();
         languageChangeObserver = new LanguageChangeObserver(this).start();
-
     }
 
     public void signIn(View view) {
