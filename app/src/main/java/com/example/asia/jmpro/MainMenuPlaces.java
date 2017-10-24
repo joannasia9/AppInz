@@ -129,6 +129,8 @@ public class MainMenuPlaces extends AppCompatActivity
         initMap();
 
         languageChangeObserver = new LanguageChangeObserver(this).start();
+
+
     }
 
     @Override
@@ -299,6 +301,7 @@ public class MainMenuPlaces extends AppCompatActivity
         locationChooser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.cancel();
                 Intent intent = new Intent(getApplicationContext(), ManualLocationSetter.class);
                 startActivityForResult(intent, REQUEST_CODE);
             }
@@ -671,11 +674,6 @@ public class MainMenuPlaces extends AppCompatActivity
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        //location request:::
-        //        locationRequest=LocationRequest.create();
-        //        locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
-        //        locationRequest.setInterval(1000); //miliseconds
-        //        locationServices.FocusedLocationAPI.requestLocationUpdates(googleApiClient,locationRequest,this);
     }
 
     @Override

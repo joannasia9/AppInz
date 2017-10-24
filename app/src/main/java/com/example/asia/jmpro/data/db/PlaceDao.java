@@ -28,14 +28,21 @@ public class PlaceDao {
     private List<Allergen> usersAllergenList;
     private RealmResults<Place> usersFavouritePlacesList;
     private RealmResults<SuggestedPlace> suggestedPlacesList;
+    private RealmResults<Place> favouritePlacesList;
     private RealmList<Allergen> allAllergensOfSinglePlace = new RealmList<>();
-    private RealmResults<Allergen> usersAllergensNames;
+    private String[] placesList;
 
     public PlaceDao(Context c) {
         DbConnector dbConnector = DbConnector.getInstance();
         this.realmDatabase = dbConnector.getRealmDatabase();
         this.privateDatabase = dbConnector.getPrivateRealmDatabase();
         this.context = c;
+    }
+
+    public PlaceDao(){
+        DbConnector dbConnector = DbConnector.getInstance();
+        this.realmDatabase = dbConnector.getRealmDatabase();
+        this.privateDatabase = dbConnector.getPrivateRealmDatabase();
     }
 
     public void addFavouritePlaceToDatabase(final String placeName, Location location) {
@@ -164,34 +171,31 @@ public class PlaceDao {
         return userSuggestedPlacesList;
     }
 
-    public ArrayList<SuggestedPlace>  getPlacesMaxHoundredMetresAway(final double latitude, double longitude, ArrayList<SuggestedPlace> savedPlaces) {
-        final double latitudeMin = latitude - 0.02;
-        final double latitudeMax = latitude + 0.02;
-        final double longitudeMin = longitude - 0.02;
-        final double longitudeMax = longitude + 0.02;
+    public String[] getNearestFavouritePlaces(Location location){
+        //1 stopień = 110,7km
 
-        //1stopień = 110,7km
-        // 1min = 1,845 km
+        final double latitudeFrom = location.getLatitude() - 0.002;
+        final double latitudeTo = location.getLatitude() + 0.002;
+        final double longitudeFrom = location.getLongitude() - 0.002;
+        final double longitudeTo = location.getLongitude() + 0.002;
 
-        realmDatabase.executeTransaction(new Realm.Transaction() {
+        privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                suggestedPlacesList = realm.where(SuggestedPlace.class)
+                favouritePlacesList = realm.where(Place.class)
                         .beginGroup()
-                        .between("latitude",latitudeMin,latitudeMax)
-                        .between("longitude", longitudeMin, longitudeMax)
+                        .between("longitude",longitudeFrom,longitudeTo)
+                        .between("latitude", latitudeFrom,latitudeTo)
                         .endGroup()
                         .findAll();
             }
         });
 
-        ArrayList<SuggestedPlace> newList = new ArrayList<>(suggestedPlacesList.size());
-
-        for(SuggestedPlace item : suggestedPlacesList){
-            newList.add(item);
+        placesList = new String[favouritePlacesList.size()];
+        for (int i = 0; i < favouritePlacesList.size(); i++){
+            placesList[i] = favouritePlacesList.get(i).getName();
         }
 
-
-        return newList;
+    return placesList;
     }
 }

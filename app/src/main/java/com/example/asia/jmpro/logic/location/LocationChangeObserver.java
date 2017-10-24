@@ -13,17 +13,18 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.asia.jmpro.MainMenuPlaces;
 import com.example.asia.jmpro.R;
+import com.example.asia.jmpro.data.db.PlaceDao;
 
 public class LocationChangeObserver extends Service
 {
     private static final String TAG = "BOOMBOOMTESTGPS";
     private LocationManager mLocationManager = null;
-    private static final int LOCATION_INTERVAL = 1000;
-    private static final float LOCATION_DISTANCE = 10f;
+    private static final int LOCATION_INTERVAL = 10000; //miliseconds
+    private static final float LOCATION_DISTANCE = 150f;
+
 
     private class LocationListener implements android.location.LocationListener
     {
@@ -37,12 +38,13 @@ public class LocationChangeObserver extends Service
 
         @Override
         public void onLocationChanged(Location location)
-        {
-            Log.e(TAG, "onLocationChanged: " + location);
-            mLastLocation.set(location);
-            createBigNotification();
-            Toast.makeText(getApplicationContext(),"Location changed",Toast.LENGTH_LONG).show();
+        {   mLastLocation.set(location);
+//            NotificationCheckerAsyncTask notificationCheckerAsyncTask = new NotificationCheckerAsyncTask(getApplicationContext());
+//            notificationCheckerAsyncTask.execute(location);
 
+            PlaceDao placeDao = new PlaceDao();
+            createBigNotification(placeDao.getNearestFavouritePlaces(location));
+            Log.e(TAG, "onLocationChanged: " + location);
         }
 
         @Override
@@ -131,17 +133,12 @@ public class LocationChangeObserver extends Service
         }
     }
 
-        protected void createBigNotification() {
+        protected void createBigNotification(String[] msgPositions) {
             Intent intent = new Intent(this, MainMenuPlaces.class);
             PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
-            String[] msgPositions = new String[3];
-            msgPositions[0] = "Pozycja 1";
-            msgPositions[1] = "Pozycja 2";
-            msgPositions[2] = "Pozycja 3";
-
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-            inboxStyle.setBigContentTitle("Pozycje wiadomości:");
+            inboxStyle.setBigContentTitle("Znajdujesz się w pobliżu ulubioych miejsc:");
             for (String msgPosition : msgPositions) {
                 inboxStyle.addLine(msgPosition);
             }
