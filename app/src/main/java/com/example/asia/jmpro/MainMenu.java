@@ -35,7 +35,6 @@ public class MainMenu extends MyBaseActivity{
         mItems.setOnItemClickListener(listener);
 
         serviceNotificationIntent = new Intent(this, LocationChangeObserver.class);
-        startService(serviceNotificationIntent);
 
     }
 

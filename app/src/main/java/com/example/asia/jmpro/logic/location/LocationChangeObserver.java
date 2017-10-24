@@ -16,7 +16,10 @@ import android.util.Log;
 
 import com.example.asia.jmpro.MainMenuPlaces;
 import com.example.asia.jmpro.R;
-import com.example.asia.jmpro.data.db.PlaceDao;
+import com.example.asia.jmpro.data.Place;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class LocationChangeObserver extends Service
 {
@@ -28,7 +31,7 @@ public class LocationChangeObserver extends Service
 
     private class LocationListener implements android.location.LocationListener
     {
-        Location mLastLocation;
+        private Location mLastLocation;
 
         public LocationListener(String provider)
         {
@@ -37,13 +40,21 @@ public class LocationChangeObserver extends Service
         }
 
         @Override
-        public void onLocationChanged(Location location)
+        public void onLocationChanged(final Location location)
         {   mLastLocation.set(location);
-//            NotificationCheckerAsyncTask notificationCheckerAsyncTask = new NotificationCheckerAsyncTask(getApplicationContext());
-//            notificationCheckerAsyncTask.execute(location);
 
-            PlaceDao placeDao = new PlaceDao();
-            createBigNotification(placeDao.getNearestFavouritePlaces(location));
+//            if(privateDatabase != null){
+//                privateDatabase.executeTransaction(new Realm.Transaction() {
+//                    @Override
+//                    public void execute(Realm realm) {
+//                        createBigNotification(getNearestPlaces(realm,location));
+//                    }
+//                });
+//                Toast.makeText(getApplicationContext(), "Realm not null" + location.getLatitude(), Toast.LENGTH_LONG).show();
+//            }
+
+
+           //create notification
             Log.e(TAG, "onLocationChanged: " + location);
         }
 
@@ -66,10 +77,7 @@ public class LocationChangeObserver extends Service
         }
     }
 
-    LocationListener[] mLocationListeners = new LocationListener[] {
-            new LocationListener(LocationManager.GPS_PROVIDER),
-            new LocationListener(LocationManager.NETWORK_PROVIDER)
-    };
+
 
     @Override
     public IBinder onBind(Intent arg0)
@@ -77,18 +85,54 @@ public class LocationChangeObserver extends Service
         return null;
     }
 
+    LocationListener[] mLocationListeners = new LocationListener[] {
+            new LocationListener(LocationManager.GPS_PROVIDER),
+            new LocationListener(LocationManager.NETWORK_PROVIDER)
+    };
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-        Log.e(TAG, "onStartCommand");
+//        String fileName = intent.getExtras().getString("lastSignedInUsersName","default.realm");
+//        long schemaVersion = intent.getExtras().getLong("realmSchemaVersion",1);
+//
+//        RealmConfiguration config = new RealmConfiguration.Builder()
+//                .name(fileName)
+//                .schemaVersion(schemaVersion)
+//                .modules(new PrivateEntitiesModule())
+//                .build();
+//
+//        privateDatabase = Realm.getInstance(config);
+
         super.onStartCommand(intent, flags, startId);
+        Log.e(TAG, "onStartCommand");
         return START_STICKY;
     }
 
+    private String[] getNearestPlaces(Realm realm, Location location){
+        final double latitudeFrom = location.getLatitude() - 0.002;
+        final double latitudeTo = location.getLatitude() + 0.002;
+        final double longitudeFrom = location.getLongitude() - 0.002;
+        final double longitudeTo = location.getLongitude() + 0.002;
+        RealmResults<Place> favouritePlacesList = realm.where(Place.class)
+                .beginGroup()
+                .between("longitude",longitudeFrom,longitudeTo)
+                .between("latitude", latitudeFrom,latitudeTo)
+                .endGroup()
+                .findAll();
+
+        String[] placesList = new String[favouritePlacesList.size()];
+        for(int i = 0; i<favouritePlacesList.size(); i++){
+            placesList[i]=favouritePlacesList.get(i).getName();
+        }
+
+        return placesList;
+    }
     @Override
     public void onCreate()
     {
         Log.e(TAG, "onCreate");
+
         initializeLocationManager();
         try {
             mLocationManager.requestLocationUpdates(
@@ -145,10 +189,10 @@ public class LocationChangeObserver extends Service
 
             Notification noti = new NotificationCompat.Builder(this)
                     .setContentTitle("Nowa wiadomość")
-                    .setContentText("Temat wiadomości")
+                    .setContentText(msgPositions[0])
                     .setTicker("Masz wiadomość")
                     .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.item1))
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.item1))
                     .setAutoCancel(true)
                     .setContentIntent(pIntent)
                     .build();

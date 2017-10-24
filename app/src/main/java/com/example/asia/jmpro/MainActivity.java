@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.db.UserDao;
 import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
+import com.example.asia.jmpro.logic.location.LocationChangeObserver;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -34,6 +35,7 @@ public class MainActivity extends MyBaseActivity implements ActivityCompat.OnReq
     EditText login, password;
     UserDao userDao;
     LanguageChangeObserver languageChangeObserver;
+    Intent serviceNotificationIntent;
 
 
     @Override
@@ -48,6 +50,7 @@ public class MainActivity extends MyBaseActivity implements ActivityCompat.OnReq
 
         checkAllPermissions();
         languageChangeObserver = new LanguageChangeObserver(this).start();
+        serviceNotificationIntent = new Intent(this, LocationChangeObserver.class);
     }
 
     public void signIn(View view) {
@@ -67,6 +70,9 @@ public class MainActivity extends MyBaseActivity implements ActivityCompat.OnReq
                         @Override
                         public void onSuccess(Realm realm) {
                             showSignedInUserMainMenuScreen();
+//                            serviceNotificationIntent.putExtra("realmFileName", realm.getConfiguration().getRealmFileName());
+//                            serviceNotificationIntent.putExtra("realmSchemaVersion",realm.getConfiguration().getSchemaVersion());
+                            startService(serviceNotificationIntent);
                         }
 
                         @Override

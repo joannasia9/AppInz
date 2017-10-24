@@ -208,7 +208,5 @@ public class DbConnector {
     public SyncUser getSyncUser() {
         return syncUser;
     }
-
-
 }
 
