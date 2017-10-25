@@ -86,6 +86,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <service android:name=".logic.location.LocationChangeObserver"
             android:process=":location_change_observer" />
+        <receiver android:name=".logic.location.NotificationBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.example.asia.jmpro.GET_NOTIFICATION">
+                </action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

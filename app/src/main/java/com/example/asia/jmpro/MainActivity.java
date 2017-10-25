@@ -70,8 +70,7 @@ public class MainActivity extends MyBaseActivity implements ActivityCompat.OnReq
                         @Override
                         public void onSuccess(Realm realm) {
                             showSignedInUserMainMenuScreen();
-//                            serviceNotificationIntent.putExtra("realmFileName", realm.getConfiguration().getRealmFileName());
-//                            serviceNotificationIntent.putExtra("realmSchemaVersion",realm.getConfiguration().getSchemaVersion());
+                            //
                             startService(serviceNotificationIntent);
                         }
 
@@ -227,5 +226,6 @@ public class MainActivity extends MyBaseActivity implements ActivityCompat.OnReq
     public void NeverAskAgain(int request_code) {
         Log.i("PERMISSION", "NEVER ASK AGAIN");
     }
+
 }
 

@@ -171,13 +171,13 @@ public class PlaceDao {
         return userSuggestedPlacesList;
     }
 
-    public String[] getNearestFavouritePlaces(Location location){
+    public String[] getNearestFavouritePlaces(double longitude, double latitude){
         //1 stopień = 110,7km
 
-        final double latitudeFrom = location.getLatitude() - 0.002;
-        final double latitudeTo = location.getLatitude() + 0.002;
-        final double longitudeFrom = location.getLongitude() - 0.002;
-        final double longitudeTo = location.getLongitude() + 0.002;
+        final double latitudeFrom = latitude - 0.001;
+        final double latitudeTo = latitude + 0.001;
+        final double longitudeFrom = longitude - 0.001;
+        final double longitudeTo = longitude + 0.001;
 
         privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override

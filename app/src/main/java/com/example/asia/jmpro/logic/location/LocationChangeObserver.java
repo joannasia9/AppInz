@@ -1,32 +1,22 @@
 package com.example.asia.jmpro.logic.location;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
-import com.example.asia.jmpro.MainMenuPlaces;
-import com.example.asia.jmpro.R;
-import com.example.asia.jmpro.data.Place;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class LocationChangeObserver extends Service
 {
     private static final String TAG = "BOOMBOOMTESTGPS";
     private LocationManager mLocationManager = null;
     private static final int LOCATION_INTERVAL = 10000; //miliseconds
-    private static final float LOCATION_DISTANCE = 150f;
+    private static final float LOCATION_DISTANCE = 100f;
+    public Intent myBroadcastIntent;
+
 
 
     private class LocationListener implements android.location.LocationListener
@@ -42,19 +32,10 @@ public class LocationChangeObserver extends Service
         @Override
         public void onLocationChanged(final Location location)
         {   mLastLocation.set(location);
+            myBroadcastIntent.putExtra("longitude", location.getLongitude());
+            myBroadcastIntent.putExtra("latitude", location.getLatitude());
 
-//            if(privateDatabase != null){
-//                privateDatabase.executeTransaction(new Realm.Transaction() {
-//                    @Override
-//                    public void execute(Realm realm) {
-//                        createBigNotification(getNearestPlaces(realm,location));
-//                    }
-//                });
-//                Toast.makeText(getApplicationContext(), "Realm not null" + location.getLatitude(), Toast.LENGTH_LONG).show();
-//            }
-
-
-           //create notification
+            sendBroadcast(myBroadcastIntent);
             Log.e(TAG, "onLocationChanged: " + location);
         }
 
@@ -77,8 +58,6 @@ public class LocationChangeObserver extends Service
         }
     }
 
-
-
     @Override
     public IBinder onBind(Intent arg0)
     {
@@ -93,41 +72,21 @@ public class LocationChangeObserver extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-//        String fileName = intent.getExtras().getString("lastSignedInUsersName","default.realm");
-//        long schemaVersion = intent.getExtras().getLong("realmSchemaVersion",1);
-//
-//        RealmConfiguration config = new RealmConfiguration.Builder()
-//                .name(fileName)
-//                .schemaVersion(schemaVersion)
-//                .modules(new PrivateEntitiesModule())
-//                .build();
-//
-//        privateDatabase = Realm.getInstance(config);
+        //
+        myBroadcastIntent = new Intent(String.valueOf(getApplicationContext()));
+        myBroadcastIntent.setAction("com.example.asia.jmpro.GET_NOTIFICATION");
+
 
         super.onStartCommand(intent, flags, startId);
         Log.e(TAG, "onStartCommand");
         return START_STICKY;
     }
 
-    private String[] getNearestPlaces(Realm realm, Location location){
-        final double latitudeFrom = location.getLatitude() - 0.002;
-        final double latitudeTo = location.getLatitude() + 0.002;
-        final double longitudeFrom = location.getLongitude() - 0.002;
-        final double longitudeTo = location.getLongitude() + 0.002;
-        RealmResults<Place> favouritePlacesList = realm.where(Place.class)
-                .beginGroup()
-                .between("longitude",longitudeFrom,longitudeTo)
-                .between("latitude", latitudeFrom,latitudeTo)
-                .endGroup()
-                .findAll();
-
-        String[] placesList = new String[favouritePlacesList.size()];
-        for(int i = 0; i<favouritePlacesList.size(); i++){
-            placesList[i]=favouritePlacesList.get(i).getName();
-        }
-
-        return placesList;
+    @Override
+    public boolean stopService(Intent name) {
+        return super.stopService(name);
     }
+
     @Override
     public void onCreate()
     {
@@ -177,29 +136,4 @@ public class LocationChangeObserver extends Service
         }
     }
 
-        protected void createBigNotification(String[] msgPositions) {
-            Intent intent = new Intent(this, MainMenuPlaces.class);
-            PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-            NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-            inboxStyle.setBigContentTitle("Znajdujesz się w pobliżu ulubioych miejsc:");
-            for (String msgPosition : msgPositions) {
-                inboxStyle.addLine(msgPosition);
-            }
-
-            Notification noti = new NotificationCompat.Builder(this)
-                    .setContentTitle("Nowa wiadomość")
-                    .setContentText(msgPositions[0])
-                    .setTicker("Masz wiadomość")
-                    .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.item1))
-                    .setAutoCancel(true)
-                    .setContentIntent(pIntent)
-                    .build();
-
-            NotificationManager notificationManager =
-                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-            notificationManager.notify(0, noti);
-}
 }
