@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.asia.jmpro.MainMenuPlaces;
+import com.example.asia.jmpro.R;
 import com.example.asia.jmpro.data.db.PlaceDao;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -44,15 +45,15 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
 
 
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-        inboxStyle.setBigContentTitle("Wpadnij koniecznie do: ");
+        inboxStyle.setBigContentTitle(context.getString(R.string.invitation));
         for (int i=0; i < msgPositions.length; i++) {
             inboxStyle.addLine(msgPositions[i]);
         }
 
         Notification noti = new NotificationCompat.Builder(context)
-                .setContentTitle("Masz ulubione miejsca w pobliżu")
-                .setContentText("Temat wiadomości")
-                .setTicker("Ulubione miejsca")
+                .setContentTitle(context.getString(R.string.places_fav_info))
+                .setContentText(context.getString(R.string.places_fav_info))
+                .setTicker(context.getString(R.string.fav_places))
                 .setNumber(msgPositions.length)
                 .setAutoCancel(true)
                 .setStyle(inboxStyle)

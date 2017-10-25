@@ -156,6 +156,8 @@
     <string name="user">Użytkownik:</string>
     <string name="file_making_problem">Problem z utworzeniem pliku</string>
     <string name="creating_file_suc">Stworzono pomyślnie plik:</string>
+    <string name="invitation">Wpadnij koniecznie do:</string>
+    <string name="places_fav_info">Masz ulubione miejsca w pobliżu</string>
 
     <string-array name="main_menu_items">
         <item>My notes</item>
