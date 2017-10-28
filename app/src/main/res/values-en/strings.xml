@@ -158,6 +158,8 @@
     <string name="creating_file_suc">Stworzono pomyślnie plik:</string>
     <string name="invitation">Wpadnij koniecznie do:</string>
     <string name="places_fav_info">Masz ulubione miejsca w pobliżu</string>
+    <string name="off_not">Wyłączyć notyfikacje?</string>
+    <string name="on_notif">Włączyć notyfikacje?</string>
 
     <string-array name="main_menu_items">
         <item>My notes</item>
@@ -168,10 +170,10 @@
     </string-array>
 
     <string-array name="general_settings_items">
-        <item>Add user</item>
-        <item>Choose language</item>
-        <item>Choose a theme</item>
-        <item>Create pdf file</item>
+        <item>Notyfikacje</item>
+        <item>Język</item>
+        <item>Motyw</item>
+        <item>Wyloguj się</item>
     </string-array>
 
     <string-array name="support_settings_items">

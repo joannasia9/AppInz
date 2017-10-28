@@ -3,6 +3,7 @@ package com.example.asia.jmpro;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 import io.realm.Realm;
 import io.realm.SyncUser;
 
+import static com.example.asia.jmpro.SettingsFragment3.NOTIFICATIONS_ON_OFF_KEY;
+
 public class MainActivity extends MyBaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback, PermissionResultCallback {
     private static final int REQUEST_CODE = 123;
     public static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 111;
@@ -35,7 +38,8 @@ public class MainActivity extends MyBaseActivity implements ActivityCompat.OnReq
     EditText login, password;
     UserDao userDao;
     LanguageChangeObserver languageChangeObserver;
-    Intent serviceNotificationIntent;
+    public Intent serviceNotificationIntent;
+    SharedPreferences prefs;
 
 
     @Override
@@ -48,6 +52,7 @@ public class MainActivity extends MyBaseActivity implements ActivityCompat.OnReq
         login = (EditText) findViewById(R.id.loginEditText);
         password = (EditText) findViewById(R.id.passwordEditText);
 
+        prefs = getSharedPreferences("UsersData", MODE_PRIVATE);
         checkAllPermissions();
         languageChangeObserver = new LanguageChangeObserver(this).start();
         serviceNotificationIntent = new Intent(this, LocationChangeObserver.class);
@@ -71,7 +76,10 @@ public class MainActivity extends MyBaseActivity implements ActivityCompat.OnReq
                         public void onSuccess(Realm realm) {
                             showSignedInUserMainMenuScreen();
                             //
-                            startService(serviceNotificationIntent);
+
+                            if(prefs.getInt(NOTIFICATIONS_ON_OFF_KEY,0) == 0) {
+                                startService(serviceNotificationIntent);
+                            }
                         }
 
                         @Override
