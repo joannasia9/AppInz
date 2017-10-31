@@ -31,7 +31,7 @@ import com.example.asia.jmpro.data.Symptom;
 import com.example.asia.jmpro.data.db.DayDao;
 import com.example.asia.jmpro.data.db.UserDao;
 import com.example.asia.jmpro.logic.calendar.DateUtilities;
-import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
+import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -55,7 +55,7 @@ public class Diary extends AppCompatActivity
     Dialog dialog;
     UserDao userDao;
     String dateString;
-    LanguageChangeObserver languageChangeObserver;
+    PreferencesChangeObserver preferencesChangeObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +78,7 @@ public class Diary extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         replaceFragmentContent(new DiaryMyNotedDaysFragment());
-        languageChangeObserver = new LanguageChangeObserver(this).start();
+        preferencesChangeObserver = new PreferencesChangeObserver(this).start();
     }
 
     @Override

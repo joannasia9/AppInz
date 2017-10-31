@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.db.UserDao;
-import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
+import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
 import com.example.asia.jmpro.logic.location.LocationChangeObserver;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
 import com.google.android.gms.common.ConnectionResult;
@@ -37,7 +37,7 @@ public class MainActivity extends MyBaseActivity implements ActivityCompat.OnReq
     TextView welcome;
     EditText login, password;
     UserDao userDao;
-    LanguageChangeObserver languageChangeObserver;
+    PreferencesChangeObserver preferencesChangeObserver;
     public Intent serviceNotificationIntent;
     SharedPreferences prefs;
 
@@ -54,7 +54,7 @@ public class MainActivity extends MyBaseActivity implements ActivityCompat.OnReq
 
         prefs = getSharedPreferences("UsersData", MODE_PRIVATE);
         checkAllPermissions();
-        languageChangeObserver = new LanguageChangeObserver(this).start();
+        preferencesChangeObserver = new PreferencesChangeObserver(this).start();
         serviceNotificationIntent = new Intent(this, LocationChangeObserver.class);
     }
 

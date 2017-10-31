@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.db.UserDao;
 import com.example.asia.jmpro.logic.calendar.DateUtilities;
-import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
+import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
 import com.example.asia.jmpro.logic.validation.EmailValidator;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
 
@@ -30,7 +30,7 @@ public class Registration extends MyBaseActivity {
     Date birthDateDate = null;
     TextView birthDate;
     EditText login, password, repeatedPassword, email;
-    LanguageChangeObserver languageChangeObserver;
+    PreferencesChangeObserver preferencesChangeObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class Registration extends MyBaseActivity {
         email = (EditText) findViewById(emailEditText);
         birthDate = (TextView) findViewById(R.id.birthDateTextView);
 
-        languageChangeObserver = new LanguageChangeObserver(this).start();
+        preferencesChangeObserver = new PreferencesChangeObserver(this).start();
 
     }
 

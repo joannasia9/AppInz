@@ -44,7 +44,7 @@ import com.example.asia.jmpro.data.Place;
 import com.example.asia.jmpro.data.SuggestedPlace;
 import com.example.asia.jmpro.data.db.PlaceDao;
 import com.example.asia.jmpro.data.db.UserDao;
-import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
+import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.MessageDialog;
@@ -89,7 +89,7 @@ public class MainMenuPlaces extends AppCompatActivity
     List<Place> placesList;
     ArrayList<Place> selectedPlacesList = new ArrayList<>();
     List<SuggestedPlace> suggestedPlacesList;
-    LanguageChangeObserver languageChangeObserver;
+    PreferencesChangeObserver preferencesChangeObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +128,7 @@ public class MainMenuPlaces extends AppCompatActivity
         selectItem(0);
         initMap();
 
-        languageChangeObserver = new LanguageChangeObserver(this).start();
+        preferencesChangeObserver = new PreferencesChangeObserver(this).start();
 
 
     }

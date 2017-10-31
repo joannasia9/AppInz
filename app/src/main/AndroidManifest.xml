@@ -39,14 +39,18 @@
         </activity>
         <activity
             android:name=".MainMenu"
-            android:configChanges="locale|orientation" />
+            android:screenOrientation="portrait"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Settings"
-            android:configChanges="locale|orientation"
+            android:screenOrientation="portrait"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize"
             android:label="@string/settings" />
         <activity
             android:name=".MainMenuPlaces"
             android:label="@string/title_activity_main_menu_places"
+            android:screenOrientation="portrait"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Registration"
@@ -74,15 +78,21 @@
         <activity
             android:name=".SubstitutesActivity"
             android:label="@string/title_activity_substitutes"
+            android:screenOrientation="portrait"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Diary"
             android:label="@string/title_activity_diary"
+            android:screenOrientation="portrait"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainMenuAllergens"
             android:label="@string/title_activity_main_menu_allergens"
+            android:screenOrientation="portrait"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <service android:name=".logic.location.LocationChangeObserver"
             android:process=":location_change_observer" />
