@@ -74,7 +74,8 @@ public class DiaryAddSingleDayFragment extends Fragment {
         pageTitle = (TextView) diaryFragment.findViewById(R.id.textView37);
 
         dateToAdd = (TextView) diaryFragment.findViewById(R.id.dateToAdd);
-        dateToAdd.setText(DateUtilities.currentDay() + "." + (DateUtilities.currentMonth() + 1) + "." + DateUtilities.currentYear());
+        String currentDateString = DateUtilities.currentDay() + "." + (DateUtilities.currentMonth() + 1) + "." + DateUtilities.currentYear();
+        dateToAdd.setText(currentDateString);
 
         currentDate = DateUtilities.getDate(DateUtilities.currentYear(), DateUtilities.currentMonth(), DateUtilities.currentDay());
 
@@ -275,6 +276,14 @@ public class DiaryAddSingleDayFragment extends Fragment {
             }
         });
 
+        Button cancelButton = (Button) dialog.findViewById(R.id.button12);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+
         Button addToDb = (Button) dialog.findViewById(R.id.button8);
         addToDb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -311,6 +320,14 @@ public class DiaryAddSingleDayFragment extends Fragment {
         Button button = (Button) dialog.findViewById(R.id.multiTaskButton);
         Button addToDb = (Button) dialog.findViewById(R.id.button8);
 
+        Button cancelButton = (Button) dialog.findViewById(R.id.button12);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+
         medicinesList = dayDao.getAllMedicinesArrayList();
         medicinesAdapter = new UniversalSimpleListAdapter(getContext(), UniversalSimpleListAdapter.REQUEST_CODE_MEDICINES);
         medicinesAdapter.setListOfMedicines(medicinesList);
@@ -327,7 +344,6 @@ public class DiaryAddSingleDayFragment extends Fragment {
 
                 medicinesList = dayDao.getAllMedicinesArrayList();
                 medicinesAdapter.updateMedicinesAdapter(medicinesList, selectedMedicines);
-
             }
         });
 
@@ -410,6 +426,14 @@ public class DiaryAddSingleDayFragment extends Fragment {
             }
         });
 
+        Button cancelButton = (Button) dialog.findViewById(R.id.button12);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+
         Button addToDb = (Button) dialog.findViewById(R.id.button8);
         addToDb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -440,6 +464,7 @@ public class DiaryAddSingleDayFragment extends Fragment {
 
         final EditText noteContentEt = (EditText) dialog.findViewById(R.id.noteContentEt);
         Button addToList = (Button) dialog.findViewById(R.id.addToList);
+        Button cancelButton = (Button) dialog.findViewById(R.id.button9);
         Button addToDb = (Button) dialog.findViewById(R.id.addSelectedNotes);
 
         ListView listView = (ListView) dialog.findViewById(R.id.addedNotesListView);
@@ -493,6 +518,13 @@ public class DiaryAddSingleDayFragment extends Fragment {
                 if (selectedNotes.size() != 0) {
                     notesTV.setText(convertFromArrayListOfStringToString(selectedNotes));
                 } else notesTV.setText(getString(R.string.completely_nothing));
+                dialog.cancel();
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 dialog.cancel();
             }
         });

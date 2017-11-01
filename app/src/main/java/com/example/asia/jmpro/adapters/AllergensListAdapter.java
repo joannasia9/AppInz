@@ -61,9 +61,9 @@ public class AllergensListAdapter extends BaseAdapter{
 
         Allergen model = allergensList.get(position);
         if(model.isSelected()){
-            allergenItemViewHolder.imageView.setImageResource(R.drawable.item2);
+            allergenItemViewHolder.imageView.setImageResource(R.drawable.selected);
         } else {
-            allergenItemViewHolder.imageView.setImageResource(R.drawable.item1);
+            allergenItemViewHolder.imageView.setImageResource(R.drawable.not_selected);
         }
 
         allergenItemViewHolder.textView.setText(model.getName());

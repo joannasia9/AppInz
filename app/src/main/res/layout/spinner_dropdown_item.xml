@@ -15,6 +15,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="serif"
+        android:textColor="@color/colorBlack"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -32,7 +33,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/item4"
         app:layout_constraintVertical_bias="0.498"
+        app:srcCompat="@drawable/dropdown_item"
         tools:ignore="ContentDescription" />
 </android.support.constraint.ConstraintLayout>

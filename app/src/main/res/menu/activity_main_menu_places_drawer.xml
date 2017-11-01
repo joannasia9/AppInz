@@ -5,15 +5,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_favourite_places"
-            android:icon="@drawable/item4"
+            android:icon="@drawable/favourites"
             android:title="@string/fav_places" />
         <item
             android:id="@+id/nav_suggested_places"
-            android:icon="@android:drawable/presence_online"
+            android:icon="@drawable/suggested"
             android:title="@string/suggested" />
         <item
             android:id="@+id/nav_suggest"
-            android:icon="@drawable/item4"
+            android:icon="@drawable/suggest"
             android:title="@string/suggest" />
     </group>
 
@@ -21,19 +21,19 @@
         <menu>
             <item
                 android:id="@+id/nav_share_hangouts"
-                android:icon="@drawable/item4"
+                android:icon="@drawable/hangouts"
                 android:title="@string/hangouts" />
             <item
                 android:id="@+id/nav_share_email"
-                android:icon="@drawable/item2"
+                android:icon="@drawable/e_mail"
                 android:title="@string/e_mail" />
             <item
                 android:id="@+id/nav_share_messenger"
-                android:icon="@drawable/item2"
+                android:icon="@drawable/messenger"
                 android:title="@string/messenger" />
             <item
                 android:id="@+id/nav_share_facebook"
-                android:icon="@drawable/item4"
+                android:icon="@drawable/facebook"
                 android:title="@string/facebook" />
         </menu>
     </item>

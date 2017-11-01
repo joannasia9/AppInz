@@ -74,21 +74,21 @@ public class SuggestedPlacesListAdapter extends BaseAdapter {
 
         if (code == SUGGEST_CODE) {
             if (isItemSuggested(model, suggestedPlacesList)) {
-                suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.reccomend);
+                suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.recommended);
             } else {
-                suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.reccomended);
+                suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.to_recommend);
             }
         }
 
         if (code == SELECT_CODE || code == SELECT_FOR_SHARE_VIA_FACEBOOK_CODE) {
             if (selectedPlacesList.size() != 0) {
                 if (selectedPlacesList.contains(model)) {
-                    suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.toshare);
+                    suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.recommended);
                 } else {
-                    suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.nottoshare);
+                    suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.to_recommend);
                 }
             } else {
-                suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.nottoshare);
+                suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.to_recommend);
             }
         }
 

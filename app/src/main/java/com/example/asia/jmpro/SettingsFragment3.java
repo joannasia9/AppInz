@@ -32,7 +32,6 @@ public class SettingsFragment3 extends Fragment {
 
     ListView gSettingsListView;
     String[] gItemsTitles;
-    int[] gItemsImages = {R.drawable.item1, R.drawable.item2, R.drawable.item3, R.drawable.item4};
 
     @Nullable
     @Override
@@ -44,7 +43,7 @@ public class SettingsFragment3 extends Fragment {
         gSettingsListView = (ListView) fragmentLayout.findViewById(R.id.generalSettingsListView);
         gItemsTitles = getResources().getStringArray(R.array.general_settings_items);
 
-        GeneralSettingsListViewAdapter adapter = new GeneralSettingsListViewAdapter(getContext(), gItemsTitles, gItemsImages);
+        GeneralSettingsListViewAdapter adapter = new GeneralSettingsListViewAdapter(getContext(), gItemsTitles);
         gSettingsListView.setAdapter(adapter);
 
         gSettingsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

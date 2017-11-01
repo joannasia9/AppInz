@@ -33,7 +33,6 @@ public class SettingsFragment4 extends Fragment {
     Dialog dialog;
     String selectedSubject;
     String[] sItemsTitles;
-    int[] sItemsImages = {R.drawable.item1, R.drawable.item2, R.drawable.item3, R.drawable.item4};
 
     @Nullable
     @Override
@@ -43,7 +42,7 @@ public class SettingsFragment4 extends Fragment {
         sSettingsListView = (ListView) fragmentLayout.findViewById(R.id.supportSettingsListView);
         sItemsTitles = getResources().getStringArray(R.array.support_settings_items);
 
-        GeneralSettingsListViewAdapter adapter = new GeneralSettingsListViewAdapter(getContext(), sItemsTitles, sItemsImages);
+        GeneralSettingsListViewAdapter adapter = new GeneralSettingsListViewAdapter(getContext(), sItemsTitles);
         sSettingsListView.setAdapter(adapter);
 
         sSettingsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

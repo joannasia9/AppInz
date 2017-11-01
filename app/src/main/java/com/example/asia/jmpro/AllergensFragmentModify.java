@@ -92,6 +92,7 @@ public class AllergensFragmentModify extends Fragment {
         });
 
         Button addToListButton = (Button) dialog.findViewById(R.id.button5);
+
         addToListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,6 +108,7 @@ public class AllergensFragmentModify extends Fragment {
             }
         });
 
+
         Button saveButton = (Button) dialog.findViewById(R.id.button6);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +119,14 @@ public class AllergensFragmentModify extends Fragment {
                     showQuestionAlertDialog(oldAllergenName, newAllergenName, substituteRealms);
                     dialog.cancel();
                 } else allergenName.setError(getString(R.string.required));
+            }
+        });
+
+        Button cancelButton = (Button) dialog.findViewById(R.id.button11);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
             }
         });
 

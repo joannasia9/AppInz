@@ -281,9 +281,17 @@ public class MainMenuPlaces extends AppCompatActivity
         final EditText placeName = (EditText) dialog.findViewById(R.id.placeName);
         placeAddress = (EditText) dialog.findViewById(R.id.placeAddress);
         Button addPlaceButton = (Button) dialog.findViewById(R.id.addPlaceButton);
+        Button cancelButton = (Button) dialog.findViewById(R.id.button10);
         ImageView locationChooser = (ImageView) dialog.findViewById(R.id.locationChooserImageView);
 
         placeAddress.setText(getCurrentPlaceAddress(userLocation.getLatitude(), userLocation.getLongitude()));
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
 
         addPlaceButton.setOnClickListener(new View.OnClickListener() {
             @Override

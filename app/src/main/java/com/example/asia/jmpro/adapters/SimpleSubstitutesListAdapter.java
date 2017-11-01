@@ -59,7 +59,7 @@ public class SimpleSubstitutesListAdapter extends BaseAdapter {
 
         SubstituteRealm model = substitutesList.get(position);
         viewHolder.textView.setText(model.getName());
-        viewHolder.imageView.setImageResource(R.drawable.item1);
+        viewHolder.imageView.setImageResource(R.drawable.single_substitute);
 
         return item;
     }

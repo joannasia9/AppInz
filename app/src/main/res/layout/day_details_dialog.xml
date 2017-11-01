@@ -46,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:text="@string/eaten_products"
+                android:textColor="@color/colorTitlesFonts"
                 android:textSize="16sp" />
 
             <TextView
@@ -53,7 +54,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/secondaryFontsColor" />
 
             <TextView
                 android:id="@+id/textView53"
@@ -61,6 +63,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:text="@string/medicines"
+                android:textColor="@color/colorTitlesFonts"
                 android:textSize="16sp" />
 
             <TextView
@@ -68,7 +71,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/secondaryFontsColor" />
 
             <TextView
                 android:id="@+id/textView111"
@@ -76,6 +80,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:text="@string/symptoms"
+                android:textColor="@color/colorTitlesFonts"
                 android:textSize="16sp" />
 
             <TextView
@@ -83,7 +88,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/secondaryFontsColor" />
 
             <TextView
                 android:id="@+id/textView57"
@@ -91,6 +97,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:text="@string/notes"
+                android:textColor="@color/colorTitlesFonts"
                 android:textSize="16sp" />
 
             <TextView
@@ -98,7 +105,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/secondaryFontsColor" />
 
         </LinearLayout>
     </ScrollView>
@@ -106,7 +114,7 @@
     <LinearLayout
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="320dp"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -120,28 +128,28 @@
         <Button
             android:id="@+id/cancelDayButton"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_weight="1"
-            android:text="@string/back" />
+            android:background="@drawable/back" />
 
         <Button
             android:id="@+id/removeDayButton"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_weight="1"
-            android:text="@string/remove"
+            android:background="@drawable/remove"
             tools:layout_editor_absoluteX="-48dp"
             tools:layout_editor_absoluteY="353dp" />
 
         <Button
             android:id="@+id/modDayButton"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_weight="1"
-            android:text="@string/modify" />
+            android:background="@drawable/modify" />
 
     </LinearLayout>
 

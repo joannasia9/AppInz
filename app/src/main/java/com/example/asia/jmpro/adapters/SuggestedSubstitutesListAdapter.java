@@ -74,12 +74,12 @@ public class SuggestedSubstitutesListAdapter extends BaseAdapter {
 
         if (selectedSubstitutesList.size() != 0) {
             if (selectedSubstitutes.contains(model.getName())) {
-                viewHolder.toggleButton.setImageResource(R.drawable.toshare);
+                viewHolder.toggleButton.setImageResource(R.drawable.recommended);
             } else {
-                viewHolder.toggleButton.setImageResource(R.drawable.nottoshare);
+                viewHolder.toggleButton.setImageResource(R.drawable.to_recommend);
             }
         } else {
-            viewHolder.toggleButton.setImageResource(R.drawable.nottoshare);
+            viewHolder.toggleButton.setImageResource(R.drawable.to_recommend);
         }
 
         return item;

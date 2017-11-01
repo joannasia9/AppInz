@@ -87,9 +87,9 @@ public class UniversalSimpleListAdapter extends BaseAdapter {
                     allergenItemViewHolder.textView.setText(productModel.getName());
 
                     if (selectedItems.contains(productModel.getName())) {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.item1);
+                        allergenItemViewHolder.imageView.setImageResource(R.drawable.recommended);
                     } else {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.item2);
+                        allergenItemViewHolder.imageView.setImageResource(R.drawable.to_recommend);
                     }
 
                 } else {
@@ -103,9 +103,9 @@ public class UniversalSimpleListAdapter extends BaseAdapter {
                     allergenItemViewHolder.textView.setText(medicineModel.getName());
 
                     if (selectedItems.contains(medicineModel.getName())) {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.item1);
+                        allergenItemViewHolder.imageView.setImageResource(R.drawable.recommended);
                     } else {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.item2);
+                        allergenItemViewHolder.imageView.setImageResource(R.drawable.to_recommend);
                     }
 
                 } else {
@@ -119,9 +119,9 @@ public class UniversalSimpleListAdapter extends BaseAdapter {
                     allergenItemViewHolder.textView.setText(symptomModel.getName());
 
                     if (selectedItems.contains(symptomModel.getName())) {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.item1);
+                        allergenItemViewHolder.imageView.setImageResource(R.drawable.recommended);
                     } else {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.item2);
+                        allergenItemViewHolder.imageView.setImageResource(R.drawable.to_recommend);
                     }
                 } else {
                     allergenItemViewHolder.textView.setText(R.string.no_results_to_show);
@@ -134,9 +134,9 @@ public class UniversalSimpleListAdapter extends BaseAdapter {
                     allergenItemViewHolder.textView.setText(noteModel);
 
                     if (selectedItems.contains(noteModel)) {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.item1);
+                        allergenItemViewHolder.imageView.setImageResource(R.drawable.recommended);
                     } else {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.item2);
+                        allergenItemViewHolder.imageView.setImageResource(R.drawable.to_recommend);
                     }
                 } else {
                     allergenItemViewHolder.textView.setText(R.string.no_results_to_show);

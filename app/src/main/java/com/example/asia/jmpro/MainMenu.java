@@ -15,8 +15,7 @@ import com.example.asia.jmpro.viewholders.MyBaseActivity;
 public class MainMenu extends MyBaseActivity{
     ListView mItems;
     String[] mItemsTitles;
-    int[] mItemsBackground = {R.color.item1, R.color.item4, R.color.item2, R.color.item3, R.color.item4};
-    int[] mItemsImages = {R.drawable.item1, R.drawable.item4, R.drawable.item2, R.drawable.item3, R.drawable.item4};
+    int[] images = {R.drawable.my_diary,R.drawable.allergens, R.drawable.substitutes, R.drawable.places,R.drawable.settings};
 
     SharedPreferences preferences;
     Intent serviceNotificationIntent;
@@ -30,7 +29,7 @@ public class MainMenu extends MyBaseActivity{
         mItems = (ListView) findViewById(R.id.menuItemsListView);
         mItemsTitles = getResources().getStringArray(R.array.main_menu_items);
 
-        MyMenuAdapter myMenuAdapter = new MyMenuAdapter(this, mItemsTitles, mItemsImages, mItemsBackground);
+        MyMenuAdapter myMenuAdapter = new MyMenuAdapter(this, mItemsTitles,images);
         mItems.setAdapter(myMenuAdapter);
         mItems.setOnItemClickListener(listener);
 

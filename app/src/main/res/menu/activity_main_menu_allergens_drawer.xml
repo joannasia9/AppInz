@@ -5,25 +5,26 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_all_allergens"
+            android:icon="@drawable/my_all_allergens"
             android:title="@string/all" />
         <item
             android:id="@+id/nav_add_allergen"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/add_day"
             android:title="@string/add" />
         <item
             android:id="@+id/nav_modify"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/modify_single"
             android:title="@string/modify" />
         <item
             android:id="@+id/nav_remove_allergen"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/remove_single"
             android:title="@string/remove" />
     </group>
     <item android:title="@string/settings_allergens">
         <menu>
             <item
                 android:id="@+id/nav_set_my_allergens"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/settings_single"
                 android:title="@string/my_substitutes" />
         </menu>
     </item>

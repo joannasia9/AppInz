@@ -17,12 +17,10 @@ import com.example.asia.jmpro.viewholders.SettingsViewHolder;
 public class GeneralSettingsListViewAdapter extends BaseAdapter {
 private Context context;
 private String[] settingTitlesList;
-private int[] settingsImagesList;
 
-    public GeneralSettingsListViewAdapter(Context context, String[] settingTitlesList, int[] settingsImagesList) {
+    public GeneralSettingsListViewAdapter(Context context, String[] settingTitlesList) {
         this.context = context;
         this.settingTitlesList = settingTitlesList;
-        this.settingsImagesList = settingsImagesList;
     }
 
 
@@ -54,8 +52,6 @@ private int[] settingsImagesList;
         } else {
             settingsItemViewHolder = (SettingsViewHolder) settingsItem.getTag();
         }
-
-        settingsItemViewHolder.menuItemImage.setImageResource(settingsImagesList[position]);
         settingsItemViewHolder.menuItemTitle.setText(settingTitlesList[position]);
         return settingsItem;
 

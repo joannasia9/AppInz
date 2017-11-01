@@ -105,7 +105,7 @@ public class Registration extends MyBaseActivity {
         if (bDate == null) {
             birthDate.setText(getString(R.string.choose_date));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                birthDate.setTextColor(getResources().getColor(R.color.errorColor, getTheme()));
+                birthDate.setTextColor(getResources().getColor(R.color.colorStrawberryPrimary, getTheme()));
             }
             return false;
         } else return true;

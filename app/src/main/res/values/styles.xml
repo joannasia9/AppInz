@@ -8,6 +8,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="StrawberryTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorStrawberryPrimary</item>
+        <item name="colorPrimaryDark">@color/colorStrawberryPrimaryDark</item>
+        <item name="colorAccent">@color/colorStrawberryAccent</item>
+    </style>
+
+    <style name="AppleTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorApplePrimary</item>
+        <item name="colorPrimaryDark">@color/colorApplePrimaryDark</item>
+        <item name="colorAccent">@color/colorAppleAccent</item>
+    </style>
+
+    <style name="OrangeTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorOrangePrimary</item>
+        <item name="colorPrimaryDark">@color/colorOrangePrimaryDark</item>
+        <item name="colorAccent">@color/colorOrangeAccent</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
