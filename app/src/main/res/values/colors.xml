@@ -4,31 +4,28 @@
     <color name="colorPrimary">#7a42de</color>
     <color name="colorPrimaryDark">#401c81</color>
     <color name="colorAccent">#ff40ea</color>
-    <color name="colorTitlesFonts">#A49F9F</color>
-    <color name="secondaryFontsColor">#B7B4B4</color>
 
-    <color name="colorStrawberryTitlesFonts">#AB0606</color>
-    <color name="secondaryStrawberryFontsColor">#F66F6F</color>
+    <color name="classicContentColor">#BE2FF9</color>
+
     <color name="colorStrawberryPrimary">#f73a1c</color>
-    <color name="colorStrawberryPrimaryDark">#811605</color>
-    <color name="colorStrawberryAccent">#ffe940</color>
+    <color name="colorStrawberryPrimaryDark">#A10F0C</color>
+    <color name="colorStrawberryAccent">#FAC20A</color>
+    <color name="colorStrawberryClassicAccent">#DA7507</color>
 
-    <color name="colorAppleTitlesFonts">#0D4B06</color>
-    <color name="secondaryAppleFontsColor">#1C9A0E</color>
-    <color name="colorApplePrimary">#83f951</color>
-    <color name="colorApplePrimaryDark">#358e02</color>
-    <color name="colorAppleAccent">#bef532</color>
 
-    <color name="colorOrangeTitlesFonts">#A24A06</color>
-    <color name="secondaryOrangeFontsColor">#E96906</color>
-    <color name="colorOrangePrimary">#fbc93f</color>
-    <color name="colorOrangePrimaryDark">#f59505</color>
-    <color name="colorOrangeAccent">#90d30b</color>
+    <color name="colorApplePrimary">#40C007</color>
+    <color name="colorApplePrimaryDark">#226803</color>
+    <color name="colorAppleAccent">#F60914</color>
+    <color name="colorAppleClassicAccent">#A3050C</color>
+
+    <color name="colorOrangePrimary">#FFC705</color>
+    <color name="colorOrangePrimaryDark">#EB880A</color>
+    <color name="colorOrangeAccent">#BD3F14</color>
+    <color name="colorOrangeClassicAccent">#2B9216</color>
+
+    <color name="checkedItem">#ECE3CB</color>
 
     <color name="colorBlack">#000000</color>
-    <color name="item1">#9AE33B</color>
-    <color name="item2">#2DF7E6</color>
-    <color name="item3">#EA7DF0</color>
-    <color name="item4">#edf511</color>
-    <color name="item5">#CFFFFF</color>
+    <color name="colorWhite">#FFFFFF</color>
+
 </resources>

@@ -14,7 +14,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:fontFamily="serif"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/titlesColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -51,7 +51,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="serif"
         android:text="@string/no_element"
-        android:textColor="@color/secondaryFontsColor"
+        android:textColor="?attr/titlesColor"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listView" />
 
@@ -64,7 +64,7 @@
         android:fontFamily="serif"
         android:hint="@string/name"
         android:inputType="textPersonName"
-        android:textColor="@color/secondaryFontsColor"
+        android:textColor="?attr/contentTextColor"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/textView40"
         app:layout_constraintTop_toBottomOf="@+id/textView40" />

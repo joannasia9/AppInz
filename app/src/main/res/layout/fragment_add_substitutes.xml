@@ -15,7 +15,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="serif"
         android:text="@string/add_sub"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/titlesColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -30,7 +30,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="serif"
         android:text="@string/coose_allergen"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/titlesColor"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView26" />
@@ -45,7 +45,7 @@
         android:fontFamily="serif"
         android:hint="@string/all_name"
         android:inputType="textPersonName"
-        android:textColor="@color/secondaryFontsColor"
+        android:textColor="?attr/contentTextColor"
         android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView27" />
@@ -53,14 +53,14 @@
     <EditText
         android:id="@+id/substituteNameAddSubstitutesEditText"
         android:layout_width="240dp"
-        android:layout_marginStart="16dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
         android:ems="10"
         android:fontFamily="serif"
         android:hint="@string/sub_name"
         android:inputType="textPersonName"
-        android:textColor="@color/secondaryFontsColor"
+        android:textColor="?attr/contentTextColor"
         android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView28" />
@@ -73,7 +73,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="serif"
         android:text="@string/enter_sub_name"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/titlesColor"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/allergenNameAddSubstitutesEditText" />
@@ -129,7 +129,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="serif"
         android:text="@string/substitutes_of"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/titlesColor"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addSubstitutesButton" />
 </android.support.constraint.ConstraintLayout>

@@ -10,12 +10,11 @@
         android:id="@+id/dayId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="serif"
+        android:textColor="?attr/titlesColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -46,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:text="@string/eaten_products"
-                android:textColor="@color/colorTitlesFonts"
+                android:textColor="?attr/titlesColor"
                 android:textSize="16sp" />
 
             <TextView
@@ -55,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:textAlignment="center"
-                android:textColor="@color/secondaryFontsColor" />
+                android:textColor="?attr/contentTextColor" />
 
             <TextView
                 android:id="@+id/textView53"
@@ -63,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:text="@string/medicines"
-                android:textColor="@color/colorTitlesFonts"
+                android:textColor="?attr/titlesColor"
                 android:textSize="16sp" />
 
             <TextView
@@ -72,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:textAlignment="center"
-                android:textColor="@color/secondaryFontsColor" />
+                android:textColor="?attr/contentTextColor" />
 
             <TextView
                 android:id="@+id/textView111"
@@ -80,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:text="@string/symptoms"
-                android:textColor="@color/colorTitlesFonts"
+                android:textColor="?attr/titlesColor"
                 android:textSize="16sp" />
 
             <TextView
@@ -89,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:textAlignment="center"
-                android:textColor="@color/secondaryFontsColor" />
+                android:textColor="?attr/contentTextColor" />
 
             <TextView
                 android:id="@+id/textView57"
@@ -97,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:text="@string/notes"
-                android:textColor="@color/colorTitlesFonts"
+                android:textColor="?attr/titlesColor"
                 android:textSize="16sp" />
 
             <TextView
@@ -106,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:textAlignment="center"
-                android:textColor="@color/secondaryFontsColor" />
+                android:textColor="?attr/contentTextColor" />
 
         </LinearLayout>
     </ScrollView>

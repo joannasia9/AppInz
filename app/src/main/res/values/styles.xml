@@ -6,29 +6,109 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="titlesColor">@color/colorWhite</item>
+        <item name="editTextFieldColor">@color/colorWhite</item>
+        <item name ="contentTextColor">@color/classicContentColor</item>
+        <item name="subContentTextColor">@color/colorAccent</item>
+        <item name="backgroundColor">@color/colorBlack</item>
+        <item name="buttonTextColor">@color/colorBlack</item>
+        <item name="editTextFieldTextColor">@color/colorBlack</item>
+
+        <item name="buttonStyle">@style/ClassicButtonStyle</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="StrawberryTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="StrawberryTheme">
         <item name="colorPrimary">@color/colorStrawberryPrimary</item>
         <item name="colorPrimaryDark">@color/colorStrawberryPrimaryDark</item>
         <item name="colorAccent">@color/colorStrawberryAccent</item>
+
+        <item name="titlesColor">@color/colorStrawberryPrimaryDark</item>
+        <item name ="contentTextColor">@color/colorStrawberryPrimary</item>
+        <item name="subContentTextColor">@color/colorStrawberryClassicAccent</item>
+
+        <item name="buttonStyle">@style/StrawberryButtonStyle</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppleTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppleTheme" >
         <item name="colorPrimary">@color/colorApplePrimary</item>
         <item name="colorPrimaryDark">@color/colorApplePrimaryDark</item>
         <item name="colorAccent">@color/colorAppleAccent</item>
+
+        <item name="titlesColor">@color/colorApplePrimaryDark</item>
+        <item name ="contentTextColor">@color/colorApplePrimary</item>
+        <item name="subContentTextColor">@color/colorAppleClassicAccent</item>
+
+        <item name="buttonStyle">@style/AppleButtonStyle</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="OrangeTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="OrangeTheme" >
         <item name="colorPrimary">@color/colorOrangePrimary</item>
         <item name="colorPrimaryDark">@color/colorOrangePrimaryDark</item>
         <item name="colorAccent">@color/colorOrangeAccent</item>
+
+        <item name="titlesColor">@color/colorOrangePrimaryDark</item>
+        <item name ="contentTextColor">@color/colorOrangeAccent</item>
+        <item name="subContentTextColor">@color/colorOrangeClassicAccent</item>
+
+        <item name="buttonStyle">@style/OrangeButtonStyle</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="OrangeButtonStyle">
+        <item name="android:textColor">?android:attr/colorPrimaryDark</item>
+        <item name="android:background">@drawable/row_gradient</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:height">50dp</item>
+    </style>
+
+    <style name="AppleButtonStyle">
+        <item name="android:textColor">?android:attr/colorPrimaryDark</item>
+        <item name="android:background">@drawable/apple_gradient</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:height">50dp</item>
+    </style>
+
+    <style name="ClassicButtonStyle">
+        <item name="android:textColor">?android:attr/colorPrimaryDark</item>
+        <item name="android:background">@drawable/classic_gradient</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:height">50dp</item>
+    </style>
+
+    <style name="StrawberryButtonStyle">
+        <item name="android:textColor">?android:attr/colorPrimaryDark</item>
+        <item name="android:background">@drawable/strawberry_gradient</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:height">50dp</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

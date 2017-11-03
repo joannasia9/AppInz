@@ -59,6 +59,7 @@ public class Diary extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(MyApp.getThemeId(getApplicationContext()));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

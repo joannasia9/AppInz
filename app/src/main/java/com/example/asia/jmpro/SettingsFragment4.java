@@ -39,6 +39,7 @@ public class SettingsFragment4 extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View fragmentLayout = inflater.inflate(R.layout.settings_fragment4, container, false);
 
+        Settings.hideKeyboard(getActivity());
         sSettingsListView = (ListView) fragmentLayout.findViewById(R.id.supportSettingsListView);
         sItemsTitles = getResources().getStringArray(R.array.support_settings_items);
 

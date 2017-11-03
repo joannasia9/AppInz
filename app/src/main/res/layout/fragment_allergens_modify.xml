@@ -15,7 +15,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="serif"
         android:text="@string/modify"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/titlesColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"

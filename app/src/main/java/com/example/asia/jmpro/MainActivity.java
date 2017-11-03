@@ -44,6 +44,7 @@ public class MainActivity extends MyBaseActivity implements ActivityCompat.OnReq
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(MyApp.getThemeId(getApplicationContext()));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

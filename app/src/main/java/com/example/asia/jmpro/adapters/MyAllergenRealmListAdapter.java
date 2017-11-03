@@ -83,7 +83,7 @@ public class MyAllergenRealmListAdapter extends BaseAdapter {
         }
 
         if(selected.contains(model.getAllergenName())){
-            viewHolder.layout.setBackgroundResource(R.color.item4);
+            viewHolder.layout.setBackgroundResource(R.color.checkedItem);
         } else {
             viewHolder.layout.setBackgroundResource(R.color.cardview_light_background);
         }

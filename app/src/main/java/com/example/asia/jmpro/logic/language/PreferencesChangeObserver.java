@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.example.asia.jmpro.MyApp;
+import com.example.asia.jmpro.R;
+import com.example.asia.jmpro.SettingsFragment3;
 import com.example.asia.jmpro.logic.location.LocationChangeObserver;
+import com.example.asia.jmpro.logic.theme.CurrentThemeHolder;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -37,8 +41,15 @@ public class PreferencesChangeObserver implements SharedPreferences.OnSharedPref
         if (key.equals("languageStr")) {
             activity.recreate();
         }
+
         if (key.equals("notificationsStatus")) {
             activity.stopService(new Intent(activity, LocationChangeObserver.class));
+        }
+
+        if(key.equals("selectedThemeName") || key.equals("selectedThemeItem"))
+        {
+            MyApp.reloadTheme(activity);
+            activity.recreate();
         }
     }
 }

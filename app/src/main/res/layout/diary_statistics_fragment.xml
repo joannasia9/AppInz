@@ -16,7 +16,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="serif"
         android:text="@string/statistics"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/titlesColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -31,7 +31,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="serif"
         android:text="@string/in_the_last"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/titlesColor"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner3" />
 
@@ -49,11 +49,11 @@
         android:id="@+id/textView50"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16sp"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
         android:fontFamily="serif"
         android:text="@string/choosen"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/titlesColor"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView42" />
 
@@ -92,7 +92,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
         android:fontFamily="serif"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/titlesColor"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

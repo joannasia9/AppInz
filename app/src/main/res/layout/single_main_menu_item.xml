@@ -30,7 +30,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="serif"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/contentTextColor"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/menuItemImageView"
         app:layout_constraintLeft_toRightOf="@+id/menuItemImageView"

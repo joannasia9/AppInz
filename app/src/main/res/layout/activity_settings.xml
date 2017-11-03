@@ -25,11 +25,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="@color/colorPrimary"
+            android:background="?android:attr/colorPrimary"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:textColor="#fff">
-        </android.support.v4.view.PagerTabStrip>
+            android:textColor="#fff"></android.support.v4.view.PagerTabStrip>
 
     </android.support.v4.view.ViewPager>
 

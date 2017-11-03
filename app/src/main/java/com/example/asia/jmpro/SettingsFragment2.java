@@ -44,6 +44,7 @@ public class SettingsFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View fragmentLayout = inflater.inflate(R.layout.settings_fragment2, container, false);
+        Settings.hideKeyboard(getActivity());
         login = (TextView) fragmentLayout.findViewById(R.id.settingsLogin);
         birthDate = (TextView) fragmentLayout.findViewById(R.id.settingsBirthDate);
         email = (TextView) fragmentLayout.findViewById(R.id.settingsEmail);

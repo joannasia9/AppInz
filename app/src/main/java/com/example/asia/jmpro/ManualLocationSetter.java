@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,10 +32,13 @@ public class ManualLocationSetter extends AppCompatActivity implements OnMapRead
     GoogleMap map;
     Marker marker;
     LatLng newPosition;
+    PreferencesChangeObserver preferencesChangeObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(MyApp.getThemeId(getApplicationContext()));
         super.onCreate(savedInstanceState);
+        preferencesChangeObserver = new PreferencesChangeObserver(this);
         setContentView(R.layout.activity_manual_location_setter);
 
         initMap();
@@ -129,4 +133,5 @@ public class ManualLocationSetter extends AppCompatActivity implements OnMapRead
     public void choosePlace(View view) {
         showAddFavouritePlaceDialog(newPosition);
     }
+
 }

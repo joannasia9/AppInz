@@ -21,6 +21,7 @@ public class MainMenuAllergens extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(MyApp.getThemeId(this));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu_allergens);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

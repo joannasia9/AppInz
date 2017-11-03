@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <attr name="titlesColor" format="color" />
+        <attr name="contentTextColor" format="color"/>
+        <attr name="subContentTextColor" format="color"/>
+        <attr name="backgroundColor" format="color"/>
+        <attr name="buttonTextColor" format="color"/>
+        <attr name="editTextFieldColor" format="color"/>
+        <attr name="editTextFieldTextColor" format="color"/>
+</resources>

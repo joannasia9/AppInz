@@ -64,6 +64,7 @@
     <string name="no">Nie</string>
     <string name="cancel">Anuluj</string>
     <string name="are_you_sure2">Czy na pewno chcesz zresetować ustawienia?</string>
+    <string name="select_theme">Wybierz motyw</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
@@ -71,6 +72,13 @@
         <item>Substytuty</item>
         <item>Spis miejsc</item>
         <item>Ustawienia konta</item>
+    </string-array>
+
+    <string-array name="theme_names">
+        <item>Truskawka</item>
+        <item>Jabłko</item>
+        <item>Pomarańcza</item>
+        <item>Klasyczny</item>
     </string-array>
 
     <string-array name="general_settings_items">

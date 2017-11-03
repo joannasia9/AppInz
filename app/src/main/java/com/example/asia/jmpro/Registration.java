@@ -34,6 +34,7 @@ public class Registration extends MyBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(MyApp.getThemeId(getApplicationContext()));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
@@ -159,9 +160,12 @@ public class Registration extends MyBaseActivity {
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int birthYear, int monthOfAYear, int dayOfMonth) {
-            birthDate.setText(dayOfMonth + "." + (monthOfAYear + 1) + "." + birthYear);
+            String birthDateString = dayOfMonth + "." + (monthOfAYear + 1) + "." + birthYear;
+            birthDate.setText(birthDateString);
             birthDate.setTextColor(getResources().getColor(R.color.colorBlack, null));
             birthDateDate = DateUtilities.getDate(birthYear, monthOfAYear, dayOfMonth);
         }
     };
+
+
 }

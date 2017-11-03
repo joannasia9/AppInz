@@ -13,7 +13,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="serif"
-        android:textColor="@color/secondaryFontsColor"
+        android:textColor="?attr/contentTextColor"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

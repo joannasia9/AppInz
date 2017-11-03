@@ -27,7 +27,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="serif"
-        android:textColor="@color/secondaryFontsColor"
+        android:textColor="?attr/titlesColor"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/sImageview"

@@ -9,23 +9,27 @@ import android.widget.ListView;
 
 import com.example.asia.jmpro.adapters.MyMenuAdapter;
 import com.example.asia.jmpro.data.DbConnector;
+import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
 import com.example.asia.jmpro.logic.location.LocationChangeObserver;
+import com.example.asia.jmpro.logic.theme.CurrentThemeHolder;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
 
 public class MainMenu extends MyBaseActivity{
     ListView mItems;
     String[] mItemsTitles;
+    public static final int THEME_REQ_CODE = 100;
     int[] images = {R.drawable.my_diary,R.drawable.allergens, R.drawable.substitutes, R.drawable.places,R.drawable.settings};
 
-    SharedPreferences preferences;
+    PreferencesChangeObserver preferencesChangeObserver;
     Intent serviceNotificationIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(MyApp.getThemeId(this));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        preferences = getApplicationContext().getSharedPreferences("UsersData", MODE_PRIVATE);
 
+        preferencesChangeObserver = new PreferencesChangeObserver(this);
         mItems = (ListView) findViewById(R.id.menuItemsListView);
         mItemsTitles = getResources().getStringArray(R.array.main_menu_items);
 
@@ -54,11 +58,12 @@ public class MainMenu extends MyBaseActivity{
                 }
 
                 case 3: {
-                    startActivity(new Intent(getApplicationContext(), MainMenuPlaces.class));
+                    startActivity( new Intent(getApplicationContext(), MainMenuPlaces.class));
                     break;
                 }
                 case 4: {
-                    startActivity(new Intent(getApplicationContext(), Settings.class));
+                    Intent intent = new Intent(getApplicationContext(), Settings.class);
+                    startActivityForResult(intent, THEME_REQ_CODE );
                     break;
                 }
 
@@ -76,4 +81,11 @@ public class MainMenu extends MyBaseActivity{
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == THEME_REQ_CODE && resultCode == RESULT_OK) {
+                recreate();
+        }
+    }
 }

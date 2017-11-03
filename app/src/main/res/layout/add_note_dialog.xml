@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="serif"
         android:text="@string/add_note"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/titlesColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -33,7 +33,7 @@
         android:hint="@string/note_content"
         android:inputType="textMultiLine"
         android:textAlignment="center"
-        android:textColor="@color/secondaryFontsColor"
+        android:textColor="?attr/contentTextColor"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView39" />
 
@@ -61,14 +61,14 @@
         android:layout_marginStart="16dp"
         android:fontFamily="serif"
         android:text="@string/added_notes"
-        android:textColor="@color/secondaryFontsColor"
+        android:textColor="?attr/titlesColor"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noteContentEt" />
 
     <ListView
         android:id="@+id/addedNotesListView"
         android:layout_width="320dp"
-        android:layout_height="220dp"
+        android:layout_height="240dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"

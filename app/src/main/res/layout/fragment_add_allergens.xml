@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="serif"
         android:text="@string/add_allergens_to_db"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/titlesColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -32,7 +32,7 @@
         android:fontFamily="serif"
         android:hint="@string/a_name"
         android:inputType="textPersonName"
-        android:textColor="@color/secondaryFontsColor"
+        android:textColor="?attr/contentTextColor"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
@@ -68,7 +68,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="serif"
         android:text="@string/pending"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/titlesColor"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addToListButton" />
 
@@ -77,7 +77,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/save"

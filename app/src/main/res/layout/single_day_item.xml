@@ -15,7 +15,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="serif"
         android:text="@string/day"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/subContentTextColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

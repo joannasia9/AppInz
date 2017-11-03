@@ -14,7 +14,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:fontFamily="serif"
-        android:textColor="@color/colorTitlesFonts"
+        android:textColor="?attr/titlesColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"

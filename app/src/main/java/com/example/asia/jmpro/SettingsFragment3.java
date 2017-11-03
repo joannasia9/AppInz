@@ -28,7 +28,10 @@ public class SettingsFragment3 extends Fragment {
     SharedPreferences prefs;
     static final String PREFERENCES_STRING_KEY = "languageStr";
     static final String PREFERENCES_INT_KEY = "languageId";
+    static final String PREFERENCES_SELECTED_THEME_KEY = "selectedThemeItem";
+    static final String PREFERENCES_THEME_NAME = "selectedThemeName";
     static final String NOTIFICATIONS_ON_OFF_KEY = "notificationsStatus";
+
 
     ListView gSettingsListView;
     String[] gItemsTitles;
@@ -36,8 +39,8 @@ public class SettingsFragment3 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, Bundle savedInstanceState) {
-
         View fragmentLayout = inflater.inflate(R.layout.settings_fragment3, container, false);
+        Settings.hideKeyboard(getActivity());
         prefs = getContext().getSharedPreferences("UsersData", MODE_PRIVATE);
 
         gSettingsListView = (ListView) fragmentLayout.findViewById(R.id.generalSettingsListView);
@@ -60,7 +63,7 @@ public class SettingsFragment3 extends Fragment {
                     }
 
                     case 2: {
-                        //motyw
+                        showThemeSelectorDialog();
                         break;
                     }
                     case 3: {
@@ -98,6 +101,51 @@ public class SettingsFragment3 extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         getActivity().recreate();
+                        dialog.cancel();
+
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        builder.show();
+    }
+    private void showThemeSelectorDialog() {
+        final SharedPreferences.Editor themePrefsEditor = prefs.edit();;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getResources().getString(R.string.select_theme))
+                .setSingleChoiceItems(R.array.theme_names,prefs.getInt(PREFERENCES_SELECTED_THEME_KEY,3), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        themePrefsEditor.putInt(PREFERENCES_SELECTED_THEME_KEY, which);
+
+                        switch (which){
+                            case 0:
+                                themePrefsEditor.putInt(PREFERENCES_THEME_NAME,R.style.StrawberryTheme);
+                                break;
+                            case 1:
+                                themePrefsEditor.putInt(PREFERENCES_THEME_NAME,R.style.AppleTheme);
+                                break;
+                            case 2:
+                                themePrefsEditor.putInt(PREFERENCES_THEME_NAME,R.style.OrangeTheme);
+                                break;
+                            case 3:
+                                themePrefsEditor.putInt(PREFERENCES_THEME_NAME,R.style.AppTheme);
+                                break;
+                        }
+
+
+                    }
+                })
+                .setPositiveButton(getResources().getString(R.string.save), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        themePrefsEditor.apply();
                         dialog.cancel();
 
                     }
