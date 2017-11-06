@@ -119,7 +119,7 @@ public class SettingsFragment3 extends Fragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getResources().getString(R.string.select_theme))
-                .setSingleChoiceItems(R.array.theme_names,prefs.getInt(PREFERENCES_SELECTED_THEME_KEY,3), new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(R.array.theme_names,prefs.getInt(PREFERENCES_SELECTED_THEME_KEY,4), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         themePrefsEditor.putInt(PREFERENCES_SELECTED_THEME_KEY, which);
@@ -135,7 +135,10 @@ public class SettingsFragment3 extends Fragment {
                                 themePrefsEditor.putInt(PREFERENCES_THEME_NAME,R.style.OrangeTheme);
                                 break;
                             case 3:
-                                themePrefsEditor.putInt(PREFERENCES_THEME_NAME,R.style.AppTheme);
+                                themePrefsEditor.putInt(PREFERENCES_THEME_NAME, R.style.RaspberryTheme);
+                                break;
+                            case 4:
+                                themePrefsEditor.putInt(PREFERENCES_THEME_NAME, R.style.AppTheme);
                                 break;
                         }
 

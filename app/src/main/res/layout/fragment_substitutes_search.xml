@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:isScrollContainer="false" >
+    android:background="?attr/backgroundColor"
+    android:isScrollContainer="false">
 
     <TextView
         android:id="@+id/textView24"
@@ -27,8 +27,8 @@
         android:id="@+id/textView25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="serif"
         android:text="@string/enter_al_name"
         android:textColor="?attr/titlesColor"
@@ -39,14 +39,16 @@
     <EditText
         android:id="@+id/searchSubstitutesEditText"
         android:layout_width="240dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:background="?attr/editTextFieldColor"
         android:ems="10"
         android:fontFamily="serif"
         android:hint="@string/allergen"
         android:inputType="textPersonName"
-        android:textColor="?attr/contentTextColor"
+        android:textAlignment="center"
+        android:textColor="?attr/editTextFieldTextColor"
         android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView25" />
@@ -71,8 +73,8 @@
         android:id="@+id/foundSubstitutesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:focusableInTouchMode="false"
         android:fontFamily="serif"
         android:isScrollContainer="false"
@@ -93,7 +95,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/foundSubstitutesTextView"
-        tools:layout_editor_absoluteY="226dp"
         app:layout_constraintVertical_bias="0.47"
-        tools:layout_editor_absoluteX="20dp" />
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="226dp" />
 </android.support.constraint.ConstraintLayout>

@@ -31,7 +31,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:fontFamily="serif"
-        android:textColor="@android:color/black"
+        android:textColor="?attr/contentTextColor"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/textView44"

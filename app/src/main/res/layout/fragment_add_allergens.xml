@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundColor">
 
     <TextView
         android:id="@+id/textView29"
@@ -25,14 +25,16 @@
     <EditText
         android:id="@+id/allergenToAdd"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:background="?attr/editTextFieldColor"
         android:ems="10"
         android:fontFamily="serif"
         android:hint="@string/a_name"
         android:inputType="textPersonName"
-        android:textColor="?attr/contentTextColor"
+        android:textAlignment="center"
+        android:textColor="?attr/editTextFieldTextColor"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
@@ -64,8 +66,8 @@
         android:id="@+id/textView32"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="serif"
         android:text="@string/pending"
         android:textColor="?attr/titlesColor"

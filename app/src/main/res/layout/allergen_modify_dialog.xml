@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundColor">
 
     <EditText
         android:id="@+id/allergenModifiedName"
@@ -13,11 +13,13 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
+        android:background="?attr/editTextFieldColor"
         android:ems="10"
         android:fontFamily="serif"
         android:hint="@string/a_name"
         android:inputType="textPersonName"
-        android:textColor="?attr/contentTextColor"
+        android:textAlignment="center"
+        android:textColor="?attr/editTextFieldTextColor"
         android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -67,15 +69,17 @@
     <EditText
         android:id="@+id/substituteModifiedName"
         android:layout_width="220dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
+        android:background="?attr/editTextFieldColor"
         android:ems="10"
         android:fontFamily="serif"
         android:hint="@string/sub_name"
         android:inputType="textPersonName"
-        android:textColor="?attr/contentTextColor"
+        android:textAlignment="center"
+        android:textColor="?attr/editTextFieldTextColor"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/button5"
         app:layout_constraintEnd_toStartOf="@+id/button5"

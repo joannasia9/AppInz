@@ -1,8 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -11,11 +9,30 @@
         <item name="editTextFieldColor">@color/colorWhite</item>
         <item name ="contentTextColor">@color/classicContentColor</item>
         <item name="subContentTextColor">@color/colorAccent</item>
-        <item name="backgroundColor">@color/colorBlack</item>
-        <item name="buttonTextColor">@color/colorBlack</item>
-        <item name="editTextFieldTextColor">@color/colorBlack</item>
+        <item name="backgroundColor">@color/classicBackgroundColor</item>
+        <item name="buttonTextColor">@color/classicBackgroundColor</item>
+        <item name="editTextFieldTextColor">@color/classicBackgroundColor</item>
 
         <item name="buttonStyle">@style/ClassicButtonStyle</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="RaspberryTheme">
+        <item name="colorPrimary">@color/colorRaspberryPrimary</item>
+        <item name="colorPrimaryDark">@color/colorRaspberryPrimaryDark</item>
+        <item name="colorAccent">@color/colorRaspberryAccent</item>
+
+        <item name="titlesColor">@color/colorWhite</item>
+        <item name="editTextFieldColor">@color/colorWhite</item>
+        <item name ="contentTextColor">@color/raspberryContentTextColor</item>
+        <item name="subContentTextColor">@color/colorRaspberryAccent</item>
+        <item name="backgroundColor">@color/classicBackgroundColor</item>
+        <item name="buttonTextColor">@color/classicBackgroundColor</item>
+        <item name="editTextFieldTextColor">@color/classicBackgroundColor</item>
+
+        <item name="buttonStyle">@style/RaspberryButtonStyle</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -26,9 +43,13 @@
         <item name="colorPrimaryDark">@color/colorStrawberryPrimaryDark</item>
         <item name="colorAccent">@color/colorStrawberryAccent</item>
 
-        <item name="titlesColor">@color/colorStrawberryPrimaryDark</item>
-        <item name ="contentTextColor">@color/colorStrawberryPrimary</item>
-        <item name="subContentTextColor">@color/colorStrawberryClassicAccent</item>
+        <item name="titlesColor">@color/colorWhite</item>
+        <item name="editTextFieldColor">@color/colorWhite</item>
+        <item name ="contentTextColor">@color/strawberryContentTextColor</item>
+        <item name="subContentTextColor">@color/colorStrawberryAccent</item>
+        <item name="backgroundColor">@color/classicBackgroundColor</item>
+        <item name="buttonTextColor">@color/classicBackgroundColor</item>
+        <item name="editTextFieldTextColor">@color/classicBackgroundColor</item>
 
         <item name="buttonStyle">@style/StrawberryButtonStyle</item>
 
@@ -41,9 +62,15 @@
         <item name="colorPrimaryDark">@color/colorApplePrimaryDark</item>
         <item name="colorAccent">@color/colorAppleAccent</item>
 
-        <item name="titlesColor">@color/colorApplePrimaryDark</item>
-        <item name ="contentTextColor">@color/colorApplePrimary</item>
-        <item name="subContentTextColor">@color/colorAppleClassicAccent</item>
+        <item name="backgroundColor">@color/classicBackgroundColor</item>
+        <item name="titlesColor">@color/colorWhite</item>
+        <item name="editTextFieldColor">@color/colorWhite</item>
+
+        <item name ="contentTextColor">@color/appleContentTextColor</item>
+        <item name="subContentTextColor">@color/colorAppleAccent</item>
+
+        <item name="buttonTextColor">@color/classicBackgroundColor</item>
+        <item name="editTextFieldTextColor">@color/classicBackgroundColor</item>
 
         <item name="buttonStyle">@style/AppleButtonStyle</item>
 
@@ -56,9 +83,15 @@
         <item name="colorPrimaryDark">@color/colorOrangePrimaryDark</item>
         <item name="colorAccent">@color/colorOrangeAccent</item>
 
-        <item name="titlesColor">@color/colorOrangePrimaryDark</item>
-        <item name ="contentTextColor">@color/colorOrangeAccent</item>
-        <item name="subContentTextColor">@color/colorOrangeClassicAccent</item>
+        <item name="backgroundColor">@color/classicBackgroundColor</item>
+        <item name="titlesColor">@color/colorWhite</item>
+        <item name="editTextFieldColor">@color/colorWhite</item>
+
+        <item name ="contentTextColor">@color/orangeContentTextColor</item>
+        <item name="subContentTextColor">@color/colorOrangeAccent</item>
+
+        <item name="buttonTextColor">@color/classicBackgroundColor</item>
+        <item name="editTextFieldTextColor">@color/classicBackgroundColor</item>
 
         <item name="buttonStyle">@style/OrangeButtonStyle</item>
 
@@ -73,7 +106,7 @@
 
     <style name="OrangeButtonStyle">
         <item name="android:textColor">?android:attr/colorPrimaryDark</item>
-        <item name="android:background">@drawable/row_gradient</item>
+        <item name="android:background">@drawable/orange_gradient</item>
         <item name="android:textAlignment">center</item>
         <item name="android:paddingTop">13dp</item>
         <item name="android:paddingBottom">10dp</item>
@@ -94,6 +127,16 @@
     <style name="ClassicButtonStyle">
         <item name="android:textColor">?android:attr/colorPrimaryDark</item>
         <item name="android:background">@drawable/classic_gradient</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:height">50dp</item>
+    </style>
+
+    <style name="RaspberryButtonStyle">
+        <item name="android:textColor">?android:attr/colorPrimaryDark</item>
+        <item name="android:background">@drawable/raspberry_gradient</item>
         <item name="android:textAlignment">center</item>
         <item name="android:paddingTop">13dp</item>
         <item name="android:paddingBottom">10dp</item>

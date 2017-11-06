@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundColor">
 
     <TextView
         android:id="@+id/dialogTitle"
@@ -47,8 +47,8 @@
         android:id="@+id/textView40"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="serif"
         android:text="@string/no_element"
         android:textColor="?attr/titlesColor"
@@ -58,13 +58,15 @@
     <EditText
         android:id="@+id/editText"
         android:layout_width="240dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="16dp"
+        android:background="?attr/editTextFieldColor"
         android:ems="10"
         android:fontFamily="serif"
         android:hint="@string/name"
         android:inputType="textPersonName"
-        android:textColor="?attr/contentTextColor"
+        android:textAlignment="center"
+        android:textColor="?attr/editTextFieldTextColor"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/textView40"
         app:layout_constraintTop_toBottomOf="@+id/textView40" />
