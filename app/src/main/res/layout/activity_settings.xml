@@ -22,7 +22,6 @@
         app:layout_constraintVertical_bias="0.494">
 
         <android.support.v4.view.PagerTabStrip
-            android:id="@+id/pager_tab_strip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"

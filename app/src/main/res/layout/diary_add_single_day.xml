@@ -74,7 +74,6 @@
         app:layout_constraintTop_toBottomOf="@+id/changeDateButton">
 
         <LinearLayout
-            android:id="@+id/parentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -82,7 +81,6 @@
             tools:layout_editor_absoluteY="8dp">
 
             <TextView
-                android:id="@+id/textView45"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
@@ -108,7 +106,6 @@
                 android:text="@string/add_rm" />
 
             <TextView
-                android:id="@+id/textView46"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
@@ -134,7 +131,6 @@
                 android:text="@string/add_rm" />
 
             <TextView
-                android:id="@+id/textView47"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
@@ -160,7 +156,6 @@
                 android:text="@string/add_rm" />
 
             <TextView
-                android:id="@+id/textView48"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"

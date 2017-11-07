@@ -40,7 +40,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView51"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
@@ -57,7 +56,6 @@
                 android:textColor="?attr/contentTextColor" />
 
             <TextView
-                android:id="@+id/textView53"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
@@ -74,7 +72,6 @@
                 android:textColor="?attr/contentTextColor" />
 
             <TextView
-                android:id="@+id/textView111"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
@@ -91,7 +88,6 @@
                 android:textColor="?attr/contentTextColor" />
 
             <TextView
-                android:id="@+id/textView57"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"

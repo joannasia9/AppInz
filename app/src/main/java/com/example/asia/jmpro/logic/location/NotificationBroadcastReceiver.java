@@ -57,7 +57,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                 .setNumber(msgPositions.length)
                 .setAutoCancel(true)
                 .setStyle(inboxStyle)
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setSmallIcon(R.drawable.suggested)
                 .setContentIntent(pIntent)
                 .build();
 

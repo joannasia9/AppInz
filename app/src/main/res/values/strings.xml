@@ -11,16 +11,13 @@
     <string name="repeat_password">Powtórz hasło</string>
     <string name="e_mail">E-mail</string>
     <string name="birth_date">Data urodzenia</string>
-    <string name="year">rrrr</string>
     <string name="choose_date">Wybierz datę</string>
     <string name="incorrect_email">Niepoprawny e-mail</string>
-    <string name="set_date">Wybierz datę urodzenia</string>
     <string name="passwords_not_matched">Hasła nie są identyczne</string>
     <string name="password_signs">Hasło musi zawierać co najmniej 6 znaków.</string>
     <string name="required">Pole wymagane</string>
     <string name="registered">Zarejestrowano pomyślnie.</string>
     <string name="occupied_login">Ten login jest już zajęty</string>
-    <string name="wrong_password">Błędne hasło</string>
     <string name="menu">MENU</string>
     <string name="settings">Ustawienia</string>
     <string name="my_alergy">Mam alergię na:</string>
@@ -29,9 +26,7 @@
     <string name="a_name">Nazwa alergenu</string>
     <string name="add">Dodaj</string>
     <string name="wrong_credentials">Błędny login lub hasło</string>
-    <string name="correct_credentials">Zalogowano pomyślnie</string>
     <string name="db_error">Błąd połączenia z bazą.</string>
-    <string name="delete_account">Usuń konto</string>
     <string name="old_password">Stare hasło</string>
     <string name="new_password">Nowe hasło</string>
     <string name="new_email">Nowy e-mail</string>
@@ -39,7 +34,6 @@
     <string name="password_changed">Hasło zostało zmienione.</string>
     <string name="support_us">Wesprzyj nas</string>
     <string name="select_language">Wybierz język</string>
-    <string name="send">Wyślij</string>
     <string name="send_message">WYŚLIJ WIADOMOŚĆ</string>
     <string name="to">Do:</string>
     <string name="your_message">Treść Twojej wiadomości...</string>
@@ -136,8 +130,6 @@
     <string name="continue_with_permissions">Aby kontunuować zezwól na włączenie na urządzeniu lokalizacji w ramach usługi lokalizacyjnej Google.</string>
     <string name="force_memory_permissions">Aby kontynuować należy zezwolić na dostęp do zdjęć, multimediów i plików na Twoim urządzeniu.</string>
     <string name="ok">OK</string>
-    <string name="loc_permissions_granted">Uprawnienia dostępu do lokalizacji nadane.</string>
-    <string name="mem_permissions_granted">Uprawnienia dostępu do pamięci urządzenia nadane.</string>
     <string name="gps_off">Lokalizacja jest wyłączona.</string>
     <string name="wanna_gps_on">Czy chcesz włączyć lokalizację?</string>
     <string name="cant_get_current_location">Can\'t get current location</string>
@@ -147,9 +139,6 @@
     <string name="street">ul.</string>
     <string name="add_sug_place">Dodaj miejsce do polecanych</string>
     <string name="nothing">brak</string>
-    <string name="sug_positive">Polecono</string>
-    <string name="sug_negative">Poleć</string>
-    <string name="sug_place">Poleć miejsce</string>
     <string name="select_point">Przesuń pinezkę w wybrane miejsce</string>
     <string name="choose_manually">Wybierz manualnie</string>
     <string name="choosePlace">Wybierz</string>
@@ -161,11 +150,6 @@
     <string name="recommended_places">Przekonaj się, które miejsca warto odwiedzić :)</string>
     <string name="arrow"><![CDATA[->]]></string>
 
-
-    <string-array name="substitutes_options">
-        <item>Szukaj substytutów</item>
-        <item>Dodaj substytuty</item>
-    </string-array>
 
     <string name="title_activity_substitutes">Substituty</string>
     <string name="search_sub">Wyszukaj</string>
@@ -209,16 +193,13 @@
     <string name="if_u_sure">Czy na pewno chcesz usunąć element </string>
     <string name="from_db">z bazy?</string>
     <string name="removed">Usunięto:</string>
-    <string name="err_remove_allergens">Możesz usunąć jedynie alergeny dodane przed chwilą.</string>
     <string name="title_activity_main_menu_allergens">Alergeny</string>
     <string name="alergens">Alergeny</string>
     <string name="modify">Modyfikuj</string>
     <string name="remove">Usuń</string>
     <string name="settings_allergens">Ustawienia</string>
     <string name="add_allergens_to_db"> Dodaj alergeny do bazy </string>
-    <string name="add_to_lit">Dodaj do listy</string>
     <string name="pending">Oczekujące na dodanie do bazy:</string>
-    <string name="add_to_db">Dodaj do bazy</string>
     <string name="allergen_exists">Alergen o podanej nazwie już istnieje w bazie</string>
     <string name="u_sure">Czy na pewno chcesz dodać:</string>
     <string name="to_db">do bazy?</string>
@@ -228,11 +209,9 @@
     <string name="all_allergens">Wszystkie alergeny</string>
     <string name="added_by_me">Alergeny dodane przeze mnie:</string>
     <string name="remove_only_added_by_yourself">Możesz usunąć jedynie alergeny dodane przez siebie.</string>
-    <string name="added_">Dodano:</string>
     <string name="save_changes">Chcesz zapisać zmiany?</string>
     <string name="removed_suc">Usunięto pomyślnie</string>
     <string name="date">Data:</string>
-    <string name="change">Zmień</string>
     <string name="eaten_products">Zjedzone produkty</string>
     <string name="medicines">Zażyte leki</string>
     <string name="symptoms">Objawy</string>
@@ -244,16 +223,13 @@
     <string name="add_note">Dodaj notatkę</string>
     <string name="note_content">Treść notatki</string>
     <string name="no_results_to_show">Brak elementów do wyświetlenia</string>
-    <string name="select_items">Wybierz</string>
     <string name="add_rm">Dodaj / Usuń</string>
     <string name="success_a">Dodano pomyślnie</string>
     <string name="added_notes">Dodane notatki:</string>
     <string name="completely_nothing">Brak</string>
     <string name="day">Dzień:</string>
-    <string name="back">Wróć</string>
     <string name="in_the_last">W ostatnim:</string>
     <string name="last_week">Ostatni tydzień</string>
-    <string name="procent">[%]</string>
     <string name="last_month">Ostatni miesiąc</string>
     <string name="choosen">Wybrano</string>
     <string name="max_value">Najwyższą wartość osiąga:</string>
