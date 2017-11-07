@@ -61,7 +61,7 @@ public class DaysListAdapter extends BaseAdapter {
         dayItemViewHolder.dayId.setText(model.getId());
 
         if(selectedDaysList.contains(model.getId())) {
-            dayItemViewHolder.layout.setBackgroundColor(context.getColor(R.color.item5));
+            dayItemViewHolder.layout.setBackgroundColor(context.getColor(R.color.checkedItem));
         } else {
             dayItemViewHolder.layout.setBackgroundColor(context.getColor(R.color.cardview_light_background));
         }

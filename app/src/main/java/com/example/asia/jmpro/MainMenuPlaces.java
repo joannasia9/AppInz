@@ -44,6 +44,7 @@ import com.example.asia.jmpro.data.Place;
 import com.example.asia.jmpro.data.SuggestedPlace;
 import com.example.asia.jmpro.data.db.PlaceDao;
 import com.example.asia.jmpro.data.db.UserDao;
+import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.MessageDialog;
@@ -88,9 +89,11 @@ public class MainMenuPlaces extends AppCompatActivity
     List<Place> placesList;
     ArrayList<Place> selectedPlacesList = new ArrayList<>();
     List<SuggestedPlace> suggestedPlacesList;
+    PreferencesChangeObserver preferencesChangeObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(MyApp.getThemeId(this));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu_places);
 
@@ -125,6 +128,10 @@ public class MainMenuPlaces extends AppCompatActivity
 
         selectItem(0);
         initMap();
+
+        preferencesChangeObserver = new PreferencesChangeObserver(this).start();
+
+
     }
 
     @Override
@@ -275,9 +282,17 @@ public class MainMenuPlaces extends AppCompatActivity
         final EditText placeName = (EditText) dialog.findViewById(R.id.placeName);
         placeAddress = (EditText) dialog.findViewById(R.id.placeAddress);
         Button addPlaceButton = (Button) dialog.findViewById(R.id.addPlaceButton);
+        Button cancelButton = (Button) dialog.findViewById(R.id.button10);
         ImageView locationChooser = (ImageView) dialog.findViewById(R.id.locationChooserImageView);
 
         placeAddress.setText(getCurrentPlaceAddress(userLocation.getLatitude(), userLocation.getLongitude()));
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
 
         addPlaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -295,6 +310,7 @@ public class MainMenuPlaces extends AppCompatActivity
         locationChooser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.cancel();
                 Intent intent = new Intent(getApplicationContext(), ManualLocationSetter.class);
                 startActivityForResult(intent, REQUEST_CODE);
             }
@@ -309,6 +325,7 @@ public class MainMenuPlaces extends AppCompatActivity
         dialog.show();
 
         Button okButton = (Button) dialog.findViewById(R.id.hideDialogButton);
+        Button cancelButton = (Button) dialog.findViewById(R.id.cancelButtonDialog);
         ListView suggestedPlacesListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
         TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
         title.setText(getString(R.string.add_sug_place));
@@ -320,6 +337,12 @@ public class MainMenuPlaces extends AppCompatActivity
                 Place model = placesList.get(position);
                 placeDao.addSuggestedPlaceToDatabase(model);
                 suggestedPlacesListAdapter.updateAdapter(placeDao.getAllSuggestedPlacesList(), selectedPlacesList);
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
             }
         });
 
@@ -341,6 +364,8 @@ public class MainMenuPlaces extends AppCompatActivity
         dialog.show();
 
         Button okButton = (Button) dialog.findViewById(R.id.hideDialogButton);
+        Button cancelButton = (Button) dialog.findViewById(R.id.cancelButtonDialog);
+
         TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
         title.setText(getString(R.string.select_place_to_share));
         ListView suggestedPlacesListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
@@ -361,24 +386,40 @@ public class MainMenuPlaces extends AppCompatActivity
             }
         });
 
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //selectedPlacesList
                 switch (choice) {
                     case 3:
-                        shareViaEmail(selectedPlacesList);
+                        if(selectedPlacesList.size() != 0) {
+                            shareViaEmail(selectedPlacesList);
+                        }
                         break;
                     case 4:
-                        shareViaFacebook(selectedPlacesList.get(0));
+                        if(selectedPlacesList.size() != 0) {
+                            shareViaFacebook(selectedPlacesList.get(0));
+                        }
                         break;
                     case 5:
-                        shareViaMessenger(selectedPlacesList.get(0));
+                        if(selectedPlacesList.size() != 0) {
+                            shareViaMessenger(selectedPlacesList.get(0));
+                        }
                         break;
                     case 6:
-                        shareViaHangouts(selectedPlacesList);
+                        if(selectedPlacesList.size() != 0) {
+                            shareViaHangouts(selectedPlacesList);
+                        }
                     default:
-                        shareSelectedPlaces(selectedPlacesList);
+                        if(selectedPlacesList.size() != 0) {
+                            shareSelectedPlaces(selectedPlacesList);
+                        }
                         break;
                 }
                 dialog.cancel();
@@ -642,11 +683,6 @@ public class MainMenuPlaces extends AppCompatActivity
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        //location request:::
-        //        locationRequest=LocationRequest.create();
-        //        locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
-        //        locationRequest.setInterval(1000); //miliseconds
-        //        locationServices.FocusedLocationAPI.requestLocationUpdates(googleApiClient,locationRequest,this);
     }
 
     @Override

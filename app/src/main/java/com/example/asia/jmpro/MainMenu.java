@@ -9,35 +9,45 @@ import android.widget.ListView;
 
 import com.example.asia.jmpro.adapters.MyMenuAdapter;
 import com.example.asia.jmpro.data.DbConnector;
-import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
+import com.example.asia.jmpro.logic.DrawableResourceExtrator;
+import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
+import com.example.asia.jmpro.logic.location.LocationChangeObserver;
+import com.example.asia.jmpro.logic.theme.CurrentThemeHolder;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
 
-public class MainMenu extends MyBaseActivity {
+public class MainMenu extends MyBaseActivity{
     ListView mItems;
     String[] mItemsTitles;
-    int[] mItemsBackground = {R.color.item1, R.color.item4, R.color.item2, R.color.item3, R.color.item4};
-    int[] mItemsImages = {R.drawable.item1, R.drawable.item4, R.drawable.item2, R.drawable.item3, R.drawable.item4};
+    public static final int THEME_REQ_CODE = 100;
 
-    SharedPreferences preferences;
-    LanguageChangeObserver languageChangeObserver;
-
+    PreferencesChangeObserver preferencesChangeObserver;
+    Intent serviceNotificationIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(MyApp.getThemeId(this));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        preferences = getApplicationContext().getSharedPreferences("UsersData", MODE_PRIVATE);
 
+        preferencesChangeObserver = new PreferencesChangeObserver(this);
         mItems = (ListView) findViewById(R.id.menuItemsListView);
         mItemsTitles = getResources().getStringArray(R.array.main_menu_items);
 
-        MyMenuAdapter myMenuAdapter = new MyMenuAdapter(this, mItemsTitles, mItemsImages, mItemsBackground);
+        int img1 = DrawableResourceExtrator.getResIdFromAttribute(this, R.attr.my_diary);
+        int img2 = DrawableResourceExtrator.getResIdFromAttribute(this, R.attr.allergens);
+        int img3 = DrawableResourceExtrator.getResIdFromAttribute(this, R.attr.substitutes);
+        int img4 = DrawableResourceExtrator.getResIdFromAttribute(this, R.attr.places);
+        int img5 = DrawableResourceExtrator.getResIdFromAttribute(this, R.attr.settings);
+
+        int [] images = {img1, img2, img3, img4, img5};
+
+        MyMenuAdapter myMenuAdapter = new MyMenuAdapter(this, mItemsTitles,images);
         mItems.setAdapter(myMenuAdapter);
         mItems.setOnItemClickListener(listener);
 
-        languageChangeObserver = new LanguageChangeObserver(this).start();
-    }
+        serviceNotificationIntent = new Intent(this, LocationChangeObserver.class);
 
+    }
 
     AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
         @Override
@@ -56,11 +66,12 @@ public class MainMenu extends MyBaseActivity {
                 }
 
                 case 3: {
-                    startActivity(new Intent(getApplicationContext(), MainMenuPlaces.class));
+                    startActivity( new Intent(getApplicationContext(), MainMenuPlaces.class));
                     break;
                 }
                 case 4: {
-                    startActivity(new Intent(getApplicationContext(), Settings.class));
+                    Intent intent = new Intent(getApplicationContext(), Settings.class);
+                    startActivityForResult(intent, THEME_REQ_CODE );
                     break;
                 }
 
@@ -70,7 +81,6 @@ public class MainMenu extends MyBaseActivity {
         }
     };
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -79,4 +89,11 @@ public class MainMenu extends MyBaseActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == THEME_REQ_CODE && resultCode == RESULT_OK) {
+                recreate();
+        }
+    }
 }

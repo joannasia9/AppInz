@@ -35,6 +35,10 @@ public class AllergensFragmentModify extends Fragment {
     List<AllergenRealm> allAllergens;
     ArrayList<AllergenRealm> selectedAllergens;
     MyAllergenRealmListAdapter adapter;
+    SimpleSubstitutesListAdapter simpleSubstitutesListAdapter;
+
+    ArrayList<SubstituteRealm> substituteRealms;
+    SubstituteDao substituteDao;
     AllergenDao allergenDao;
 
     @Nullable
@@ -42,30 +46,27 @@ public class AllergensFragmentModify extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View allergensFragment = inflater.inflate(R.layout.fragment_allergens_modify, container, false);
         allergenDao = new AllergenDao();
-        allAllergens = allergenDao.getAllAllergenRealm();
+        substituteDao = new SubstituteDao(getContext());
         selectedAllergens = new ArrayList<>();
 
+
         listView = (ListView) allergensFragment.findViewById(R.id.modifyAllergensListView);
+        allAllergens = allergenDao.getAllAllergenRealm();
         adapter = new MyAllergenRealmListAdapter(getContext(), allAllergens, selectedAllergens);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AllergenRealm allergenRealm = allAllergens.get(position);
-                showModifyAllergenDialog(allergenRealm);
+                showModifyAllergenDialog(position);
             }
-
-
         });
 
         return allergensFragment;
     }
 
-    private void showModifyAllergenDialog(final AllergenRealm allergenRealm) {
-
-        SubstituteDao substituteDao = new SubstituteDao(getContext());
-        final ArrayList<SubstituteRealm> substituteRealms = substituteDao.getAllAllergensSubstituteList(allergenRealm.getAllergenName());
+    private void showModifyAllergenDialog(int position) {
+        final AllergenRealm allergenRealm = allAllergens.get(position); // allergenRealm
 
         final Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.allergen_modify_dialog);
@@ -73,18 +74,32 @@ public class AllergensFragmentModify extends Fragment {
         final EditText substituteName = (EditText) dialog.findViewById(R.id.substituteModifiedName);
 
         ListView listView = (ListView) dialog.findViewById(R.id.substitutesModifyListView);
-        final SimpleSubstitutesListAdapter simpleSubstitutesListAdapter = new SimpleSubstitutesListAdapter(getContext(), substituteRealms);
+
+        substituteRealms = substituteDao.getAllAllergensSubstituteList(allergenRealm.getAllergenName());
+        simpleSubstitutesListAdapter = new SimpleSubstitutesListAdapter(getContext(), substituteRealms);
+
         listView.setAdapter(simpleSubstitutesListAdapter);
 
         newAllergenName = allergenRealm.getAllergenName();
         oldAllergenName = allergenRealm.getAllergenName();
         allergenName.setText(newAllergenName);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showDeletionDialog(position);
+            }
+        });
+
         Button addToListButton = (Button) dialog.findViewById(R.id.button5);
+
         addToListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (substituteName.getText().toString().trim().length() != 0) {
+                    if(convertToArrayString(substituteRealms).contains(getString(R.string.no_result))){
+                        substituteRealms.remove(searchIndex(getString(R.string.no_result),substituteRealms));
+                    }
                     SubstituteRealm substituteRealm = new SubstituteRealm(substituteName.getText().toString().trim());
                     substituteRealms.add(substituteRealm);
                     simpleSubstitutesListAdapter.updateAdapter(substituteRealms);
@@ -93,7 +108,9 @@ public class AllergensFragmentModify extends Fragment {
             }
         });
 
+
         Button saveButton = (Button) dialog.findViewById(R.id.button6);
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,19 +122,27 @@ public class AllergensFragmentModify extends Fragment {
             }
         });
 
+        Button cancelButton = (Button) dialog.findViewById(R.id.button11);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+
         dialog.create();
         dialog.show();
     }
 
-    private void showQuestionAlertDialog(final String oldAllergenName, final String newAllergenName, final ArrayList<SubstituteRealm> substituteRealms) {
+    private void showDeletionDialog(final int position) {
         AlertDialog builder = new AlertDialog.Builder(getContext())
                 .setTitle(getString(R.string.warning))
-                .setMessage(R.string.save_changes)
+                .setMessage(R.string.if_definitely)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        allergenDao.updateAllergenRealm(oldAllergenName, newAllergenName, substituteRealms);
-                        Toast.makeText(getContext(), getString(R.string.added_suc_allergene), Toast.LENGTH_LONG).show();
+                        substituteRealms.remove(position);
+                        simpleSubstitutesListAdapter.updateAdapter(substituteRealms);
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -128,6 +153,46 @@ public class AllergensFragmentModify extends Fragment {
                 })
                 .create();
         builder.show();
+    }
 
+    private void showQuestionAlertDialog(final String oldAllergenName, final String newAllergenName, final ArrayList<SubstituteRealm> substituteRealms) {
+        AlertDialog builder = new AlertDialog.Builder(getContext())
+                .setTitle(getString(R.string.warning))
+                .setMessage(R.string.save_changes)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        allergenDao.updateAllergenRealm(oldAllergenName, newAllergenName, substituteRealms);
+                        allAllergens = allergenDao.getAllAllergenRealm();
+                        adapter.updateAdapter(allAllergens,selectedAllergens);
+                        Toast.makeText(getContext(), getContext().getString(R.string.success), Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        builder.show();
+    }
+
+    private ArrayList<String> convertToArrayString(ArrayList<SubstituteRealm> oldList){
+        ArrayList<String> newList = new ArrayList<>(oldList.size());
+        for(SubstituteRealm item : oldList){
+            newList.add(item.getName());
+        }
+        return newList;
+    }
+
+    private int searchIndex(String elementName, ArrayList<SubstituteRealm> list){
+        int index = 0;
+        for(int i = 0; i< list.size(); i++){
+            if(list.get(i).getName().equals(elementName)){
+                index = i;
+            }
+        }
+        return index;
     }
 }

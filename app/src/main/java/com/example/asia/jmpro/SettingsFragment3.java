@@ -2,6 +2,7 @@ package com.example.asia.jmpro;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.asia.jmpro.adapters.GeneralSettingsListViewAdapter;
+import com.example.asia.jmpro.data.DbConnector;
+import com.example.asia.jmpro.logic.location.LocationChangeObserver;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -25,22 +28,25 @@ public class SettingsFragment3 extends Fragment {
     SharedPreferences prefs;
     static final String PREFERENCES_STRING_KEY = "languageStr";
     static final String PREFERENCES_INT_KEY = "languageId";
+    static final String PREFERENCES_SELECTED_THEME_KEY = "selectedThemeItem";
+    static final String PREFERENCES_THEME_NAME = "selectedThemeName";
+    static final String NOTIFICATIONS_ON_OFF_KEY = "notificationsStatus";
+
 
     ListView gSettingsListView;
     String[] gItemsTitles;
-    int[] gItemsImages = {R.drawable.item1, R.drawable.item2, R.drawable.item3, R.drawable.item4};
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, Bundle savedInstanceState) {
-
         View fragmentLayout = inflater.inflate(R.layout.settings_fragment3, container, false);
+        Settings.hideKeyboard(getActivity());
         prefs = getContext().getSharedPreferences("UsersData", MODE_PRIVATE);
 
         gSettingsListView = (ListView) fragmentLayout.findViewById(R.id.generalSettingsListView);
         gItemsTitles = getResources().getStringArray(R.array.general_settings_items);
 
-        GeneralSettingsListViewAdapter adapter = new GeneralSettingsListViewAdapter(getContext(), gItemsTitles, gItemsImages);
+        GeneralSettingsListViewAdapter adapter = new GeneralSettingsListViewAdapter(getContext(), gItemsTitles);
         gSettingsListView.setAdapter(adapter);
 
         gSettingsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -48,7 +54,7 @@ public class SettingsFragment3 extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0: {
-
+                        showTurnNotificationsOnDialog();
                         break;
                     }
                     case 1: {
@@ -57,9 +63,11 @@ public class SettingsFragment3 extends Fragment {
                     }
 
                     case 2: {
+                        showThemeSelectorDialog();
                         break;
                     }
                     case 3: {
+                        showLogoutDialog();
                         break;
                     }
                     default:
@@ -72,13 +80,12 @@ public class SettingsFragment3 extends Fragment {
     }
 
     private void showLanguageSelectorDialog() {
-
+        final SharedPreferences.Editor editor = prefs.edit();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.select_language)
                 .setSingleChoiceItems(R.array.languages, prefs.getInt(PREFERENCES_INT_KEY, 0), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        SharedPreferences.Editor editor = prefs.edit();
                         editor.putInt(PREFERENCES_INT_KEY, which);
                         if (which == 0) {
                             editor.putString(PREFERENCES_STRING_KEY, getString(R.string.pl));
@@ -87,12 +94,13 @@ public class SettingsFragment3 extends Fragment {
                         } else {
                             editor.putString(PREFERENCES_STRING_KEY, getString(R.string.en));
                         }
-                        editor.apply();
+
                     }
                 })
                 .setPositiveButton(getResources().getString(R.string.save), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        editor.apply();
                         getActivity().recreate();
                         dialog.cancel();
 
@@ -108,6 +116,127 @@ public class SettingsFragment3 extends Fragment {
         builder.show();
     }
 
+    private void showThemeSelectorDialog() {
+        final SharedPreferences.Editor themePrefsEditor = prefs.edit();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getResources().getString(R.string.select_theme))
+                .setSingleChoiceItems(R.array.theme_names,prefs.getInt(PREFERENCES_SELECTED_THEME_KEY,4), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        themePrefsEditor.putInt(PREFERENCES_SELECTED_THEME_KEY, which);
+
+                        switch (which){
+                            case 0:
+                                themePrefsEditor.putInt(PREFERENCES_THEME_NAME,R.style.StrawberryTheme);
+                                break;
+                            case 1:
+                                themePrefsEditor.putInt(PREFERENCES_THEME_NAME,R.style.AppleTheme);
+                                break;
+                            case 2:
+                                themePrefsEditor.putInt(PREFERENCES_THEME_NAME,R.style.OrangeTheme);
+                                break;
+                            case 3:
+                                themePrefsEditor.putInt(PREFERENCES_THEME_NAME, R.style.RaspberryTheme);
+                                break;
+                            case 4:
+                                themePrefsEditor.putInt(PREFERENCES_THEME_NAME, R.style.AppTheme);
+                                break;
+
+                            default:
+                                themePrefsEditor.putInt(PREFERENCES_THEME_NAME, R.style.AppTheme);
+                                break;
+                        }
+
+
+                    }
+                })
+                .setPositiveButton(getResources().getString(R.string.save), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        themePrefsEditor.apply();
+                        dialog.cancel();
+
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        builder.show();
+    }
+
+    private void showTurnNotificationsOnDialog(){
+        String message = "";
+        switch (prefs.getInt(NOTIFICATIONS_ON_OFF_KEY,0)){
+            case 0:
+                message =  getString(R.string.off_not);
+                break;
+            case 1:
+                message = getString(R.string.on_notif);
+                break;
+        }
+
+
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
+                .setTitle(getString(R.string.warning))
+                .setMessage(message)
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences.Editor editor = prefs.edit();
+                        switch (prefs.getInt(NOTIFICATIONS_ON_OFF_KEY,0)){
+                            case 0:
+                                editor.putInt(NOTIFICATIONS_ON_OFF_KEY, 1);
+                                getContext().stopService(new Intent(getContext(), LocationChangeObserver.class));
+                                break;
+                            case 1:
+                                editor.putInt(NOTIFICATIONS_ON_OFF_KEY, 0);
+                                getContext().startService(new Intent(getContext(), LocationChangeObserver.class));
+                                break;
+                            default:
+                                editor.putInt(NOTIFICATIONS_ON_OFF_KEY,0);
+                                getContext().startService(new Intent(getContext(), LocationChangeObserver.class));
+                        }
+                        editor.apply();
+                    }
+                })
+                .create();
+        dialog.show();
+
+
+    }
+
+    private void showLogoutDialog(){
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
+                .setTitle(getString(R.string.warning))
+                .setMessage("Na pewno chcesz się wylogować?")
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DbConnector.getInstance().clearData();
+                        startActivity(new Intent(getContext(),MainActivity.class));
+                        System.exit(0);
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create();
+        dialog.show();
+    }
 
     @Override
     public void onAttach(Context context) {

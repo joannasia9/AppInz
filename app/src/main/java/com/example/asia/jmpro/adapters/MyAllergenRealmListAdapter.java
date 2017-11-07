@@ -64,6 +64,7 @@ public class MyAllergenRealmListAdapter extends BaseAdapter {
         viewHolder.allergenName.setText(model.getAllergenName());
 
         SubstituteDao substituteDao = new SubstituteDao(context);
+
         ArrayList<SubstituteRealm> allergenSubstitutes = substituteDao.getAllAllergensSubstituteList(model.getAllergenName());
         StringBuilder builder = new StringBuilder();
         builder.append(context.getString(R.string.substitutes)).append(": \n");
@@ -72,7 +73,7 @@ public class MyAllergenRealmListAdapter extends BaseAdapter {
             for (SubstituteRealm substituteRealm : allergenSubstitutes) {
                 builder.append(substituteRealm.getName()).append("\n");
             }
-        } else builder.append(context.getResources().getString(R.string.no_results));
+        } else builder.append(context.getString(R.string.no_results));
         viewHolder.allergensSubstitutes.setText(builder.toString());
 
 
@@ -82,7 +83,7 @@ public class MyAllergenRealmListAdapter extends BaseAdapter {
         }
 
         if(selected.contains(model.getAllergenName())){
-            viewHolder.layout.setBackgroundResource(R.color.item4);
+            viewHolder.layout.setBackgroundResource(R.color.checkedItem);
         } else {
             viewHolder.layout.setBackgroundResource(R.color.cardview_light_background);
         }

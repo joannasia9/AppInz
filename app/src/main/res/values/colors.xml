@@ -1,13 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3f51b5</color>
-    <color name="colorPrimaryDark">#303f9f</color>
-    <color name="colorAccent">#db5a85</color>
-    <color name="errorColor">#FF0000</color>
+
+    <color name="centerClassicColor">#9AC5F9</color>
+    <color name="classicContentColor">#769FF9</color>
+    <color name="colorPrimary">#067FF4</color>
+    <color name="colorPrimaryDark">#1447C8</color>
+    <color name="colorAccent">#5FD33C</color>
+    <color name="classicBackgroundColor">#252425</color>
+
+
+    <color name="centerStrawberryColor">#FCA3A1</color>
+    <color name="strawberryContentTextColor">#FB7774</color>
+    <color name="colorStrawberryPrimary">#FC0000</color>
+    <color name="colorStrawberryPrimaryDark">#C90202</color>
+    <color name="colorStrawberryAccent">#70B11B</color>
+
+
+    <color name="centerAppleColor">#DDFEC8</color>
+    <color name="appleContentTextColor">#CBF791</color>
+    <color name="colorApplePrimary">#40C007</color>
+    <color name="colorApplePrimaryDark">#226803</color>
+    <color name="colorAppleAccent">#F60914</color>
+
+    <color name="centerOrangeColor">#FFEABD</color>
+    <color name="orangeContentTextColor">#FFD67A</color>
+    <color name="colorOrangePrimary">#FCB21C</color>
+    <color name="colorOrangePrimaryDark">#FB8704</color>
+    <color name="colorOrangeAccent">#CF20BA</color>
+
+    <color name="centerRaspberryColor">#FDC9ED</color>
+    <color name="raspberryContentTextColor">#FDBAE8</color>
+    <color name="colorRaspberryPrimary">#F312AD</color>
+    <color name="colorRaspberryPrimaryDark">#B90983</color>
+    <color name="colorRaspberryAccent">#A31DC3</color>
+
+
+    <color name="checkedItem">#ECE3CB</color>
+
     <color name="colorBlack">#000000</color>
-    <color name="item1">#9AE33B</color>
-    <color name="item2">#2DF7E6</color>
-    <color name="item3">#EA7DF0</color>
-    <color name="item4">#edf511</color>
-    <color name="item5">#CFFFFF</color>
+    <color name="colorWhite">#FFFFFF</color>
+
 </resources>

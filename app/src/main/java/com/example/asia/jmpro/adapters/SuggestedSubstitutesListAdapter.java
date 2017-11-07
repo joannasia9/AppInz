@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 
 import com.example.asia.jmpro.R;
 import com.example.asia.jmpro.data.SubstituteRealm;
+import com.example.asia.jmpro.logic.DrawableResourceExtrator;
 import com.example.asia.jmpro.viewholders.SuggestedPlaceItemViewHolder;
 
 import java.util.ArrayList;
@@ -71,15 +72,17 @@ public class SuggestedSubstitutesListAdapter extends BaseAdapter {
 
         viewHolder.suggestedPlaceName.setText(model.getName());
 
+        int recommendedResId = DrawableResourceExtrator.getResIdFromAttribute(context,R.attr.recommended);
+        int toRecommendResId = DrawableResourceExtrator.getResIdFromAttribute(context, R.attr.to_recommend);
 
         if (selectedSubstitutesList.size() != 0) {
             if (selectedSubstitutes.contains(model.getName())) {
-                viewHolder.toggleButton.setImageResource(R.drawable.toshare);
+                viewHolder.toggleButton.setImageResource(recommendedResId);
             } else {
-                viewHolder.toggleButton.setImageResource(R.drawable.nottoshare);
+                viewHolder.toggleButton.setImageResource(toRecommendResId);
             }
         } else {
-            viewHolder.toggleButton.setImageResource(R.drawable.nottoshare);
+            viewHolder.toggleButton.setImageResource(toRecommendResId);
         }
 
         return item;

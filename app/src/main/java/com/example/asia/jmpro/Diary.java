@@ -31,6 +31,7 @@ import com.example.asia.jmpro.data.Symptom;
 import com.example.asia.jmpro.data.db.DayDao;
 import com.example.asia.jmpro.data.db.UserDao;
 import com.example.asia.jmpro.logic.calendar.DateUtilities;
+import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -54,9 +55,11 @@ public class Diary extends AppCompatActivity
     Dialog dialog;
     UserDao userDao;
     String dateString;
+    PreferencesChangeObserver preferencesChangeObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(MyApp.getThemeId(getApplicationContext()));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -76,6 +79,7 @@ public class Diary extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         replaceFragmentContent(new DiaryMyNotedDaysFragment());
+        preferencesChangeObserver = new PreferencesChangeObserver(this).start();
     }
 
     @Override
@@ -134,6 +138,7 @@ public class Diary extends AppCompatActivity
 
 
         Button okButton = (Button) dialog.findViewById(R.id.hideDialogButton);
+        Button cancelButton = (Button) dialog.findViewById(R.id.cancelButtonDialog);
         TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
         title.setText(getString(R.string.select_place_to_share));
         ListView daysListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
@@ -163,16 +168,25 @@ public class Diary extends AppCompatActivity
 
             }
         });
-
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (choice) {
                     case 0:
-                        shareViaMessage(selectedDaysObjects);
+                        if(selectedDaysObjects.size()!= 0) {
+                            shareViaMessage(selectedDaysObjects);
+                        } else dialog.cancel();
                         break;
                     case 1:
-                        createPdfFile(selectedDaysObjects);
+                        if(selectedDaysObjects.size()!= 0) {
+                            createPdfFile(selectedDaysObjects);
+                        } else dialog.cancel();
                         break;
                 }
                 dialog.cancel();

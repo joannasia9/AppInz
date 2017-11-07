@@ -20,9 +20,9 @@
     <string name="required">Pole wymagane</string>
     <string name="registered">Zarejestrowano pomyślnie.</string>
     <string name="occupied_login">Ten login jest już zajęty</string>
-    <string name="wrong_password">Błędne hasło.</string>
+    <string name="wrong_password">Błędne hasło</string>
     <string name="menu">MENU</string>
-    <string name="settings">Ustawienia konta</string>
+    <string name="settings">Ustawienia</string>
     <string name="my_alergy">Mam alergię na:</string>
     <string name="save">Zapisz</string>
     <string name="a_deficiency">Brak alergenu, którego szukasz?</string>
@@ -44,7 +44,6 @@
     <string name="to">Do:</string>
     <string name="your_message">Treść Twojej wiadomości...</string>
     <string name="email_sender">E-mail sender</string>
-    <string name="general_settings">Ustawienia ogólne</string>
     <string name="subject">Temat:</string>
     <string name="suggestions">Sugestie</string>
     <string name="ask_for_new_func">Prośba o nową funkcjonalność</string>
@@ -64,20 +63,29 @@
     <string name="no">Nie</string>
     <string name="cancel">Anuluj</string>
     <string name="are_you_sure2">Czy na pewno chcesz zresetować ustawienia?</string>
+    <string name="select_theme">Wybierz motyw</string>
 
     <string-array name="main_menu_items">
         <item>Mój dziennik</item>
         <item>Alergeny</item>
         <item>Substytuty</item>
         <item>Spis miejsc</item>
-        <item>Ustawienia konta</item>
+        <item>Ustawienia</item>
+    </string-array>
+
+    <string-array name="theme_names">
+        <item>Truskawka</item>
+        <item>Jabłko</item>
+        <item>Pomarańcza</item>
+        <item>Malina</item>
+        <item>Klasyczny</item>
     </string-array>
 
     <string-array name="general_settings_items">
-        <item>Dodaj użytkownika</item>
-        <item>Wybierz język</item>
-        <item>Wybierz motyw</item>
-        <item>Stwórz pdf</item>
+        <item>Notyfikacje</item>
+        <item>Język</item>
+        <item>Motyw</item>
+        <item>Wyloguj się</item>
     </string-array>
 
     <string-array name="support_settings_items">
@@ -111,13 +119,12 @@
         <item>Poleć</item>
     </string-array>
 
-    <string name="title_activity_main_menu_places">MainMenuPlaces</string>
+    <string name="title_activity_main_menu_places">Miejsca</string>
     <string name="title_activity_registration">Registration</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
     <string name="fav_places">Ulubione miejsca</string>
     <string name="suggested">Polecane</string>
     <string name="suggest">Poleć</string>
@@ -160,12 +167,12 @@
         <item>Dodaj substytuty</item>
     </string-array>
 
-    <string name="title_activity_substitutes">SubstitutesActivity</string>
+    <string name="title_activity_substitutes">Substituty</string>
     <string name="search_sub">Wyszukaj</string>
     <string name="my_substitutes">Moje</string>
     <string name="substitutes">Substytuty</string>
     <string name="go_to_settings">Go to settings and enable permissions</string>
-    <string name="title_activity_diary">Diary</string>
+    <string name="title_activity_diary">Dziennik</string>
     <string name="saved_days">Zapisane dni</string>
     <string name="statistics">Statystyki</string>
     <string name="export_as">Eksportuj jako</string>
@@ -203,7 +210,7 @@
     <string name="from_db">z bazy?</string>
     <string name="removed">Usunięto:</string>
     <string name="err_remove_allergens">Możesz usunąć jedynie alergeny dodane przed chwilą.</string>
-    <string name="title_activity_main_menu_allergens"> MainMenuAllergens </string>
+    <string name="title_activity_main_menu_allergens">Alergeny</string>
     <string name="alergens">Alergeny</string>
     <string name="modify">Modyfikuj</string>
     <string name="remove">Usuń</string>
@@ -261,6 +268,10 @@
     <string name="user">Użytkownik:</string>
     <string name="file_making_problem">Problem z utworzeniem pliku</string>
     <string name="creating_file_suc">Stworzono pomyślnie plik:</string>
+    <string name="invitation">Wpadnij koniecznie do:</string>
+    <string name="places_fav_info">Masz ulubione miejsca w pobliżu</string>
+    <string name="off_not">Wyłączyć notyfikacje?</string>
+    <string name="on_notif">Włączyć notyfikacje?</string>
 
     <string-array name="spinner_items">
         <item> Tygodniu </item>
@@ -273,5 +284,6 @@
         <item> Zażyte leki </item>
         <item> Symptomy </item>
     </string-array>
+    <string name="general_settings">Ustawienia ogólne</string>
 
 </resources>

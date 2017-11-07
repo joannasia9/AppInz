@@ -39,19 +39,24 @@
         </activity>
         <activity
             android:name=".MainMenu"
-            android:configChanges="locale|orientation" />
+            android:screenOrientation="portrait"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Settings"
-            android:configChanges="locale|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize"
             android:label="@string/settings" />
         <activity
             android:name=".MainMenuPlaces"
             android:label="@string/title_activity_main_menu_places"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:screenOrientation="portrait"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Registration"
             android:label="@string/title_activity_registration"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -74,16 +79,30 @@
         <activity
             android:name=".SubstitutesActivity"
             android:label="@string/title_activity_substitutes"
+            android:screenOrientation="portrait"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Diary"
             android:label="@string/title_activity_diary"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:screenOrientation="portrait"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainMenuAllergens"
             android:label="@string/title_activity_main_menu_allergens"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:screenOrientation="portrait"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <service android:name=".logic.location.LocationChangeObserver"
+            android:process=":location_change_observer" />
+        <receiver android:name=".logic.location.NotificationBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.example.asia.jmpro.GET_NOTIFICATION">
+                </action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

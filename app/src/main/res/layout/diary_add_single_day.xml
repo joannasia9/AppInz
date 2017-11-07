@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundColor">
 
 
     <TextView
@@ -16,22 +16,22 @@
         android:layout_marginTop="8dp"
         android:fontFamily="serif"
         android:text="@string/add_day"
+        android:textColor="?attr/titlesColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView38"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="serif"
         android:text="@string/date"
+        android:textColor="?attr/titlesColor"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView37" />
@@ -41,24 +41,20 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:textColor="?attr/contentTextColor"
         app:layout_constraintLeft_toRightOf="@+id/textView38"
-        app:layout_constraintTop_toBottomOf="@+id/textView37" />
+        app:layout_constraintTop_toTopOf="@+id/textView38" />
 
     <Button
         android:id="@+id/changeDateButton"
-        android:layout_width="165dp"
-        android:layout_height="50dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:background="?attr/modify"
         android:fontFamily="serif"
-        android:text="@string/change"
         app:layout_constraintBottom_toBottomOf="@+id/dateToAdd"
-        app:layout_constraintLeft_toRightOf="@+id/dateToAdd"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/dateToAdd" />
 
@@ -67,23 +63,23 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/saveDayToDbButton"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changeDateButton"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/saveDayToDbButton">
+        app:layout_constraintTop_toBottomOf="@+id/changeDateButton">
 
         <LinearLayout
+            android:id="@+id/parentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp"
-            android:id="@+id/parentLayout">
+            tools:layout_editor_absoluteY="8dp">
 
             <TextView
                 android:id="@+id/textView45"
@@ -92,6 +88,7 @@
                 android:fontFamily="serif"
                 android:text="@string/eaten_products"
                 android:textAlignment="center"
+                android:textColor="?attr/titlesColor"
                 android:textStyle="bold" />
 
             <TextView
@@ -100,7 +97,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="100dp"
                 android:fontFamily="serif"
-                android:textAlignment="textStart" />
+                android:textAlignment="textStart"
+                android:textColor="?attr/contentTextColor" />
 
             <Button
                 android:id="@+id/addEatenProductsButton"
@@ -116,6 +114,7 @@
                 android:fontFamily="serif"
                 android:text="@string/medicines"
                 android:textAlignment="center"
+                android:textColor="?attr/titlesColor"
                 android:textStyle="bold" />
 
             <TextView
@@ -124,7 +123,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="100dp"
                 android:fontFamily="serif"
-                android:textAlignment="textStart" />
+                android:textAlignment="textStart"
+                android:textColor="?attr/contentTextColor" />
 
             <Button
                 android:id="@+id/addMedicinesButton"
@@ -140,6 +140,7 @@
                 android:fontFamily="serif"
                 android:text="@string/symptoms"
                 android:textAlignment="center"
+                android:textColor="?attr/titlesColor"
                 android:textStyle="bold" />
 
             <TextView
@@ -148,7 +149,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="100dp"
                 android:fontFamily="serif"
-                android:textAlignment="textStart" />
+                android:textAlignment="textStart"
+                android:textColor="?attr/contentTextColor" />
 
             <Button
                 android:id="@+id/addSymptomButton"
@@ -164,6 +166,7 @@
                 android:fontFamily="serif"
                 android:text="@string/notes"
                 android:textAlignment="center"
+                android:textColor="?attr/titlesColor"
                 android:textStyle="bold" />
 
             <TextView
@@ -172,7 +175,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="100dp"
                 android:fontFamily="serif"
-                android:textAlignment="textStart" />
+                android:textAlignment="textStart"
+                android:textColor="?attr/contentTextColor" />
 
             <Button
                 android:id="@+id/addNoteButton"
@@ -186,18 +190,18 @@
 
     <Button
         android:id="@+id/saveDayToDbButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="?attr/save"
         android:fontFamily="serif"
-        android:text="@string/save"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="16dp"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

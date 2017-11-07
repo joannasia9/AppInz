@@ -33,17 +33,17 @@ public class SettingsFragment4 extends Fragment {
     Dialog dialog;
     String selectedSubject;
     String[] sItemsTitles;
-    int[] sItemsImages = {R.drawable.item1, R.drawable.item2, R.drawable.item3, R.drawable.item4};
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View fragmentLayout = inflater.inflate(R.layout.settings_fragment4, container, false);
 
+        Settings.hideKeyboard(getActivity());
         sSettingsListView = (ListView) fragmentLayout.findViewById(R.id.supportSettingsListView);
         sItemsTitles = getResources().getStringArray(R.array.support_settings_items);
 
-        GeneralSettingsListViewAdapter adapter = new GeneralSettingsListViewAdapter(getContext(), sItemsTitles, sItemsImages);
+        GeneralSettingsListViewAdapter adapter = new GeneralSettingsListViewAdapter(getContext(), sItemsTitles);
         sSettingsListView.setAdapter(adapter);
 
         sSettingsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

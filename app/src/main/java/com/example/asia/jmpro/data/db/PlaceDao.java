@@ -28,14 +28,21 @@ public class PlaceDao {
     private List<Allergen> usersAllergenList;
     private RealmResults<Place> usersFavouritePlacesList;
     private RealmResults<SuggestedPlace> suggestedPlacesList;
+    private RealmResults<Place> favouritePlacesList;
     private RealmList<Allergen> allAllergensOfSinglePlace = new RealmList<>();
-    private RealmResults<Allergen> usersAllergensNames;
+    private String[] placesList;
 
     public PlaceDao(Context c) {
         DbConnector dbConnector = DbConnector.getInstance();
         this.realmDatabase = dbConnector.getRealmDatabase();
         this.privateDatabase = dbConnector.getPrivateRealmDatabase();
         this.context = c;
+    }
+
+    public PlaceDao(){
+        DbConnector dbConnector = DbConnector.getInstance();
+        this.realmDatabase = dbConnector.getRealmDatabase();
+        this.privateDatabase = dbConnector.getPrivateRealmDatabase();
     }
 
     public void addFavouritePlaceToDatabase(final String placeName, Location location) {
@@ -164,4 +171,31 @@ public class PlaceDao {
         return userSuggestedPlacesList;
     }
 
+    public String[] getNearestFavouritePlaces(double longitude, double latitude){
+        //1 stopień = 110,7km
+
+        final double latitudeFrom = latitude - 0.001;
+        final double latitudeTo = latitude + 0.001;
+        final double longitudeFrom = longitude - 0.001;
+        final double longitudeTo = longitude + 0.001;
+
+        privateDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                favouritePlacesList = realm.where(Place.class)
+                        .beginGroup()
+                        .between("longitude",longitudeFrom,longitudeTo)
+                        .between("latitude", latitudeFrom,latitudeTo)
+                        .endGroup()
+                        .findAll();
+            }
+        });
+
+        placesList = new String[favouritePlacesList.size()];
+        for (int i = 0; i < favouritePlacesList.size(); i++){
+            placesList[i] = favouritePlacesList.get(i).getName();
+        }
+
+    return placesList;
+    }
 }

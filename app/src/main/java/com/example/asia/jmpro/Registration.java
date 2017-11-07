@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.db.UserDao;
 import com.example.asia.jmpro.logic.calendar.DateUtilities;
-import com.example.asia.jmpro.logic.language.LanguageChangeObserver;
+import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
 import com.example.asia.jmpro.logic.validation.EmailValidator;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
 
@@ -30,10 +30,11 @@ public class Registration extends MyBaseActivity {
     Date birthDateDate = null;
     TextView birthDate;
     EditText login, password, repeatedPassword, email;
-    LanguageChangeObserver languageChangeObserver;
+    PreferencesChangeObserver preferencesChangeObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(MyApp.getThemeId(getApplicationContext()));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
@@ -43,7 +44,7 @@ public class Registration extends MyBaseActivity {
         email = (EditText) findViewById(emailEditText);
         birthDate = (TextView) findViewById(R.id.birthDateTextView);
 
-        languageChangeObserver = new LanguageChangeObserver(this).start();
+        preferencesChangeObserver = new PreferencesChangeObserver(this).start();
 
     }
 
@@ -105,7 +106,7 @@ public class Registration extends MyBaseActivity {
         if (bDate == null) {
             birthDate.setText(getString(R.string.choose_date));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                birthDate.setTextColor(getResources().getColor(R.color.errorColor, getTheme()));
+                birthDate.setTextColor(getResources().getColor(R.color.colorStrawberryPrimary, getTheme()));
             }
             return false;
         } else return true;
@@ -159,9 +160,12 @@ public class Registration extends MyBaseActivity {
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int birthYear, int monthOfAYear, int dayOfMonth) {
-            birthDate.setText(dayOfMonth + "." + (monthOfAYear + 1) + "." + birthYear);
+            String birthDateString = dayOfMonth + "." + (monthOfAYear + 1) + "." + birthYear;
+            birthDate.setText(birthDateString);
             birthDate.setTextColor(getResources().getColor(R.color.colorBlack, null));
             birthDateDate = DateUtilities.getDate(birthYear, monthOfAYear, dayOfMonth);
         }
     };
+
+
 }

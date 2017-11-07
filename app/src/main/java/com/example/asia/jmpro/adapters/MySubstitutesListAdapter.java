@@ -17,16 +17,17 @@ import java.util.List;
 
 /**
  * Created by asia on 06/10/2017.
- *
  */
 
 public class MySubstitutesListAdapter extends BaseAdapter {
     private Context context;
     private List<Allergen> userAllergens;
+    private SubstituteDao substituteDao;
 
     public MySubstitutesListAdapter(Context context, List<Allergen> userAllergens) {
         this.context = context;
         this.userAllergens = userAllergens;
+        this.substituteDao = new SubstituteDao(context);
     }
 
     @Override
@@ -49,10 +50,10 @@ public class MySubstitutesListAdapter extends BaseAdapter {
         View item = convertView;
         AllergenWithSubstitutesViewHolder viewHolder;
 
-        if(item == null){
+        if (item == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            item = inflater.inflate(R.layout.single_allergens_substitutes_list_item,parent,false);
+            item = inflater.inflate(R.layout.single_allergens_substitutes_list_item, parent, false);
             viewHolder = new AllergenWithSubstitutesViewHolder(item);
             item.setTag(viewHolder);
         } else {
@@ -62,12 +63,11 @@ public class MySubstitutesListAdapter extends BaseAdapter {
         Allergen model = userAllergens.get(position);
         viewHolder.allergenName.setText(model.getName());
 
-        SubstituteDao substituteDao = new SubstituteDao(context);
 
         ArrayList<SubstituteRealm> allergenSubstitutes = substituteDao.getAllAllergensSubstituteList(model.getName());
         StringBuilder builder = new StringBuilder();
 
-        if(allergenSubstitutes.size()!= 0) {
+        if (allergenSubstitutes.size() != 0) {
             for (SubstituteRealm substituteRealm : allergenSubstitutes) {
                 builder.append(substituteRealm.getName()).append("\n");
             }

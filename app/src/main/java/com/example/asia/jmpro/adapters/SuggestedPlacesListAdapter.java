@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import com.example.asia.jmpro.R;
 import com.example.asia.jmpro.data.Place;
 import com.example.asia.jmpro.data.SuggestedPlace;
+import com.example.asia.jmpro.logic.DrawableResourceExtrator;
 import com.example.asia.jmpro.viewholders.SuggestedPlaceItemViewHolder;
 
 import java.util.ArrayList;
@@ -71,24 +72,26 @@ public class SuggestedPlacesListAdapter extends BaseAdapter {
 
         suggestedPlaceItemViewHolder.suggestedPlaceName.setText(model.getName());
 
+        int recommendedResId = DrawableResourceExtrator.getResIdFromAttribute(context,R.attr.recommended);
+        int toRecommendResId = DrawableResourceExtrator.getResIdFromAttribute(context, R.attr.to_recommend);
 
         if (code == SUGGEST_CODE) {
             if (isItemSuggested(model, suggestedPlacesList)) {
-                suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.reccomend);
+                suggestedPlaceItemViewHolder.toggleButton.setImageResource(recommendedResId);
             } else {
-                suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.reccomended);
+                suggestedPlaceItemViewHolder.toggleButton.setImageResource(toRecommendResId);
             }
         }
 
         if (code == SELECT_CODE || code == SELECT_FOR_SHARE_VIA_FACEBOOK_CODE) {
             if (selectedPlacesList.size() != 0) {
                 if (selectedPlacesList.contains(model)) {
-                    suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.toshare);
+                    suggestedPlaceItemViewHolder.toggleButton.setImageResource(recommendedResId);
                 } else {
-                    suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.nottoshare);
+                    suggestedPlaceItemViewHolder.toggleButton.setImageResource(toRecommendResId);
                 }
             } else {
-                suggestedPlaceItemViewHolder.toggleButton.setImageResource(R.drawable.nottoshare);
+                suggestedPlaceItemViewHolder.toggleButton.setImageResource(toRecommendResId);
             }
         }
 

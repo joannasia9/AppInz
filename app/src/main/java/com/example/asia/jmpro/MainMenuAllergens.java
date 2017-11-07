@@ -12,12 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
+
 public class MainMenuAllergens extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Fragment fragment;
+    PreferencesChangeObserver preferencesChangeObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(MyApp.getThemeId(this));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu_allergens);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -35,7 +39,7 @@ public class MainMenuAllergens extends AppCompatActivity
 
         fragment = new AllergensFragmentAll();
         replaceFragmentContent(fragment);
-
+        preferencesChangeObserver = new PreferencesChangeObserver(this).start();
     }
 
     @Override

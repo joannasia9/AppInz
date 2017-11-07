@@ -5,11 +5,12 @@
     android:id="@+id/content_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
     tools:context="com.example.asia.jmpro.MainMenuPlaces">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/places_fragment_layout"
-        android:layout_width="match_parent"
+        android:layout_width="372dp"
         android:layout_height="500dp"
         android:layout_gravity="end"
         android:layout_marginEnd="8dp"
@@ -24,6 +25,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:fontFamily="serif"
+            android:textColor="?attr/titlesColor"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -35,15 +37,15 @@
             android:name="com.google.android.gms.maps.MapFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.571"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/optionTitle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintHorizontal_bias="0.571"
             app:layout_constraintVertical_bias="0.163" />
     </android.support.constraint.ConstraintLayout>
 
@@ -68,6 +70,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/item4" />
+        app:srcCompat="@drawable/add_to_fav" />
 
 </android.support.design.widget.CoordinatorLayout>

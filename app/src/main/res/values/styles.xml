@@ -1,16 +1,259 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="titlesColor">@color/colorWhite</item>
+        <item name="editTextFieldColor">@color/colorWhite</item>
+        <item name ="contentTextColor">@color/classicContentColor</item>
+        <item name="subContentTextColor">@color/colorAccent</item>
+        <item name="backgroundColor">@color/classicBackgroundColor</item>
+        <item name="buttonTextColor">@color/classicBackgroundColor</item>
+        <item name="editTextFieldTextColor">@color/classicBackgroundColor</item>
+        <item name="buttonStyle">@style/ClassicButtonStyle</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="diary_img">@drawable/diary_img</item>
+
+        <item name="add_image">@drawable/class_add</item>
+        <item name="allergens">@drawable/class_allergens</item>
+        <item name="back">@drawable/class_back</item>
+        <item name="cancel">@drawable/class_cancel</item>
+        <item name="dropdown_item">@drawable/class_dropdown_item</item>
+        <item name="modify">@drawable/class_modify</item>
+        <item name="my_diary">@drawable/class_my_diary</item>
+        <item name="not_selected">@drawable/class_not_selected</item>
+        <item name="places">@drawable/class_places</item>
+        <item name="recommended">@drawable/class_recommended</item>
+        <item name="remove">@drawable/class_remove</item>
+        <item name="save">@drawable/class_save</item>
+        <item name="search">@drawable/class_search</item>
+        <item name="search_manually">@drawable/class_search_manually</item>
+        <item name="select">@drawable/class_select</item>
+        <item name="selected">@drawable/class_selected</item>
+        <item name="send">@drawable/class_send</item>
+        <item name="settings">@drawable/class_settings</item>
+        <item name="single_item">@drawable/class_single_item</item>
+        <item name="single_substitute">@drawable/class_single_substitute</item>
+        <item name="substitutes">@drawable/class_substitutes</item>
+        <item name="to_recommend">@drawable/class_to_recommend</item>
+    </style>
+
+    <style name="RaspberryTheme">
+        <item name="colorPrimary">@color/colorRaspberryPrimary</item>
+        <item name="colorPrimaryDark">@color/colorRaspberryPrimaryDark</item>
+        <item name="colorAccent">@color/colorRaspberryAccent</item>
+        <item name="titlesColor">@color/colorWhite</item>
+        <item name="editTextFieldColor">@color/colorWhite</item>
+        <item name ="contentTextColor">@color/raspberryContentTextColor</item>
+        <item name="subContentTextColor">@color/colorRaspberryAccent</item>
+        <item name="backgroundColor">@color/classicBackgroundColor</item>
+        <item name="buttonTextColor">@color/classicBackgroundColor</item>
+        <item name="editTextFieldTextColor">@color/classicBackgroundColor</item>
+        <item name="buttonStyle">@style/RaspberryButtonStyle</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="add_image">@drawable/rasp_add</item>
+        <item name="allergens">@drawable/rasp_allergens</item>
+        <item name="back">@drawable/rasp_back</item>
+        <item name="cancel">@drawable/rasp_cancel</item>
+        <item name="diary_img">@drawable/diary_img</item>
+        <item name="dropdown_item">@drawable/rasp_dropdown_item</item>
+        <item name="modify">@drawable/rasp_modify</item>
+        <item name="my_diary">@drawable/rasp_my_diary</item>
+        <item name="not_selected">@drawable/rasp_not_selected</item>
+        <item name="places">@drawable/rasp_places</item>
+        <item name="recommended">@drawable/rasp_recommended</item>
+        <item name="remove">@drawable/rasp_remove</item>
+        <item name="save">@drawable/rasp_save</item>
+        <item name="search">@drawable/rasp_search</item>
+        <item name="search_manually">@drawable/rasp_search_manually</item>
+        <item name="select">@drawable/rasp_select</item>
+        <item name="selected">@drawable/rasp_selected</item>
+        <item name="send">@drawable/rasp_send</item>
+        <item name="settings">@drawable/rasp_settings</item>
+        <item name="single_item">@drawable/rasp_single_item</item>
+        <item name="single_substitute">@drawable/rasp_single_substitute</item>
+        <item name="substitutes">@drawable/rasp_substitutes</item>
+        <item name="to_recommend">@drawable/rasp_to_recommend</item>
+    </style>
+
+    <style name="StrawberryTheme">
+        <item name="colorPrimary">@color/colorStrawberryPrimary</item>
+        <item name="colorPrimaryDark">@color/colorStrawberryPrimaryDark</item>
+        <item name="colorAccent">@color/colorStrawberryAccent</item>
+        <item name="titlesColor">@color/colorWhite</item>
+        <item name="editTextFieldColor">@color/colorWhite</item>
+        <item name ="contentTextColor">@color/strawberryContentTextColor</item>
+        <item name="subContentTextColor">@color/colorStrawberryAccent</item>
+        <item name="backgroundColor">@color/classicBackgroundColor</item>
+        <item name="buttonTextColor">@color/classicBackgroundColor</item>
+        <item name="editTextFieldTextColor">@color/classicBackgroundColor</item>
+        <item name="buttonStyle">@style/StrawberryButtonStyle</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="add_image">@drawable/straw_add</item>
+        <item name="allergens">@drawable/straw_allergens</item>
+        <item name="back">@drawable/straw_back</item>
+        <item name="cancel">@drawable/straw_cancel</item>
+        <item name="diary_img">@drawable/diary_img</item>
+        <item name="dropdown_item">@drawable/straw_dropdown_item</item>
+        <item name="modify">@drawable/straw_modify</item>
+        <item name="my_diary">@drawable/straw_my_diary</item>
+        <item name="not_selected">@drawable/straw_not_selected</item>
+        <item name="places">@drawable/straw_places</item>
+        <item name="recommended">@drawable/straw_recommended</item>
+        <item name="remove">@drawable/straw_remove</item>
+        <item name="save">@drawable/straw_save</item>
+        <item name="search">@drawable/straw_search</item>
+        <item name="search_manually">@drawable/straw_search_manually</item>
+        <item name="select">@drawable/straw_select</item>
+        <item name="selected">@drawable/straw_selected</item>
+        <item name="send">@drawable/straw_send</item>
+        <item name="settings">@drawable/straw_settings</item>
+        <item name="single_item">@drawable/straw_single_item</item>
+        <item name="single_substitute">@drawable/straw_single_substitute</item>
+        <item name="substitutes">@drawable/straw_substitutes</item>
+        <item name="to_recommend">@drawable/straw_to_recommend</item>
+    </style>
+
+    <style name="AppleTheme" >
+        <item name="colorPrimary">@color/colorApplePrimary</item>
+        <item name="colorPrimaryDark">@color/colorApplePrimaryDark</item>
+        <item name="colorAccent">@color/colorAppleAccent</item>
+        <item name="backgroundColor">@color/classicBackgroundColor</item>
+        <item name="titlesColor">@color/colorWhite</item>
+        <item name="editTextFieldColor">@color/colorWhite</item>
+        <item name ="contentTextColor">@color/appleContentTextColor</item>
+        <item name="subContentTextColor">@color/colorAppleAccent</item>
+        <item name="buttonTextColor">@color/classicBackgroundColor</item>
+        <item name="editTextFieldTextColor">@color/classicBackgroundColor</item>
+        <item name="buttonStyle">@style/AppleButtonStyle</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="add_image">@drawable/apple_add</item>
+        <item name="allergens">@drawable/apple_allergens</item>
+        <item name="back">@drawable/apple_back</item>
+        <item name="cancel">@drawable/apple_cancel</item>
+        <item name="diary_img">@drawable/diary_img</item>
+        <item name="dropdown_item">@drawable/apple_dropdown_item</item>
+        <item name="modify">@drawable/apple_modify</item>
+        <item name="my_diary">@drawable/apple_my_diary</item>
+        <item name="not_selected">@drawable/apple_not_selected</item>
+        <item name="places">@drawable/apple_places</item>
+        <item name="recommended">@drawable/apple_recommended</item>
+        <item name="remove">@drawable/apple_remove</item>
+        <item name="save">@drawable/apple_save</item>
+        <item name="search">@drawable/apple_search</item>
+        <item name="search_manually">@drawable/apple_search_manually</item>
+        <item name="select">@drawable/apple_select</item>
+        <item name="selected">@drawable/apple_selected</item>
+        <item name="send">@drawable/apple_send</item>
+        <item name="settings">@drawable/apple_settings</item>
+        <item name="single_item">@drawable/apple_single_item</item>
+        <item name="single_substitute">@drawable/apple_single_substitute</item>
+        <item name="substitutes">@drawable/apple_substitutes</item>
+        <item name="to_recommend">@drawable/apple_to_recommend</item>
+    </style>
+
+    <style name="OrangeTheme" >
+        <item name="colorPrimary">@color/colorOrangePrimary</item>
+        <item name="colorPrimaryDark">@color/colorOrangePrimaryDark</item>
+        <item name="colorAccent">@color/colorOrangeAccent</item>
+        <item name="backgroundColor">@color/classicBackgroundColor</item>
+        <item name="titlesColor">@color/colorWhite</item>
+        <item name="editTextFieldColor">@color/colorWhite</item>
+        <item name ="contentTextColor">@color/orangeContentTextColor</item>
+        <item name="subContentTextColor">@color/colorOrangeAccent</item>
+        <item name="buttonTextColor">@color/classicBackgroundColor</item>
+        <item name="editTextFieldTextColor">@color/classicBackgroundColor</item>
+        <item name="buttonStyle">@style/OrangeButtonStyle</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="add_image">@drawable/oran_add</item>
+        <item name="allergens">@drawable/oran_allergens</item>
+        <item name="back">@drawable/oran_back</item>
+        <item name="cancel">@drawable/oran_cancel</item>
+        <item name="diary_img">@drawable/diary_img</item>
+        <item name="dropdown_item">@drawable/oran_dropdown_item</item>
+        <item name="modify">@drawable/oran_modify</item>
+        <item name="my_diary">@drawable/oran_my_diary</item>
+        <item name="not_selected">@drawable/oran_not_selected</item>
+        <item name="places">@drawable/oran_places</item>
+        <item name="recommended">@drawable/oran_recommended</item>
+        <item name="remove">@drawable/oran_remove</item>
+        <item name="save">@drawable/oran_save</item>
+        <item name="search">@drawable/oran_search</item>
+        <item name="search_manually">@drawable/oran_search_manually</item>
+        <item name="select">@drawable/oran_select</item>
+        <item name="selected">@drawable/oran_selected</item>
+        <item name="send">@drawable/oran_send</item>
+        <item name="settings">@drawable/oran_settings</item>
+        <item name="single_item">@drawable/oran_single_item</item>
+        <item name="single_substitute">@drawable/oran_single_substitute</item>
+        <item name="substitutes">@drawable/oran_substitutes</item>
+        <item name="to_recommend">@drawable/oran_to_recommend</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="OrangeButtonStyle">
+        <item name="android:textColor">?android:attr/colorPrimaryDark</item>
+        <item name="android:background">@drawable/orange_gradient</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:height">50dp</item>
+    </style>
+
+    <style name="AppleButtonStyle">
+        <item name="android:textColor">?android:attr/colorPrimaryDark</item>
+        <item name="android:background">@drawable/apple_gradient</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:height">50dp</item>
+    </style>
+
+    <style name="ClassicButtonStyle">
+        <item name="android:textColor">?android:attr/colorPrimaryDark</item>
+        <item name="android:background">@drawable/classic_gradient</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:height">50dp</item>
+    </style>
+
+    <style name="RaspberryButtonStyle">
+        <item name="android:textColor">?android:attr/colorPrimaryDark</item>
+        <item name="android:background">@drawable/raspberry_gradient</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:height">50dp</item>
+    </style>
+
+    <style name="StrawberryButtonStyle">
+        <item name="android:textColor">?android:attr/colorPrimaryDark</item>
+        <item name="android:background">@drawable/strawberry_gradient</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:height">50dp</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

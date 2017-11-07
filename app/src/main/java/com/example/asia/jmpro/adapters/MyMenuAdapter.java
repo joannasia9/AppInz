@@ -20,15 +20,13 @@ public class MyMenuAdapter extends ArrayAdapter<String>{
     private Context context;
     private String[] menuItemTitlesArray;
     private int[] menuItemImagesArray;
-    private int[] menuItemBackgroundArray;
 
 
-    public MyMenuAdapter(Context c, String[] mItemTitle, int[] mItemImage, int[] mItemBackground){
+    public MyMenuAdapter(Context c, String[] mItemTitle, int[] mItemImage){
         super(c, R.layout.single_main_menu_item,R.id.menuItemTitle,mItemTitle);
         this.context = c;
         this.menuItemImagesArray = mItemImage;
         this.menuItemTitlesArray = mItemTitle;
-        this.menuItemBackgroundArray = mItemBackground;
     }
 
     @NonNull
@@ -49,7 +47,6 @@ public class MyMenuAdapter extends ArrayAdapter<String>{
 
         menuItemViewHolder.menuItemImage.setImageResource(menuItemImagesArray[position]);
         menuItemViewHolder.menuItemTitle.setText(menuItemTitlesArray[position]);
-        menuItemViewHolder.singleItemLayout.setBackgroundResource(menuItemBackgroundArray[position]);
 
         return menuItem;
     }

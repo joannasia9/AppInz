@@ -6,15 +6,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/my_noted_days"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/my_saved_days"
             android:title="@string/saved_days" />
         <item
             android:id="@+id/nav_add_day"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/add_day"
             android:title="@string/add_day" />
         <item
             android:id="@+id/nav_statistics"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/statistics"
             android:title="@string/statistics" />
     </group>
 
@@ -24,11 +24,11 @@
         <menu>
             <item
                 android:id="@+id/nav_share_message"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/messenger"
                 android:title="@string/message" />
             <item
                 android:id="@+id/nav_export_document"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/export_as_document"
                 android:title="@string/document" />
         </menu>
     </item>
