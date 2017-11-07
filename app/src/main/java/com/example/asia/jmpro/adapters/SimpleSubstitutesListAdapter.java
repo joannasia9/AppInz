@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 
 import com.example.asia.jmpro.R;
 import com.example.asia.jmpro.data.SubstituteRealm;
+import com.example.asia.jmpro.logic.DrawableResourceExtrator;
 import com.example.asia.jmpro.viewholders.AllergenItemViewHolder;
 
 import java.util.ArrayList;
@@ -57,9 +58,10 @@ public class SimpleSubstitutesListAdapter extends BaseAdapter {
             viewHolder = (AllergenItemViewHolder) item.getTag();
         }
 
+
         SubstituteRealm model = substitutesList.get(position);
         viewHolder.textView.setText(model.getName());
-        viewHolder.imageView.setImageResource(R.drawable.single_substitute);
+        viewHolder.imageView.setImageResource(DrawableResourceExtrator.getResIdFromAttribute(context, R.attr.single_substitute));
 
         return item;
     }

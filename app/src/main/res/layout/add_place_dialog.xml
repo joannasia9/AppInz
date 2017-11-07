@@ -46,7 +46,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/save"
+        android:background="?attr/save"
         android:fontFamily="serif"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -106,7 +106,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/search_manually"
+        android:background="?attr/search_manually"
         app:layout_constraintLeft_toLeftOf="@+id/placeAddress"
         app:layout_constraintTop_toBottomOf="@+id/placeAddress"
         tools:ignore="ContentDescription" />
@@ -116,7 +116,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginStart="16dp"
-        android:background="@drawable/cancel"
+        android:background="?attr/cancel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/addPlaceButton" />
 

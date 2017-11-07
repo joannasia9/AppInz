@@ -1,10 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <attr name="titlesColor" format="color" />
-        <attr name="contentTextColor" format="color"/>
-        <attr name="subContentTextColor" format="color"/>
-        <attr name="backgroundColor" format="color"/>
-        <attr name="buttonTextColor" format="color"/>
-        <attr name="editTextFieldColor" format="color"/>
-        <attr name="editTextFieldTextColor" format="color"/>
+    <attr name="titlesColor" format="color" />
+    <attr name="contentTextColor" format="color" />
+    <attr name="subContentTextColor" format="color" />
+    <attr name="backgroundColor" format="color" />
+    <attr name="buttonTextColor" format="color" />
+    <attr name="editTextFieldColor" format="color" />
+    <attr name="editTextFieldTextColor" format="color" />
+
+    <attr name="add_image" format="reference" />
+    <attr name="allergens" format="reference" />
+    <attr name="back" format="reference" />
+    <attr name="cancel" format="reference" />
+    <attr name="diary_img" format="reference" />
+    <attr name="dropdown_item" format="reference" />
+    <attr name="modify" format="reference" />
+    <attr name="my_diary" format="reference" />
+    <attr name="not_selected" format="reference" />
+    <attr name="places" format="reference" />
+    <attr name="recommended" format="reference" />
+    <attr name="remove" format="reference" />
+    <attr name="save" format="reference" />
+    <attr name="search" format="reference" />
+    <attr name="search_manually" format="reference"/>
+    <attr name="select" format="reference"/>
+    <attr name="selected" format="reference"/>
+    <attr name="send" format="reference"/>
+    <attr name="settings" format="reference"/>
+    <attr name="single_item" format="reference"/>
+    <attr name="single_substitute" format="reference"/>
+    <attr name="substitutes" format="reference"/>
+    <attr name="to_recommend" format="reference"/>
+
+
+
 </resources>

@@ -56,10 +56,13 @@ public class SettingsFragment2 extends Fragment {
         removeAccount = (Button) fragmentLayout.findViewById(R.id.removeAccount);
 
         userRealm = userDao.getUserRealmFromDatabase();
-        login.setText(getResources().getString(R.string.settings_login) + " " + getLoginFromDatabase());
+        String loginString = getResources().getString(R.string.settings_login) + " " + getLoginFromDatabase();
+        String emailFromDb = getResources().getString(R.string.e_mail) + ": " + getEmailFromDatabase();
+        String birthDateFromDb = getResources().getString(R.string.birth_date) + " " + getBirthDateFromDatabase();
+        login.setText(loginString);
         oldPassword.setText(getOldPasswordFromDatabase());
-        email.setText(getResources().getString(R.string.e_mail) + ": " + getEmailFromDatabase());
-        birthDate.setText(getResources().getString(R.string.birth_date) + " " + getBirthDateFromDatabase());
+        email.setText(emailFromDb);
+        birthDate.setText(birthDateFromDb);
 
         saveAccountChanges.setOnClickListener(new View.OnClickListener() {
             @Override

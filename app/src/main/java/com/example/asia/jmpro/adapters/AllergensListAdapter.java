@@ -1,6 +1,7 @@
 package com.example.asia.jmpro.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.example.asia.jmpro.R;
+import com.example.asia.jmpro.logic.DrawableResourceExtrator;
 import com.example.asia.jmpro.models.Allergen;
 import com.example.asia.jmpro.viewholders.AllergenItemViewHolder;
 
@@ -59,11 +61,14 @@ public class AllergensListAdapter extends BaseAdapter{
             allergenItemViewHolder = (AllergenItemViewHolder) allergenItem.getTag();
         }
 
+        int selectedResId = DrawableResourceExtrator.getResIdFromAttribute(context, R.attr.selected);
+        int notSelectedResId = DrawableResourceExtrator.getResIdFromAttribute(context, R.attr.not_selected);
+
         Allergen model = allergensList.get(position);
         if(model.isSelected()){
-            allergenItemViewHolder.imageView.setImageResource(R.drawable.selected);
+            allergenItemViewHolder.imageView.setImageResource(selectedResId);
         } else {
-            allergenItemViewHolder.imageView.setImageResource(R.drawable.not_selected);
+            allergenItemViewHolder.imageView.setImageResource(notSelectedResId);
         }
 
         allergenItemViewHolder.textView.setText(model.getName());
@@ -80,3 +85,4 @@ public class AllergensListAdapter extends BaseAdapter{
         return allergensList;
     }
 }
+

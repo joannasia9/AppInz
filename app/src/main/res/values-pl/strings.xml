@@ -20,9 +20,9 @@
     <string name="required">Pole wymagane</string>
     <string name="registered">Zarejestrowano pomyślnie.</string>
     <string name="occupied_login">Ten login jest już zajęty</string>
-    <string name="wrong_password">Błędne hasło.</string>
+    <string name="wrong_password">Błędne hasło</string>
     <string name="menu">MENU</string>
-    <string name="settings">Ustawienia konta</string>
+    <string name="settings">"Ustawienia "</string>
     <string name="my_alergy">Mam alergię na:</string>
     <string name="save">Zapisz</string>
     <string name="a_deficiency">Brak alergenu, którego szukasz?</string>
@@ -71,7 +71,7 @@
         <item>Alergeny</item>
         <item>Substytuty</item>
         <item>Spis miejsc</item>
-        <item>Ustawienia konta</item>
+        <item>Ustawienia</item>
     </string-array>
 
     <string-array name="theme_names">
@@ -120,13 +120,12 @@
         <item>Poleć</item>
     </string-array>
 
-    <string name="title_activity_main_menu_places">MainMenuPlaces</string>
+    <string name="title_activity_main_menu_places">Miejsca</string>
     <string name="title_activity_registration">Registration</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
     <string name="fav_places">Ulubione miejsca</string>
     <string name="suggested">Polecane</string>
     <string name="suggest">Poleć</string>
@@ -142,7 +141,7 @@
     <string name="mem_permissions_granted">Uprawnienia dostępu do pamięci urządzenia nadane.</string>
     <string name="gps_off">Lokalizacja jest wyłączona.</string>
     <string name="wanna_gps_on">Czy chcesz włączyć lokalizację?</string>
-    <string name="cant_get_current_location">Can\'t get current location</string>
+    <string name="cant_get_current_location">Problem z ustaleniem lokalizacji</string>
     <string name="name">Nazwa</string>
     <string name="add_fav_place">Dodaj miejsce do ulubionych</string>
     <string name="addres">Adres</string>
@@ -169,12 +168,12 @@
         <item>Dodaj substytuty</item>
     </string-array>
 
-    <string name="title_activity_substitutes">SubstitutesActivity</string>
+    <string name="title_activity_substitutes">Substituty</string>
     <string name="search_sub">Wyszukaj</string>
     <string name="my_substitutes">Moje</string>
     <string name="substitutes">Substytuty</string>
-    <string name="go_to_settings">Go to settings and enable permissions</string>
-    <string name="title_activity_diary">Diary</string>
+    <string name="go_to_settings">Zezwól na uprawnienia w ustawieniach</string>
+    <string name="title_activity_diary">Dziennik</string>
     <string name="saved_days">Zapisane dni</string>
     <string name="statistics">Statystyki</string>
     <string name="export_as">Eksportuj jako</string>
@@ -212,7 +211,7 @@
     <string name="from_db">z bazy?</string>
     <string name="removed">Usunięto:</string>
     <string name="err_remove_allergens">Możesz usunąć jedynie alergeny dodane przed chwilą.</string>
-    <string name="title_activity_main_menu_allergens"> MainMenuAllergens </string>
+    <string name="title_activity_main_menu_allergens">Alergeny</string>
     <string name="alergens">Alergeny</string>
     <string name="modify">Modyfikuj</string>
     <string name="remove">Usuń</string>

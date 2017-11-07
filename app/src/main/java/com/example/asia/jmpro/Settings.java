@@ -45,12 +45,7 @@ public class Settings extends MyBaseActivity {
 
     @Override
     public void onBackPressed() {
-        SharedPreferences preferences =  getSharedPreferences("UsersData", MODE_PRIVATE);
-        if(CurrentThemeHolder.getInstance().getTheme() != preferences.getInt(SettingsFragment3.PREFERENCES_THEME_NAME, R.style.AppTheme)){
-            showMainMenuScreen();
-        } else {
-            super.onBackPressed();
-        }
+        showMainMenuScreen();
     }
 
     public static void hideKeyboard(Activity activity) {

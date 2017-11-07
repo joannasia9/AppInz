@@ -80,12 +80,12 @@ public class SettingsFragment3 extends Fragment {
     }
 
     private void showLanguageSelectorDialog() {
+        final SharedPreferences.Editor editor = prefs.edit();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.select_language)
                 .setSingleChoiceItems(R.array.languages, prefs.getInt(PREFERENCES_INT_KEY, 0), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        SharedPreferences.Editor editor = prefs.edit();
                         editor.putInt(PREFERENCES_INT_KEY, which);
                         if (which == 0) {
                             editor.putString(PREFERENCES_STRING_KEY, getString(R.string.pl));
@@ -94,12 +94,13 @@ public class SettingsFragment3 extends Fragment {
                         } else {
                             editor.putString(PREFERENCES_STRING_KEY, getString(R.string.en));
                         }
-                        editor.apply();
+
                     }
                 })
                 .setPositiveButton(getResources().getString(R.string.save), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        editor.apply();
                         getActivity().recreate();
                         dialog.cancel();
 
@@ -114,8 +115,9 @@ public class SettingsFragment3 extends Fragment {
                 .create();
         builder.show();
     }
+
     private void showThemeSelectorDialog() {
-        final SharedPreferences.Editor themePrefsEditor = prefs.edit();;
+        final SharedPreferences.Editor themePrefsEditor = prefs.edit();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getResources().getString(R.string.select_theme))
@@ -138,6 +140,10 @@ public class SettingsFragment3 extends Fragment {
                                 themePrefsEditor.putInt(PREFERENCES_THEME_NAME, R.style.RaspberryTheme);
                                 break;
                             case 4:
+                                themePrefsEditor.putInt(PREFERENCES_THEME_NAME, R.style.AppTheme);
+                                break;
+
+                            default:
                                 themePrefsEditor.putInt(PREFERENCES_THEME_NAME, R.style.AppTheme);
                                 break;
                         }

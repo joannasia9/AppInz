@@ -10,6 +10,7 @@ import com.example.asia.jmpro.R;
 import com.example.asia.jmpro.data.Medicine;
 import com.example.asia.jmpro.data.Product;
 import com.example.asia.jmpro.data.Symptom;
+import com.example.asia.jmpro.logic.DrawableResourceExtrator;
 import com.example.asia.jmpro.viewholders.AllergenItemViewHolder;
 
 import java.util.ArrayList;
@@ -79,6 +80,8 @@ public class UniversalSimpleListAdapter extends BaseAdapter {
             allergenItemViewHolder = (AllergenItemViewHolder) singleRow.getTag();
         }
 
+        int recommendedResId = DrawableResourceExtrator.getResIdFromAttribute(context,R.attr.recommended);
+        int toRecommendResId = DrawableResourceExtrator.getResIdFromAttribute(context, R.attr.to_recommend);
 
         switch (REQUEST_CODE) {
             case REQUEST_CODE_PRODUCTS:
@@ -87,9 +90,9 @@ public class UniversalSimpleListAdapter extends BaseAdapter {
                     allergenItemViewHolder.textView.setText(productModel.getName());
 
                     if (selectedItems.contains(productModel.getName())) {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.recommended);
+                        allergenItemViewHolder.imageView.setImageResource(recommendedResId);
                     } else {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.to_recommend);
+                        allergenItemViewHolder.imageView.setImageResource(toRecommendResId);
                     }
 
                 } else {
@@ -103,9 +106,9 @@ public class UniversalSimpleListAdapter extends BaseAdapter {
                     allergenItemViewHolder.textView.setText(medicineModel.getName());
 
                     if (selectedItems.contains(medicineModel.getName())) {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.recommended);
+                        allergenItemViewHolder.imageView.setImageResource(recommendedResId);
                     } else {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.to_recommend);
+                        allergenItemViewHolder.imageView.setImageResource(toRecommendResId);
                     }
 
                 } else {
@@ -119,9 +122,9 @@ public class UniversalSimpleListAdapter extends BaseAdapter {
                     allergenItemViewHolder.textView.setText(symptomModel.getName());
 
                     if (selectedItems.contains(symptomModel.getName())) {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.recommended);
+                        allergenItemViewHolder.imageView.setImageResource(recommendedResId);
                     } else {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.to_recommend);
+                        allergenItemViewHolder.imageView.setImageResource(toRecommendResId);
                     }
                 } else {
                     allergenItemViewHolder.textView.setText(R.string.no_results_to_show);
@@ -134,9 +137,9 @@ public class UniversalSimpleListAdapter extends BaseAdapter {
                     allergenItemViewHolder.textView.setText(noteModel);
 
                     if (selectedItems.contains(noteModel)) {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.recommended);
+                        allergenItemViewHolder.imageView.setImageResource(recommendedResId);
                     } else {
-                        allergenItemViewHolder.imageView.setImageResource(R.drawable.to_recommend);
+                        allergenItemViewHolder.imageView.setImageResource(toRecommendResId);
                     }
                 } else {
                     allergenItemViewHolder.textView.setText(R.string.no_results_to_show);

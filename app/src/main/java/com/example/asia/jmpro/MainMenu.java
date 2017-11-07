@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import com.example.asia.jmpro.adapters.MyMenuAdapter;
 import com.example.asia.jmpro.data.DbConnector;
+import com.example.asia.jmpro.logic.DrawableResourceExtrator;
 import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
 import com.example.asia.jmpro.logic.location.LocationChangeObserver;
 import com.example.asia.jmpro.logic.theme.CurrentThemeHolder;
@@ -18,7 +19,6 @@ public class MainMenu extends MyBaseActivity{
     ListView mItems;
     String[] mItemsTitles;
     public static final int THEME_REQ_CODE = 100;
-    int[] images = {R.drawable.my_diary,R.drawable.allergens, R.drawable.substitutes, R.drawable.places,R.drawable.settings};
 
     PreferencesChangeObserver preferencesChangeObserver;
     Intent serviceNotificationIntent;
@@ -32,6 +32,14 @@ public class MainMenu extends MyBaseActivity{
         preferencesChangeObserver = new PreferencesChangeObserver(this);
         mItems = (ListView) findViewById(R.id.menuItemsListView);
         mItemsTitles = getResources().getStringArray(R.array.main_menu_items);
+
+        int img1 = DrawableResourceExtrator.getResIdFromAttribute(this, R.attr.my_diary);
+        int img2 = DrawableResourceExtrator.getResIdFromAttribute(this, R.attr.allergens);
+        int img3 = DrawableResourceExtrator.getResIdFromAttribute(this, R.attr.substitutes);
+        int img4 = DrawableResourceExtrator.getResIdFromAttribute(this, R.attr.places);
+        int img5 = DrawableResourceExtrator.getResIdFromAttribute(this, R.attr.settings);
+
+        int [] images = {img1, img2, img3, img4, img5};
 
         MyMenuAdapter myMenuAdapter = new MyMenuAdapter(this, mItemsTitles,images);
         mItems.setAdapter(myMenuAdapter);

@@ -92,7 +92,7 @@
         android:layout_height="70dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/add"
+        android:background="?attr/add_image"
         android:fontFamily="serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/substitutesModifyListView" />
@@ -103,7 +103,7 @@
         android:layout_height="70dp"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/save"
+        android:background="?attr/save"
         android:fontFamily="serif"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -116,7 +116,7 @@
         android:layout_height="70dp"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/cancel"
+        android:background="?attr/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/substituteModifiedName"
         app:layout_constraintTop_toBottomOf="@+id/button5" />

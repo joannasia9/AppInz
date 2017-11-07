@@ -34,6 +34,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.498"
-        app:srcCompat="@drawable/dropdown_item"
+        app:srcCompat="?attr/dropdown_item"
         tools:ignore="ContentDescription" />
 </android.support.constraint.ConstraintLayout>
