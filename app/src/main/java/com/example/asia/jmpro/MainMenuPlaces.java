@@ -319,6 +319,7 @@ public class MainMenuPlaces extends AppCompatActivity
     }
 
     private void showAddSuggestedPlaceDialog() {
+
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.add_suggested_place_dialog);
         dialog.setCanceledOnTouchOutside(true);
@@ -329,6 +330,8 @@ public class MainMenuPlaces extends AppCompatActivity
         ListView suggestedPlacesListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
         TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
         title.setText(getString(R.string.add_sug_place));
+
+
         showPlacesList(suggestedPlacesListView, SuggestedPlacesListAdapter.SUGGEST_CODE);
 
         suggestedPlacesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

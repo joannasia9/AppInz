@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import com.example.asia.jmpro.R;
 import com.example.asia.jmpro.data.SubstituteRealm;
 import com.example.asia.jmpro.data.db.SubstituteDao;
+import com.example.asia.jmpro.logic.DrawableResourceExtrator;
 import com.example.asia.jmpro.models.Allergen;
 import com.example.asia.jmpro.viewholders.AllergenWithSubstitutesViewHolder;
 
@@ -28,6 +29,7 @@ public class MySubstitutesListAdapter extends BaseAdapter {
         this.context = context;
         this.userAllergens = userAllergens;
         this.substituteDao = new SubstituteDao(context);
+
     }
 
     @Override

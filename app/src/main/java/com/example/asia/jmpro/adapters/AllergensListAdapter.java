@@ -55,6 +55,7 @@ public class AllergensListAdapter extends BaseAdapter{
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             allergenItem = inflater.inflate(R.layout.single_alergen_item, parent, false);
+
             allergenItemViewHolder = new AllergenItemViewHolder(allergenItem);
             allergenItem.setTag(allergenItemViewHolder);
         } else {
@@ -72,6 +73,7 @@ public class AllergensListAdapter extends BaseAdapter{
         }
 
         allergenItemViewHolder.textView.setText(model.getName());
+
 
         return allergenItem;
     }

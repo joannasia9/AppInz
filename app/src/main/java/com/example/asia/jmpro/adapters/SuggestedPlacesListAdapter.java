@@ -29,6 +29,7 @@ public class SuggestedPlacesListAdapter extends BaseAdapter {
     public static final int SELECT_CODE = 11;
     public static final int SELECT_FOR_SHARE_VIA_FACEBOOK_CODE = 12;
 
+
     public SuggestedPlacesListAdapter(Context c, List<Place> placesList, List<SuggestedPlace> sugPlacesList, ArrayList<Place> selectedPlacesList, int code) {
         this.context = c;
         this.favouritePlacesList = placesList;
@@ -75,6 +76,7 @@ public class SuggestedPlacesListAdapter extends BaseAdapter {
         int recommendedResId = DrawableResourceExtrator.getResIdFromAttribute(context,R.attr.recommended);
         int toRecommendResId = DrawableResourceExtrator.getResIdFromAttribute(context, R.attr.to_recommend);
 
+
         if (code == SUGGEST_CODE) {
             if (isItemSuggested(model, suggestedPlacesList)) {
                 suggestedPlaceItemViewHolder.toggleButton.setImageResource(recommendedResId);
@@ -94,7 +96,6 @@ public class SuggestedPlacesListAdapter extends BaseAdapter {
                 suggestedPlaceItemViewHolder.toggleButton.setImageResource(toRecommendResId);
             }
         }
-
         return placeItem;
     }
 

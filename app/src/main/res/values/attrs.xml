@@ -7,12 +7,16 @@
     <attr name="buttonTextColor" format="color" />
     <attr name="editTextFieldColor" format="color" />
     <attr name="editTextFieldTextColor" format="color" />
+    <attr name="navDiaryIcon" format="reference"/>
+    <attr name="navSubIcon" format="reference"/>
+    <attr name="navAllergensIcon" format="reference"/>
+    <attr name="navPlacesIcon" format="reference"/>
+    <attr name="centerColor" format="color"/>
 
     <attr name="add_image" format="reference" />
     <attr name="allergens" format="reference" />
     <attr name="back" format="reference" />
     <attr name="cancel" format="reference" />
-    <attr name="diary_img" format="reference" />
     <attr name="dropdown_item" format="reference" />
     <attr name="modify" format="reference" />
     <attr name="my_diary" format="reference" />

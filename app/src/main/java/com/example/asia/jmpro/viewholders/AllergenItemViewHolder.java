@@ -1,6 +1,7 @@
 package com.example.asia.jmpro.viewholders;
 
 import android.support.constraint.ConstraintLayout;
+import android.text.Layout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,5 +20,6 @@ public class AllergenItemViewHolder {
     public AllergenItemViewHolder(View v){
         imageView = (ImageView) v.findViewById(R.id.imageView);
         textView = (TextView) v.findViewById(R.id.aItemName);
+
     }
 }

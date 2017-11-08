@@ -30,7 +30,6 @@ public class PlaceDao {
     private RealmResults<SuggestedPlace> suggestedPlacesList;
     private RealmResults<Place> favouritePlacesList;
     private RealmList<Allergen> allAllergensOfSinglePlace = new RealmList<>();
-    private String[] placesList;
 
     public PlaceDao(Context c) {
         DbConnector dbConnector = DbConnector.getInstance();
@@ -39,15 +38,8 @@ public class PlaceDao {
         this.context = c;
     }
 
-    public PlaceDao(){
-        DbConnector dbConnector = DbConnector.getInstance();
-        this.realmDatabase = dbConnector.getRealmDatabase();
-        this.privateDatabase = dbConnector.getPrivateRealmDatabase();
-    }
-
     public void addFavouritePlaceToDatabase(final String placeName, Location location) {
         final Place place = new Place();
-
 
         place.setLatitude(location.getLatitude());
         place.setLongitude(location.getLongitude());
@@ -72,6 +64,7 @@ public class PlaceDao {
     }
 
     public void addSuggestedPlaceToDatabase(Place place) {
+
         final SuggestedPlace suggestedPlace = new SuggestedPlace();
         suggestedPlace.setLatitude(place.getLatitude());
         suggestedPlace.setLongitude(place.getLongitude());
@@ -93,19 +86,20 @@ public class PlaceDao {
                 if (place != null) {
                     allAllergensOfSinglePlace = place.getUsersAllergensList();
                 }
+
+                Allergen allergen = new Allergen(context.getString(R.string.nothing), false);
+
+                if (usersAllergenList.size() != 0) {
+                    for (Allergen item : usersAllergenList) {
+                        if (!allAllergensOfSinglePlace.contains(item)) {
+                            allAllergensOfSinglePlace.add(item);
+                        }
+                    }
+                } else if (!allAllergensOfSinglePlace.contains(allergen))
+                    allAllergensOfSinglePlace.add(allergen);
+
             }
         });
-
-        Allergen allergen = new Allergen(context.getString(R.string.nothing), false);
-
-        if (usersAllergenList.size() != 0) {
-            for (Allergen item : usersAllergenList) {
-                if (!allAllergensOfSinglePlace.contains(item)) {
-                    allAllergensOfSinglePlace.add(item);
-                }
-            }
-        } else if (!allAllergensOfSinglePlace.contains(allergen))
-            allAllergensOfSinglePlace.add(allergen);
 
         suggestedPlace.setUsersAllergensList(allAllergensOfSinglePlace);
 
@@ -118,12 +112,11 @@ public class PlaceDao {
 
     }
 
-
     public List<Place> getUsersFavouritePlacesList() {
         privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                usersFavouritePlacesList = realm.where(Place.class).findAll();
+                usersFavouritePlacesList = realm.where(Place.class).findAllSorted("name");
             }
         });
         return usersFavouritePlacesList;
@@ -133,7 +126,7 @@ public class PlaceDao {
         realmDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                suggestedPlacesList = realm.where(SuggestedPlace.class).findAll();
+                suggestedPlacesList = realm.where(SuggestedPlace.class).findAllSorted("name");
             }
         });
         return suggestedPlacesList;
@@ -144,18 +137,15 @@ public class PlaceDao {
 
         ArrayList<String> userAllergensNames = new ArrayList<>();
 
-
         List<SuggestedPlace> allSuggestedPlacesList;
         List<SuggestedPlace> userSuggestedPlacesList = new ArrayList<>();
 
         allSuggestedPlacesList = getAllSuggestedPlacesList();
         usersAllergenList = allergenDao.getMyAllergensList();
 
-
         for (Allergen item : usersAllergenList){
             userAllergensNames.add(item.getName());
         }
-
 
         for (SuggestedPlace place : allSuggestedPlacesList) {
             ArrayList<String> placeAllergensNames = new ArrayList<>();
@@ -187,11 +177,11 @@ public class PlaceDao {
                         .between("longitude",longitudeFrom,longitudeTo)
                         .between("latitude", latitudeFrom,latitudeTo)
                         .endGroup()
-                        .findAll();
+                        .findAllSorted("name");
             }
         });
 
-        placesList = new String[favouritePlacesList.size()];
+        String[] placesList = new String[favouritePlacesList.size()];
         for (int i = 0; i < favouritePlacesList.size(); i++){
             placesList[i] = favouritePlacesList.get(i).getName();
         }

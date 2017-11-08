@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.example.asia.jmpro.R;
+import com.example.asia.jmpro.logic.DrawableResourceExtrator;
 import com.example.asia.jmpro.viewholders.SettingsViewHolder;
 
 /**
@@ -53,6 +54,7 @@ private String[] settingTitlesList;
             settingsItemViewHolder = (SettingsViewHolder) settingsItem.getTag();
         }
         settingsItemViewHolder.menuItemTitle.setText(settingTitlesList[position]);
+
         return settingsItem;
 
     }

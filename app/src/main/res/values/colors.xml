@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="centerClassicColor">#9AC5F9</color>
+    <color name="centerClassicColor">#D1E5FF</color>
     <color name="classicContentColor">#769FF9</color>
     <color name="colorPrimary">#067FF4</color>
     <color name="colorPrimaryDark">#1447C8</color>
@@ -9,7 +9,7 @@
     <color name="classicBackgroundColor">#252425</color>
 
 
-    <color name="centerStrawberryColor">#FCA3A1</color>
+    <color name="centerStrawberryColor">#FFDCDC</color>
     <color name="strawberryContentTextColor">#FB7774</color>
     <color name="colorStrawberryPrimary">#FC0000</color>
     <color name="colorStrawberryPrimaryDark">#C90202</color>
@@ -28,15 +28,16 @@
     <color name="colorOrangePrimaryDark">#FB8704</color>
     <color name="colorOrangeAccent">#CF20BA</color>
 
+    <color name="centerRaspberryColor">#FADEFC</color>
     <color name="raspberryContentTextColor">#FDBAE8</color>
     <color name="colorRaspberryPrimary">#F312AD</color>
-    <color name="colorRaspberryPrimaryDark">#B90983</color>
+    <color name="colorRaspberryPrimaryDark">#94096A</color>
     <color name="colorRaspberryAccent">#A31DC3</color>
 
 
     <color name="checkedItem">#ECE3CB</color>
 
     <color name="colorBlack">#000000</color>
-    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorWhite">#ffffff</color>
 
 </resources>

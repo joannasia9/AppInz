@@ -23,7 +23,6 @@ public class SubstituteDao {
     private AllergenRealm allergenRealm;
     private ArrayList<String> stringSubstitutesList;
     private RealmList<SubstituteRealm> allergensSubstitutesList;
-    private List<SubstituteRealm> allSubstitutesList;
 
 
     public SubstituteDao(Context c) {
@@ -81,13 +80,12 @@ public class SubstituteDao {
                 if (allergenRealm != null) {
                     allergensSubstitutesList = allergenRealm.getSubstitutes();
                 }
+                allergensSubstitutesList.sort("name");
             }
         });
 
         if (allergensSubstitutesList.size() != 0) {
-            for (SubstituteRealm item : allergensSubstitutesList) {
-                allAllergensSubstitutesList.add(item);
-            }
+            allAllergensSubstitutesList.addAll(allergensSubstitutesList);
         } else {
             allAllergensSubstitutesList.add(new SubstituteRealm(context.getString(R.string.no_result)));
         }

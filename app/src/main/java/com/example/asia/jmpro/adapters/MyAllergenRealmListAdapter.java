@@ -10,6 +10,7 @@ import com.example.asia.jmpro.R;
 import com.example.asia.jmpro.data.AllergenRealm;
 import com.example.asia.jmpro.data.SubstituteRealm;
 import com.example.asia.jmpro.data.db.SubstituteDao;
+import com.example.asia.jmpro.logic.DrawableResourceExtrator;
 import com.example.asia.jmpro.viewholders.AllergenWithSubstitutesViewHolder;
 
 import java.util.ArrayList;
@@ -83,12 +84,8 @@ public class MyAllergenRealmListAdapter extends BaseAdapter {
         }
 
         if(selected.contains(model.getAllergenName())){
-            viewHolder.layout.setBackgroundResource(R.color.checkedItem);
-        } else {
-            viewHolder.layout.setBackgroundResource(R.color.cardview_light_background);
+            viewHolder.layout.setBackgroundColor(R.attr.centerColor);
         }
-
-
 
         return item;
     }

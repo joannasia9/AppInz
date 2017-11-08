@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 
 import com.example.asia.jmpro.R;
 import com.example.asia.jmpro.data.Day;
+import com.example.asia.jmpro.logic.DrawableResourceExtrator;
 import com.example.asia.jmpro.viewholders.DayItemViewHolder;
 
 import java.util.ArrayList;
@@ -60,10 +61,9 @@ public class DaysListAdapter extends BaseAdapter {
         Day model = daysList.get(position);
         dayItemViewHolder.dayId.setText(model.getId());
 
+
         if(selectedDaysList.contains(model.getId())) {
-            dayItemViewHolder.layout.setBackgroundColor(context.getColor(R.color.checkedItem));
-        } else {
-            dayItemViewHolder.layout.setBackgroundColor(context.getColor(R.color.cardview_light_background));
+            dayItemViewHolder.layout.setBackgroundColor(R.attr.centerColor);
         }
 
         return dayItem;

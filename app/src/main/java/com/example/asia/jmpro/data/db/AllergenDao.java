@@ -12,6 +12,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by asia on 29/08/2017.
@@ -22,11 +23,9 @@ public class AllergenDao {
     private Realm privateDatabase;
     private RealmResults<AllergenRealm> allergensList = null;
     private RealmResults<Allergen> myAllergensList = null;
-    private AllergenRealm allergenRealm, allergenRealmToDeleteFromPrivateDb,allergenRealmToDeleteFromGlobalDb;
+    private AllergenRealm allergenRealm;
     private AllergenRealm updatedAllergenRealm;
     private RealmResults<AllergenString> allergens;
-    private AllergenString allergenString;
-
 
     public AllergenDao() {
         this.realmDatabase = DbConnector.getInstance().getRealmDatabase();
@@ -63,7 +62,7 @@ public class AllergenDao {
         realmDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                allergensList = realm.where(AllergenRealm.class).findAll();
+                allergensList = realm.where(AllergenRealm.class).findAllSorted("allergenName");
             }
         });
 
@@ -80,13 +79,11 @@ public class AllergenDao {
         realmDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                allergensList = realm.where(AllergenRealm.class).findAll();
+                allergensList = realm.where(AllergenRealm.class).findAllSorted("allergenName");
             }
         });
 
-        for (AllergenRealm item : allergensList) {
-            list.add(item);
-        }
+        list.addAll(allergensList);
         return list;
     }
 
@@ -120,7 +117,7 @@ public class AllergenDao {
         privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                myAllergensList = realm.where(Allergen.class).findAll();
+                myAllergensList = realm.where(Allergen.class).findAllSorted("name");
             }
         });
 
@@ -201,7 +198,7 @@ public class AllergenDao {
         privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                allergens = realm.where(AllergenString.class).findAll();
+                allergens = realm.where(AllergenString.class).findAllSorted("name");
             }
         });
 
@@ -217,23 +214,18 @@ public class AllergenDao {
         privateDatabase.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                allergens = realm.where(AllergenString.class).findAll();
+                allergens = realm.where(AllergenString.class).findAllSorted("name");
             }
         });
 
-        for(AllergenString item : allergens){
-            list.add(item);
-        }
+        list.addAll(allergens);
 
         return list;
     }
 
     public void updateAllergenRealm(final String oldAllergenName, final String newAllergenName, final ArrayList<SubstituteRealm> substituteRealms) {
         final RealmList<SubstituteRealm> list = new RealmList<>();
-
-        for(SubstituteRealm item : substituteRealms){
-            list.add(item);
-        }
+        list.addAll(substituteRealms);
 
         realmDatabase.executeTransaction(new Realm.Transaction() {
             @Override
