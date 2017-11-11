@@ -84,6 +84,7 @@ public class MainMenu extends MyBaseActivity{
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        stopService(serviceNotificationIntent);
         DbConnector.getInstance().clearData();
         System.exit(0);
 
