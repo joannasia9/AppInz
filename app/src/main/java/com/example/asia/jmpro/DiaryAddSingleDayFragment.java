@@ -140,7 +140,7 @@ public class DiaryAddSingleDayFragment extends Fragment {
 
         AlertDialog builder = new AlertDialog.Builder(getContext())
                 .setTitle(getString(R.string.warning))
-                .setMessage(getString(R.string.u_sure) + convertDateTVToString(date) + getString(R.string.to_db))
+                .setMessage(getString(R.string.u_sure_save) + " " + convertDateTVToString(date) + " " + getString(R.string.in_db))
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

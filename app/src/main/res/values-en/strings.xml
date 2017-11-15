@@ -261,5 +261,7 @@
     </string-array>
     <string name="removed_suc">Removed successfully</string>
     <string name="medicines">Used medicines</string>
+    <string name="u_sure_save">Do you want to save:</string>
+    <string name="in_db">in the database?</string>
 
 </resources>

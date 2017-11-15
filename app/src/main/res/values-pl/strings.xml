@@ -249,6 +249,8 @@
     <string name="places_fav_info">Masz ulubione miejsca w pobliżu</string>
     <string name="off_not">Wyłączyć notyfikacje?</string>
     <string name="on_notif">Włączyć notyfikacje?</string>
+    <string name="u_sure_save">Czy na pewno chcesz zapisać</string>
+    <string name="in_db">w bazie?</string>
 
     <string-array name="spinner_items">
         <item> Tygodniu </item>

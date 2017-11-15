@@ -91,8 +91,6 @@ public class DiaryStatisticsFragment extends Fragment {
 
         dayDao = new DayDao(getContext());
 
-
-
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -193,15 +191,18 @@ public class DiaryStatisticsFragment extends Fragment {
 
         BarDataSet set = new BarDataSet(entries, dataSetName);
         set.setColors(colors);
+        set.setValueTextColor(Color.WHITE);
 
         BarData data = new BarData(set);
         data.setBarWidth(0.8f);
 
         barChart.getAxisLeft().setAxisMaximum(100f);
+        barChart.getAxisLeft().setTextColor(Color.WHITE);
         YAxis yAxis = barChart.getAxisRight();
         yAxis.setEnabled(false);
 
         XAxis xAxis = barChart.getXAxis();
+        xAxis.setTextColor(Color.WHITE);
         xAxis.setPosition(XAxis.XAxisPosition.TOP);
         xAxis.setGranularity(1f);
 
@@ -214,6 +215,7 @@ public class DiaryStatisticsFragment extends Fragment {
         xAxis.setDrawGridLines(false);
 
         Legend legend = barChart.getLegend();
+        legend.setTextColor(Color.WHITE);
         legend.setTextSize(8f);
         legend.setForm(Legend.LegendForm.CIRCLE);
 
@@ -265,6 +267,7 @@ public class DiaryStatisticsFragment extends Fragment {
         pieChart.setDescription(description);
 
         Legend legend = pieChart.getLegend();
+        legend.setTextColor(Color.WHITE);
         legend.setTextSize(8f);
         legend.setForm(Legend.LegendForm.CIRCLE);
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
@@ -319,7 +322,6 @@ public class DiaryStatisticsFragment extends Fragment {
         dialog.show();
 
     }
-
     private String getMaxValuesElementName(String[] names, ArrayList<Float> values){
         StringBuilder buffer = new StringBuilder();
 

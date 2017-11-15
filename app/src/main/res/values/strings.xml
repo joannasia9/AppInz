@@ -261,5 +261,7 @@
         <item> Symptomy </item>
     </string-array>
     <string name="general_settings">Ustawienia ogólne</string>
+    <string name="u_sure_save">Czy na pewno chcesz zapisać</string>
+    <string name="in_db">w bazie?</string>
 
 </resources>
