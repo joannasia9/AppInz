@@ -44,7 +44,8 @@ import static com.example.asia.jmpro.R.id.nav_share_messenger;
 public class SubstitutesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Fragment fragment;
-    ArrayList<AllergenRealm> selectedAllergensList, allAllergensList;
+    ArrayList<AllergenRealm> allAllergensList, selectedAList;
+    ArrayList<String> selectedAllergensList;
     SubstituteDao substituteDao;
     AllergenDao allergenDao;
     Dialog dialog;
@@ -57,6 +58,7 @@ public class SubstitutesActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_substitutes);
         selectedAllergensList = new ArrayList<>();
+        selectedAList = new ArrayList<>();
         substituteDao = new SubstituteDao(getApplicationContext());
         allergenDao = new AllergenDao();
 
@@ -148,7 +150,7 @@ public class SubstitutesActivity extends AppCompatActivity
 
 
         allAllergensList = allergenDao.getAllAllergenRealm();
-        adapter = new MyAllergenRealmListAdapter(getApplicationContext(), allAllergensList, selectedAllergensList);
+        adapter = new MyAllergenRealmListAdapter(getBaseContext(), allAllergensList, selectedAllergensList);
         suggestedSubstitutesListView.setAdapter(adapter);
 
         suggestedSubstitutesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -156,19 +158,14 @@ public class SubstitutesActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AllergenRealm model = allAllergensList.get(position);
 
-                ArrayList<String> sAllergens = new ArrayList<>();
-                for (AllergenRealm sAllergen : selectedAllergensList) {
-                    sAllergens.add(sAllergen.getAllergenName());
-                }
-
-                if (sAllergens.contains(model.getAllergenName())) {
-                    selectedAllergensList.remove(model);
+                if (selectedAllergensList.contains(model.getAllergenName())) {
+                    selectedAllergensList.remove(model.getAllergenName());
                 } else {
                     if (code == SuggestedPlacesListAdapter.SELECT_FOR_SHARE_VIA_FACEBOOK_CODE) {
                         selectedAllergensList.clear();
-                        selectedAllergensList.add(model);
+                        selectedAllergensList.add(model.getAllergenName());
                     } else {
-                        selectedAllergensList.add(model);
+                        selectedAllergensList.add(model.getAllergenName());
                     }
                 }
 
@@ -194,7 +191,7 @@ public class SubstitutesActivity extends AppCompatActivity
                         break;
                     case nav_share_messenger:
                         if (selectedAllergensList.size() != 0) {
-                            shareViaMessenger(selectedAllergensList.get(0));
+                            shareViaMessenger(allergenDao.getSingleAllergen(selectedAllergensList.get(0)));
                         }
                     default:
                         if (selectedAllergensList.size() != 0) {
@@ -207,13 +204,21 @@ public class SubstitutesActivity extends AppCompatActivity
         });
     }
 
-    private void shareSelectedSubstitutes(ArrayList<AllergenRealm> selectedAllergensList) {
+    private void shareSelectedSubstitutes(ArrayList<String> selectedAllergens) {
         StringBuilder builder = new StringBuilder();
+        AllergenDao allergenDao = new AllergenDao();
+
+        ArrayList<AllergenRealm> selectedList = new ArrayList<>(selectedAllergens.size());
+        for(String item : selectedAllergens){
+            selectedList.add(allergenDao.getSingleAllergen(item));
+        }
+
+
         builder.append(getString(R.string.recommended_sub))
                 .append("\n")
                 .append("\n");
 
-        for (AllergenRealm item : selectedAllergensList) {
+        for (AllergenRealm item : selectedList) {
             builder.append(item.getAllergenName()).append("\n");
             ArrayList<SubstituteRealm> substitutes = substituteDao.getAllAllergensSubstituteList(item.getAllergenName());
             for (SubstituteRealm substituteRealm : substitutes) {
@@ -234,6 +239,7 @@ public class SubstitutesActivity extends AppCompatActivity
 
     private void shareViaMessenger(AllergenRealm selectedAllergene) {
         StringBuilder builder = new StringBuilder();
+
         builder.append(getString(R.string.recommended_sub))
                 .append("\n")
                 .append("\n");
@@ -260,15 +266,21 @@ public class SubstitutesActivity extends AppCompatActivity
 
     }
 
-    private void shareViaEmail(ArrayList<AllergenRealm> selectedAllergens) {
+    private void shareViaEmail(ArrayList<String> selectedAllergens) {
         UserDao user = new UserDao();
+        AllergenDao allergenDao = new AllergenDao();
+
+        ArrayList<AllergenRealm> selectedList = new ArrayList<>(selectedAllergens.size());
+         for(String item : selectedAllergens){
+             selectedList.add(allergenDao.getSingleAllergen(item));
+         }
 
         StringBuilder builder = new StringBuilder();
         builder.append(" <font color=\"#3300ff\" face =\"Times New Roman\"><b>")
                 .append(getString(R.string.recommended_sub))
                 .append("<br>")
                 .append("</b></font>");
-        for (AllergenRealm item : selectedAllergens) {
+        for (AllergenRealm item : selectedList) {
             builder.append("<p><font color=\"6699ff\" face =\"Times New Roman\">").append(item.getAllergenName()).append(": ").append("<br></font>");
             ArrayList<SubstituteRealm> substitutes = substituteDao.getAllAllergensSubstituteList(item.getAllergenName());
             for (SubstituteRealm substituteRealm : substitutes) {

@@ -140,12 +140,15 @@ public class Diary extends AppCompatActivity
         Button okButton = (Button) dialog.findViewById(R.id.hideDialogButton);
         Button cancelButton = (Button) dialog.findViewById(R.id.cancelButtonDialog);
         TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
+        TextView title2 = (TextView) dialog.findViewById(R.id.textView22);
+
         title.setText(getString(R.string.select_place_to_share));
+        title2.setText(getString(R.string.select_place_to_share2));
         ListView daysListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
 
         final ArrayList<Day> daysList = dayDao.getAllSavedDays();
 
-        adapter = new DaysListAdapter(daysList, getApplicationContext());
+        adapter = new DaysListAdapter(daysList, getBaseContext());
         daysListView.setAdapter(adapter);
 
 

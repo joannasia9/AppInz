@@ -370,7 +370,11 @@ public class MainMenuPlaces extends AppCompatActivity
         Button cancelButton = (Button) dialog.findViewById(R.id.cancelButtonDialog);
 
         TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
+        TextView title2 = (TextView) dialog.findViewById(R.id.textView22);
+
         title.setText(getString(R.string.select_place_to_share));
+        title2.setText(getString(R.string.select_place_to_share2));
+
         ListView suggestedPlacesListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
         showPlacesList(suggestedPlacesListView, SuggestedPlacesListAdapter.SELECT_CODE);
 

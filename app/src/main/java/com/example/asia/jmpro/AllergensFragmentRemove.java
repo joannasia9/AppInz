@@ -28,7 +28,7 @@ import java.util.List;
 public class AllergensFragmentRemove extends Fragment {
     ListView listView;
     List<AllergenRealm> allAllergens;
-    ArrayList<AllergenRealm> selectedAllergens;
+    ArrayList<String> selectedAllergens;
     MyAllergenRealmListAdapter adapter;
     AllergenDao allergenDao;
     TextView title;
@@ -89,11 +89,9 @@ public class AllergensFragmentRemove extends Fragment {
                         }
 
                         allAllergens = allergenDao.getAllAllergenRealm();
-                        for (AllergenRealm item : allAllergens) {
-                            list.add(item);
-                        }
+                        list.addAll(allAllergens);
 
-                        adapter.updateAdapter(list,new ArrayList<AllergenRealm>());
+                        adapter.updateAdapter(list,new ArrayList<String>());
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

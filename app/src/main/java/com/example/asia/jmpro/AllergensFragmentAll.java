@@ -25,7 +25,7 @@ public class AllergensFragmentAll extends Fragment {
     ListView listView;
     TextView title;
     List<AllergenRealm> allAllergens;
-    ArrayList<AllergenRealm> selectedAllergens;
+    ArrayList<String> selectedAllergens;
     MyAllergenRealmListAdapter adapter;
     AllergenDao allergenDao;
 

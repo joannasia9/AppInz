@@ -142,7 +142,8 @@
     <string name="select_point">Przesuń pinezkę w wybrane miejsce</string>
     <string name="choose_manually">Wybierz manualnie</string>
     <string name="choosePlace">Wybierz</string>
-    <string name="select_place_to_share">Wybierz miejsca, które chcesz udostępnić</string>
+    <string name="select_place_to_share">Wybierz miejsca,</string>
+    <string name="select_place_to_share2">które chcesz udostępnić</string>
     <string name="app_does_not_exist">Aplikacja nie jest zainstalowana</string>
     <string name="want_to_install_question">Czy chcesz ją zainstalować?</string>
     <string name="hangouts">Hangouts</string>

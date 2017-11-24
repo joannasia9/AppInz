@@ -247,5 +247,16 @@ public class AllergenDao {
         });
 
     }
+
+    public AllergenRealm getSingleAllergen(final String name) {
+        realmDatabase.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                allergenRealm = realm.where(AllergenRealm.class).equalTo("allergenName", name).findFirst();
+            }
+        });
+
+        return allergenRealm;
+    }
 }
 

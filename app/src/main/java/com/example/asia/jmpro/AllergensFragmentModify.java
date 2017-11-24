@@ -33,7 +33,7 @@ public class AllergensFragmentModify extends Fragment {
     String newAllergenName, oldAllergenName;
     ListView listView;
     List<AllergenRealm> allAllergens;
-    ArrayList<AllergenRealm> selectedAllergens;
+    ArrayList<String> selectedAllergens;
     MyAllergenRealmListAdapter adapter;
     SimpleSubstitutesListAdapter simpleSubstitutesListAdapter;
 
