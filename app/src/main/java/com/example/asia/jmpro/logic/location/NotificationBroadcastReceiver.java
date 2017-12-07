@@ -33,7 +33,6 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
             if(nearestPlacesList.length != 0) {
                 createBigNotification(nearestPlacesList);
             }
-
         }
         Log.e("NOTIFICATIONBROADCA", "onReceive: RECEIVED ");
     }

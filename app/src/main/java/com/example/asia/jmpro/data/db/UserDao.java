@@ -32,7 +32,6 @@ public class UserDao {
         this.syncUser = dbConnector.getSyncUser();
     }
 
-
     public interface UserRegistrationCallback {
         void onUserRegistrationSuccess();
     }

@@ -14,12 +14,10 @@ import com.example.asia.jmpro.R;
 public class MenuItemViewHolder {
     public TextView menuItemTitle;
     public ImageView menuItemImage;
-    public ConstraintLayout singleItemLayout;
 
     public MenuItemViewHolder(View v) {
         menuItemImage = (ImageView) v.findViewById(R.id.menuItemImageView);
         menuItemTitle = (TextView) v.findViewById(R.id.menuItemTitle);
-        singleItemLayout = (ConstraintLayout) v.findViewById(R.id.singleItemLayout);
     }
 
 }

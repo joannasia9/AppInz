@@ -57,8 +57,6 @@ public class DiaryAddSingleDayFragment extends Fragment {
     ArrayList<Medicine> medicinesList;
     ArrayList<Symptom> symptomsList;
     ArrayList<String> addedNotesList;
-    public static final int CODE_LOCAL_FRAGMENT = 110;
-    public static final int CODE_INNER_FRAGMENT_CONTENT = 111;
 
     Date dateToAddDate;
     Date currentDate;
@@ -498,8 +496,10 @@ public class DiaryAddSingleDayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (noteContentEt.getText().toString().trim().length() != 0) {
+                    if(addedNotesList.contains(getString(R.string.completely_nothing))){
+                        addedNotesList.clear();
+                    }
                     addedNotesList.add(noteContentEt.getText().toString().trim());
-                    selectedNotes.add(noteContentEt.getText().toString().trim());
                     notesAdapter.updateNotesAdapter(addedNotesList, selectedNotes);
                     noteContentEt.setText("");
                 } else {

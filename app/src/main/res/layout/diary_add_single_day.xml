@@ -40,8 +40,9 @@
         android:id="@+id/dateToAdd"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:textColor="?attr/titlesColor"
         android:layout_marginStart="16dp"
-        android:textColor="?attr/contentTextColor"
+        android:layout_marginEnd="16dp"
         app:layout_constraintLeft_toRightOf="@+id/textView38"
         app:layout_constraintTop_toTopOf="@+id/textView38" />
 
