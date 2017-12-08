@@ -49,9 +49,9 @@ public class MainActivity extends MyBaseActivity implements ActivityCompat.OnReq
         setContentView(R.layout.activity_main);
 
         userDao = new UserDao();
-        welcome = (TextView) findViewById(R.id.textView2);
-        login = (EditText) findViewById(R.id.loginEditText);
-        password = (EditText) findViewById(R.id.passwordEditText);
+        welcome = findViewById(R.id.textView2);
+        login = findViewById(R.id.loginEditText);
+        password = findViewById(R.id.passwordEditText);
 
         prefs = getSharedPreferences("UsersData", MODE_PRIVATE);
         checkAllPermissions();

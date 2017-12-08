@@ -3,6 +3,7 @@ package com.example.asia.jmpro;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -66,17 +67,17 @@ public class DiaryStatisticsFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View diaryFragment = inflater.inflate(R.layout.diary_statistics_fragment,container,false);
 
         selectedYearItem = false;
-        spinner1 = (Spinner) diaryFragment.findViewById(R.id.spinner2);
-        spinner2 = (Spinner) diaryFragment.findViewById(R.id.spinner3);
+        spinner1 = diaryFragment.findViewById(R.id.spinner2);
+        spinner2 = diaryFragment.findViewById(R.id.spinner3);
 
-        barChart = (BarChart) diaryFragment.findViewById(R.id.graph);
+        barChart = diaryFragment.findViewById(R.id.graph);
 
 
-        maxValueOfShownData = (TextView) diaryFragment.findViewById(R.id.maxValueOfShownDatas);
+        maxValueOfShownData = diaryFragment.findViewById(R.id.maxValueOfShownDatas);
 
         spinnerItems = getResources().getStringArray(R.array.spinner_items);
         spinner2Items = getResources().getStringArray(R.array.spinner2_items);
@@ -179,6 +180,7 @@ public class DiaryStatisticsFragment extends Fragment {
         description.setYOffset(160f);
         description.setTextSize(15);
         description.setTextColor(getContext().getColor(R.color.colorAccent));
+
         List<BarEntry> entries = getEntriesList(yValuesCountedElementsList);
 
 
@@ -247,80 +249,80 @@ public class DiaryStatisticsFragment extends Fragment {
     private void drawPieChartDiagramDialog(final ArrayList<String> argumentsStringArrayList,
                                            final ArrayList<Float> yValuesCountedElementsList,
                                            ArrayList<Integer> colors, String dataSetName, int selection){
+        if(getContext()!=null) {
+            final Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.pie_chart_dialog);
+            dialog.create();
 
-        final Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.pie_chart_dialog);
-        dialog.create();
+            PieChart pieChart = dialog.findViewById(R.id.pieChart);
+            pieChart.clear();
 
-        PieChart pieChart = (PieChart) dialog.findViewById(R.id.pieChart);
-        pieChart.clear();
+            ArrayList<PieEntry> pieEntries = getPieEntriesList(yValuesCountedElementsList);
+            PieDataSet set = new PieDataSet(pieEntries, dataSetName);
+            set.setColors(colors);
+            set.setSliceSpace(2);
 
-        ArrayList<PieEntry> pieEntries = getPieEntriesList(yValuesCountedElementsList);
-        PieDataSet set = new PieDataSet(pieEntries, dataSetName);
-        set.setColors(colors);
-        set.setSliceSpace(2);
+            PieData data = new PieData(set);
 
-        PieData data = new PieData(set);
+            Description description = new Description();
+            description.setText("");
+            pieChart.setDescription(description);
 
-        Description description = new Description();
-        description.setText("");
-        pieChart.setDescription(description);
+            Legend legend = pieChart.getLegend();
+            legend.setTextColor(Color.WHITE);
+            legend.setTextSize(8f);
+            legend.setForm(Legend.LegendForm.CIRCLE);
+            legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
 
-        Legend legend = pieChart.getLegend();
-        legend.setTextColor(Color.WHITE);
-        legend.setTextSize(8f);
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+            switch (selection) {
+                case 0:
+                    pieChart.setCenterText(getContext().getString(R.string.prod));
+                    break;
+                case 1:
+                    pieChart.setCenterText(getContext().getString(R.string.med));
+                    break;
+                case 2:
+                    pieChart.setCenterText(getContext().getString(R.string.sym));
+                    break;
+            }
 
-        switch (selection){
-            case 0:
-                pieChart.setCenterText(getContext().getString(R.string.prod));
-                break;
-            case 1:
-                pieChart.setCenterText(getContext().getString(R.string.med));
-                break;
-            case 2:
-                pieChart.setCenterText(getContext().getString(R.string.sym));
-                break;
+            pieChart.setRotationEnabled(true);
+            pieChart.setHoleRadius(25f);
+            pieChart.setTransparentCircleAlpha(20);
+            pieChart.setCenterTextSize(10);
+            pieChart.setDrawEntryLabels(true);
+            pieChart.setDrawSlicesUnderHole(true);
+
+            pieChart.setData(data);
+
+
+            pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+                @Override
+                public void onValueSelected(Entry e, Highlight h) {
+
+                    int index = ((int) h.getX());
+                    Toast.makeText(getContext(), getContext().getString(R.string.el) + " " + argumentsStringArrayList.get(index) + "\n" + getContext().getString(R.string.last_year_value) + yValuesCountedElementsList.get(index) + "%", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onNothingSelected() {
+
+                }
+            });
+
+            Button okButton = dialog.findViewById(R.id.button7);
+
+
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectedYearItem = false;
+                    dialog.cancel();
+                }
+            });
+
+            dialog.show();
         }
-
-        pieChart.setRotationEnabled(true);
-        pieChart.setHoleRadius(25f);
-        pieChart.setTransparentCircleAlpha(20);
-        pieChart.setCenterTextSize(10);
-        pieChart.setDrawEntryLabels(true);
-        pieChart.setDrawSlicesUnderHole(true);
-
-        pieChart.setData(data);
-
-
-        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-            @Override
-            public void onValueSelected(Entry e, Highlight h) {
-
-                int index = ((int) h.getX());
-                Toast.makeText(getContext(), getContext().getString(R.string.el)+ " " + argumentsStringArrayList.get(index) + "\n" + getContext().getString(R.string.last_year_value) + yValuesCountedElementsList.get(index) +"%", Toast.LENGTH_LONG ).show();
-            }
-
-            @Override
-            public void onNothingSelected() {
-
-            }
-        });
-
-        Button okButton = (Button) dialog.findViewById(R.id.button7);
-
-
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedYearItem = false;
-                dialog.cancel();
-            }
-        });
-
-        dialog.show();
-
     }
     private String getMaxValuesElementName(String[] names, ArrayList<Float> values){
         StringBuilder buffer = new StringBuilder();
