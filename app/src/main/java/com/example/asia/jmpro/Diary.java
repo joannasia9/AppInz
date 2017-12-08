@@ -62,20 +62,20 @@ public class Diary extends AppCompatActivity
         setTheme(MyApp.getThemeId(getApplicationContext()));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         dayDao = new DayDao(getApplicationContext());
         userDao = new UserDao();
 
         dateString = DateUtilities.currentDay() + "." + DateUtilities.currentMonth() + "." + DateUtilities.currentYear();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         replaceFragmentContent(new DiaryMyNotedDaysFragment());
@@ -84,7 +84,7 @@ public class Diary extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -122,7 +122,7 @@ public class Diary extends AppCompatActivity
 
         setTitle(item.getTitle());
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
 
@@ -137,14 +137,14 @@ public class Diary extends AppCompatActivity
         dialog.setCanceledOnTouchOutside(true);
 
 
-        Button okButton = (Button) dialog.findViewById(R.id.hideDialogButton);
-        Button cancelButton = (Button) dialog.findViewById(R.id.cancelButtonDialog);
-        TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
-        TextView title2 = (TextView) dialog.findViewById(R.id.textView22);
+        Button okButton =  dialog.findViewById(R.id.hideDialogButton);
+        Button cancelButton =  dialog.findViewById(R.id.cancelButtonDialog);
+        TextView title = dialog.findViewById(R.id.suggestPlaceDialogTitle);
+        TextView title2 =  dialog.findViewById(R.id.textView22);
 
         title.setText(getString(R.string.select_place_to_share));
         title2.setText(getString(R.string.select_place_to_share2));
-        ListView daysListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
+        ListView daysListView = dialog.findViewById(R.id.favouritePlacesList);
 
         final ArrayList<Day> daysList = dayDao.getAllSavedDays();
 

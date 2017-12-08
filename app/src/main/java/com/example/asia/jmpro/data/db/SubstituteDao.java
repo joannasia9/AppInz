@@ -8,13 +8,13 @@ import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.SubstituteRealm;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
 
 /**
  * Created by asia on 06/10/2017.
+ *
  */
 
 public class SubstituteDao {

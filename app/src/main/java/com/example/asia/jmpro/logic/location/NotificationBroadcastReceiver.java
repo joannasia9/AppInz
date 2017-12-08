@@ -23,11 +23,12 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 public class NotificationBroadcastReceiver extends BroadcastReceiver {
     private Context context;
     PlaceDao placeDao;
+    private static final String CHANNEL_ID = "channel";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         this.context = context;
-        if(intent.getAction().equals("com.example.asia.jmpro.GET_NOTIFICATION")) {
+        if(intent.getAction() != null && intent.getAction().equals("com.example.asia.jmpro.GET_NOTIFICATION")) {
             placeDao = new PlaceDao(context);
             String[] nearestPlacesList = placeDao.getNearestFavouritePlaces(intent.getDoubleExtra("longitude",0),intent.getDoubleExtra("latitude",0));
             if(nearestPlacesList.length != 0) {
@@ -45,11 +46,11 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
 
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         inboxStyle.setBigContentTitle(context.getString(R.string.invitation));
-        for (int i=0; i < msgPositions.length; i++) {
-            inboxStyle.addLine(msgPositions[i]);
+        for (String msgPosition : msgPositions) {
+            inboxStyle.addLine(msgPosition);
         }
 
-        Notification noti = new NotificationCompat.Builder(context)
+        Notification noti = new NotificationCompat.Builder(context,CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.places_fav_info))
                 .setContentText(context.getString(R.string.places_fav_info))
                 .setTicker(context.getString(R.string.fav_places))
@@ -63,6 +64,6 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
-        notificationManager.notify(1, noti);
+        if(notificationManager != null)notificationManager.notify(1, noti);
     }
 }

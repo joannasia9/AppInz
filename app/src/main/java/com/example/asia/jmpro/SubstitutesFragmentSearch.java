@@ -1,6 +1,7 @@
 package com.example.asia.jmpro;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 
 /**
  * Created by asia on 06/10/2017.
+ *
  */
 
 public class SubstitutesFragmentSearch extends Fragment {
@@ -36,12 +38,12 @@ public class SubstitutesFragmentSearch extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View substitutesFragment = inflater.inflate(R.layout.fragment_substitutes_search, container, false);
-        allergenName = (EditText) substitutesFragment.findViewById(R.id.searchSubstitutesEditText);
-        searchButton = (Button) substitutesFragment.findViewById(R.id.searchSubstitutesButton);
-        foundSubstitutesListView = (ListView) substitutesFragment.findViewById(R.id.foundSubstitutesListView);
-        foundSubstitutesTextView = (TextView) substitutesFragment.findViewById(R.id.foundSubstitutesTextView);
+        allergenName = substitutesFragment.findViewById(R.id.searchSubstitutesEditText);
+        searchButton = substitutesFragment.findViewById(R.id.searchSubstitutesButton);
+        foundSubstitutesListView = substitutesFragment.findViewById(R.id.foundSubstitutesListView);
+        foundSubstitutesTextView = substitutesFragment.findViewById(R.id.foundSubstitutesTextView);
         allergenDao = new AllergenDao();
         substituteDao = new SubstituteDao(getContext());
 
@@ -83,7 +85,8 @@ public class SubstitutesFragmentSearch extends Fragment {
         } else {
             allergen = allergenName.getText().toString().trim();
             allergenName.setText("");
-            foundSubstitutesTextView.setText(getResources().getString(R.string.sub_for) + " " + allergen);
+            String substitutesText = getResources().getString(R.string.sub_for) + " " + allergen;
+            foundSubstitutesTextView.setText(substitutesText);
             list = substituteDao.getAllAllergensSubstituteList(allergen);
             adapter = new SimpleSubstitutesListAdapter(getContext(), list);
             foundSubstitutesListView.setAdapter(adapter);

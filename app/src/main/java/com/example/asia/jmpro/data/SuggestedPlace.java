@@ -9,6 +9,7 @@ import io.realm.annotations.Required;
 
 /**
  * Created by asia on 16/09/2017.
+ *
  */
 
 public class SuggestedPlace extends RealmObject {

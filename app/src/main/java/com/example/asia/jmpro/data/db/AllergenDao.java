@@ -12,10 +12,10 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
-import io.realm.Sort;
 
 /**
  * Created by asia on 29/08/2017.
+ *
  */
 
 public class AllergenDao {

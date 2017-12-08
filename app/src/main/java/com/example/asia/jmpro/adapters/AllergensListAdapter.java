@@ -1,7 +1,6 @@
 package com.example.asia.jmpro.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -18,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by asia on 30/08/2017.
+ *
  */
 
 public class AllergensListAdapter extends BaseAdapter{
@@ -54,10 +54,12 @@ public class AllergensListAdapter extends BaseAdapter{
         if (allergenItem == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+            assert inflater != null;
             allergenItem = inflater.inflate(R.layout.single_alergen_item, parent, false);
 
             allergenItemViewHolder = new AllergenItemViewHolder(allergenItem);
             allergenItem.setTag(allergenItemViewHolder);
+
         } else {
             allergenItemViewHolder = (AllergenItemViewHolder) allergenItem.getTag();
         }

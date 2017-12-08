@@ -4,6 +4,7 @@ import io.realm.RealmObject;
 
 /**
  * Created by asia on 31/08/2017.
+ *
  */
 
 public class Allergen extends RealmObject{

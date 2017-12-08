@@ -179,7 +179,9 @@ public class DiaryStatisticsFragment extends Fragment {
         description.setXOffset(100);
         description.setYOffset(160f);
         description.setTextSize(15);
-        description.setTextColor(getContext().getColor(R.color.colorAccent));
+        if(getContext()!=null) {
+            description.setTextColor(getContext().getColor(R.color.colorAccent));
+        }
 
         List<BarEntry> entries = getEntriesList(yValuesCountedElementsList);
 

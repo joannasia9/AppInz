@@ -3,7 +3,6 @@ package com.example.asia.jmpro;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.example.asia.jmpro.adapters.SettingsFragmentAdapter;
 import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
-import com.example.asia.jmpro.logic.theme.CurrentThemeHolder;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
 
 public class Settings extends MyBaseActivity {
@@ -33,7 +31,7 @@ public class Settings extends MyBaseActivity {
 
     public void init(){
         settingItemTitle = getResources().getStringArray(R.array.settings_items);
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager = findViewById(R.id.pager);
         viewPager.setAdapter(new SettingsFragmentAdapter(settingItemTitle, getSupportFragmentManager()));
     }
 

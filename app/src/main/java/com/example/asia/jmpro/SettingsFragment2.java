@@ -3,6 +3,7 @@ package com.example.asia.jmpro;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -24,6 +25,7 @@ import java.util.Objects;
 
 /**
  * Created by asia on 24/08/2017.
+ *
  */
 
 public class SettingsFragment2 extends Fragment {
@@ -42,18 +44,18 @@ public class SettingsFragment2 extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View fragmentLayout = inflater.inflate(R.layout.settings_fragment2, container, false);
         Settings.hideKeyboard(getActivity());
-        login = (TextView) fragmentLayout.findViewById(R.id.settingsLogin);
-        birthDate = (TextView) fragmentLayout.findViewById(R.id.settingsBirthDate);
-        email = (TextView) fragmentLayout.findViewById(R.id.settingsEmail);
-        oldPassword = (EditText) fragmentLayout.findViewById(R.id.settingsOldPassword);
-        newPassword = (EditText) fragmentLayout.findViewById(R.id.settingsNewPassword);
-        newPasswordRepeated = (EditText) fragmentLayout.findViewById(R.id.settingsNewPasswordRepeated);
-        newEmail = (EditText) fragmentLayout.findViewById(R.id.settingsNewEmail);
-        saveAccountChanges = (Button) fragmentLayout.findViewById(R.id.saveAccount);
-        removeAccount = (Button) fragmentLayout.findViewById(R.id.removeAccount);
+        login = fragmentLayout.findViewById(R.id.settingsLogin);
+        birthDate = fragmentLayout.findViewById(R.id.settingsBirthDate);
+        email = fragmentLayout.findViewById(R.id.settingsEmail);
+        oldPassword = fragmentLayout.findViewById(R.id.settingsOldPassword);
+        newPassword = fragmentLayout.findViewById(R.id.settingsNewPassword);
+        newPasswordRepeated = fragmentLayout.findViewById(R.id.settingsNewPasswordRepeated);
+        newEmail = fragmentLayout.findViewById(R.id.settingsNewEmail);
+        saveAccountChanges = fragmentLayout.findViewById(R.id.saveAccount);
+        removeAccount = fragmentLayout.findViewById(R.id.removeAccount);
 
         userRealm = userDao.getUserRealmFromDatabase();
         String loginString = getResources().getString(R.string.settings_login) + " " + getLoginFromDatabase();
@@ -83,24 +85,26 @@ public class SettingsFragment2 extends Fragment {
     }
 
     private void showDialogMessage(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.warning)
-                .setMessage(R.string.are_you_sure)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        userDao.deleteUser();
-                        startActivity(new Intent(getContext(),MainActivity.class));
-                    }
-                })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        if(getActivity() != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.warning)
+                    .setMessage(R.string.are_you_sure)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            userDao.deleteUser();
+                            startActivity(new Intent(getContext(), MainActivity.class));
+                        }
+                    })
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                })
-                .create();
-        builder.show();
+                        }
+                    })
+                    .create();
+            builder.show();
+        }
     }
     private void updateUsersData(EditText password, EditText repeatedPassword, EditText newEmail) {
         if (isValidNewPassword(password, repeatedPassword)) {
@@ -163,17 +167,18 @@ public class SettingsFragment2 extends Fragment {
     }
 
     private void showSuccessDialog(String name){
-        AlertDialog builder = new AlertDialog.Builder(getContext())
-                .setTitle(R.string.eureka)
-                .setMessage(R.string.updated_successful + " " + name)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                })
-                .create();
-        builder.show();
-
+        if(getContext() != null) {
+            AlertDialog builder = new AlertDialog.Builder(getContext())
+                    .setTitle(R.string.eureka)
+                    .setMessage(R.string.updated_successful + " " + name)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .create();
+            builder.show();
+        }
     }
 }

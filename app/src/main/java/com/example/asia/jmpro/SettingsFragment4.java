@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import com.example.asia.jmpro.adapters.SpinnerAdapter;
 
 /**
  * Created by asia on 24/08/2017.
+ *
  */
 
 public class SettingsFragment4 extends Fragment {
@@ -36,11 +38,11 @@ public class SettingsFragment4 extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View fragmentLayout = inflater.inflate(R.layout.settings_fragment4, container, false);
 
         Settings.hideKeyboard(getActivity());
-        sSettingsListView = (ListView) fragmentLayout.findViewById(R.id.supportSettingsListView);
+        sSettingsListView = fragmentLayout.findViewById(R.id.supportSettingsListView);
         sItemsTitles = getResources().getStringArray(R.array.support_settings_items);
 
         GeneralSettingsListViewAdapter adapter = new GeneralSettingsListViewAdapter(getContext(), sItemsTitles);
@@ -77,13 +79,15 @@ public class SettingsFragment4 extends Fragment {
     }
 
     public void showAskForDialog() {
-        dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.single_subject_email_sender);
-        dialog.setTitle(getResources().getString(R.string.email_sender));
-        dialog.show();
+        if(getContext() != null) {
+            dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.single_subject_email_sender);
+            dialog.setTitle(getResources().getString(R.string.email_sender));
+            dialog.show();
+        }
 
-        messageEditText = (EditText) dialog.findViewById(R.id.singleSubSenderEt);
-        Button sendButton = (Button) dialog.findViewById(R.id.singleSubEMailSenderB);
+        messageEditText = dialog.findViewById(R.id.singleSubSenderEt);
+        Button sendButton = dialog.findViewById(R.id.singleSubEMailSenderB);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +96,7 @@ public class SettingsFragment4 extends Fragment {
             }
         });
 
-        Button cancelButton = (Button) dialog.findViewById(R.id.button3);
+        Button cancelButton = dialog.findViewById(R.id.button3);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,12 +106,14 @@ public class SettingsFragment4 extends Fragment {
     }
 
     private void showEmailDialog() {
-        dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.email_sender);
-        dialog.setTitle(getResources().getString(R.string.email_sender));
-        dialog.show();
+        if(getContext() != null) {
+            dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.email_sender);
+            dialog.setTitle(getResources().getString(R.string.email_sender));
+            dialog.show();
+        }
 
-        spinner = (Spinner) dialog.findViewById(R.id.spinner);
+        spinner = dialog.findViewById(R.id.spinner);
         String[] subjects = getResources().getStringArray(R.array.email_subjects);
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getContext(), subjects);
 
@@ -124,9 +130,9 @@ public class SettingsFragment4 extends Fragment {
             }
         });
 
-        messageEditText = (EditText) dialog.findViewById(R.id.messageEditTest);
+        messageEditText = dialog.findViewById(R.id.messageEditTest);
 
-        Button sendButton = (Button) dialog.findViewById(R.id.button);
+        Button sendButton = dialog.findViewById(R.id.button);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +140,7 @@ public class SettingsFragment4 extends Fragment {
             }
         });
 
-        Button cancelButton = (Button) dialog.findViewById(R.id.emailSenderButton2);
+        Button cancelButton = dialog.findViewById(R.id.emailSenderButton2);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,11 +211,13 @@ public class SettingsFragment4 extends Fragment {
     }
 
     private void clearSharedPreferences() {
-        SharedPreferences preferences = getContext().getSharedPreferences("UsersData", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-        editor.apply();
-        getActivity().recreate();
+        if(getContext() != null) {
+            SharedPreferences preferences = getContext().getSharedPreferences("UsersData", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.apply();
+        }
+        if(getActivity() != null) getActivity().recreate();
     }
 
 

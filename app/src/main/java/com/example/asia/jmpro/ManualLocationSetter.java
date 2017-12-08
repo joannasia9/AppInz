@@ -56,7 +56,7 @@ public class ManualLocationSetter extends AppCompatActivity implements OnMapRead
         lng = getCurrentLocation().getLongitude();
 
         map = googleMap;
-        goToLocationZoom(getCurrentLocation(),8);
+        goToLocationZoom(getCurrentLocation());
         marker = map.addMarker(new MarkerOptions()
                                     .position(new LatLng(lat, lng)));
 
@@ -107,26 +107,29 @@ public class ManualLocationSetter extends AppCompatActivity implements OnMapRead
     }
 
 
-    private void goToLocationZoom(Location location, float zoom) {
+    private void goToLocationZoom(Location location) {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 8);
         map.moveCamera(cameraUpdate);
 
     }
 
     private Location getCurrentLocation() {
-
+        Location location = new Location("");
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
-        String provider = locationManager.getBestProvider(criteria, false);
+        if(locationManager != null) {
+            String provider = locationManager.getBestProvider(criteria, false);
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+            }
+            location = locationManager.getLastKnownLocation(provider);
         }
-        return locationManager.getLastKnownLocation(provider);
+        return location;
     }
 
 

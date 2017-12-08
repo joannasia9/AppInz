@@ -7,6 +7,7 @@ import io.realm.annotations.RealmClass;
 
 /**
  * Created by asia on 24/08/2017.
+ *
  */
 @RealmClass
 public class AllergenRealm extends RealmObject {

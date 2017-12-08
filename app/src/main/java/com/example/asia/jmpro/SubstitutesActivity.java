@@ -62,16 +62,16 @@ public class SubstitutesActivity extends AppCompatActivity
         substituteDao = new SubstituteDao(getApplicationContext());
         allergenDao = new AllergenDao();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         fragment = new SubstitutesFragment();
@@ -83,7 +83,7 @@ public class SubstitutesActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -126,7 +126,7 @@ public class SubstitutesActivity extends AppCompatActivity
         replaceFragmentContent(fragment);
 
         setTitle(menuItem.getTitle());
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
 
@@ -142,12 +142,11 @@ public class SubstitutesActivity extends AppCompatActivity
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        Button okButton = (Button) dialog.findViewById(R.id.hideDialogButton);
-        Button cancelButton = (Button) dialog.findViewById(R.id.cancelButtonDialog);
-        TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
+        Button okButton = dialog.findViewById(R.id.hideDialogButton);
+        Button cancelButton = dialog.findViewById(R.id.cancelButtonDialog);
+        TextView title = dialog.findViewById(R.id.suggestPlaceDialogTitle);
         title.setText(R.string.suggest_sub);
-        ListView suggestedSubstitutesListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
-
+        ListView suggestedSubstitutesListView = dialog.findViewById(R.id.favouritePlacesList);
 
         allAllergensList = allergenDao.getAllAllergenRealm();
         adapter = new MyAllergenRealmListAdapter(getBaseContext(), allAllergensList, selectedAllergensList);
@@ -259,7 +258,7 @@ public class SubstitutesActivity extends AppCompatActivity
                 .setText(sharedText)
                 .getIntent();
 
-        if (isAppInstalled("com.facebook.orca")) {
+        if (isAppInstalled()) {
             shareIntent.setPackage("com.facebook.orca");
             startActivity(shareIntent);
         }
@@ -317,10 +316,10 @@ public class SubstitutesActivity extends AppCompatActivity
     }
 
 
-    private boolean isAppInstalled(final String uri) {
+    private boolean isAppInstalled() {
         PackageManager pm = getPackageManager();
         try {
-            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            pm.getPackageInfo("com.facebook.orca", PackageManager.GET_ACTIVITIES);
             return true;
         } catch (PackageManager.NameNotFoundException e) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -329,7 +328,7 @@ public class SubstitutesActivity extends AppCompatActivity
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            openPlayStoreToGetApp(uri);
+                            openPlayStoreToGetApp("com.facebook.orca");
                         }
                     })
                     .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

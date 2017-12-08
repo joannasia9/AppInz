@@ -3,6 +3,7 @@ package com.example.asia.jmpro;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,6 +33,7 @@ import io.realm.RealmList;
 
 /**
  * Created by asia on 15/10/2017.
+ *
  */
 
 public class DiaryMyNotedDaysFragment extends Fragment {
@@ -43,14 +45,14 @@ public class DiaryMyNotedDaysFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View diaryFragment = inflater.inflate(R.layout.fragment_substitutes, container, false);
 
         dayDao = new DayDao(getContext());
-        title = (TextView) diaryFragment.findViewById(R.id.textView23);
+        title = diaryFragment.findViewById(R.id.textView23);
         title.setText(getString(R.string.saved_days));
 
-        allDaysListView = (ListView) diaryFragment.findViewById(R.id.dedicatedSubstitutesListView);
+        allDaysListView = diaryFragment.findViewById(R.id.dedicatedSubstitutesListView);
         daysList = dayDao.getAllSavedDays();
 
         adapter = new DaysListAdapter(daysList, getContext());
@@ -69,85 +71,89 @@ public class DiaryMyNotedDaysFragment extends Fragment {
     }
 
     private void showDialogDayDetails(Day model) {
-        final Dialog builder = new Dialog(getContext());
-        builder.setContentView(R.layout.day_details_dialog);
+        if(getContext()!=null) {
+            final Dialog builder = new Dialog(getContext());
+            builder.setContentView(R.layout.day_details_dialog);
 
-        final TextView dayId = (TextView) builder.findViewById(R.id.dayId);
-        dayId.setText(model.getId());
+            final TextView dayId = builder.findViewById(R.id.dayId);
+            dayId.setText(model.getId());
 
-        TextView productsList = (TextView) builder.findViewById(R.id.eatenProdTV);
-        TextView medicinesList = (TextView) builder.findViewById(R.id.medicTV);
-        TextView symptomsList = (TextView) builder.findViewById(R.id.symptomsTV);
-        TextView notesList = (TextView) builder.findViewById(R.id.noteTV);
+            TextView productsList = builder.findViewById(R.id.eatenProdTV);
+            TextView medicinesList = builder.findViewById(R.id.medicTV);
+            TextView symptomsList = builder.findViewById(R.id.symptomsTV);
+            TextView notesList = builder.findViewById(R.id.noteTV);
 
 
-        productsList.setText(convertFromArrayListOfStringToString(convertProducts(model.getProductsList())));
-        medicinesList.setText(convertFromArrayListOfStringToString(convertMedicines(model.getMedicinesList())));
-        symptomsList.setText(convertFromArrayListOfStringToString(convertSymptoms(model.getSymptomsList())));
-        notesList.setText(convertFromArrayListOfStringToString(convertNotes(model.getNotesList())));
+            productsList.setText(convertFromArrayListOfStringToString(convertProducts(model.getProductsList())));
+            medicinesList.setText(convertFromArrayListOfStringToString(convertMedicines(model.getMedicinesList())));
+            symptomsList.setText(convertFromArrayListOfStringToString(convertSymptoms(model.getSymptomsList())));
+            notesList.setText(convertFromArrayListOfStringToString(convertNotes(model.getNotesList())));
 
-        Button removeDayFromDb = (Button) builder.findViewById(R.id.removeDayButton);
-        Button modifyDay = (Button) builder.findViewById(R.id.modDayButton);
+            Button removeDayFromDb = builder.findViewById(R.id.removeDayButton);
+            Button modifyDay = builder.findViewById(R.id.modDayButton);
 
-        modifyDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Day day = dayDao.getDayFromId(dayId.getText().toString());
+            modifyDay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Day day = dayDao.getDayFromId(dayId.getText().toString());
 
-                DiaryAddSingleDayFragment diaryAddSingleDayFragment = new DiaryAddSingleDayFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("date", convertDateToString(day.getDate()));
-                bundle.putString("dateDate", day.getDate().toString());
-                diaryAddSingleDayFragment.setArguments(bundle);
-                replaceFragmentContent(diaryAddSingleDayFragment);
+                    DiaryAddSingleDayFragment diaryAddSingleDayFragment = new DiaryAddSingleDayFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("date", convertDateToString(day.getDate()));
+                    bundle.putString("dateDate", day.getDate().toString());
+                    diaryAddSingleDayFragment.setArguments(bundle);
+                    replaceFragmentContent(diaryAddSingleDayFragment);
 
-                builder.cancel();
+                    builder.cancel();
 
-            }
-        });
+                }
+            });
 
-        removeDayFromDb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showQuestionDialog(dayId);
-                builder.cancel();
-            }
-        });
+            removeDayFromDb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showQuestionDialog(dayId);
+                    builder.cancel();
+                }
+            });
 
-        Button cancelButton = (Button) builder.findViewById(R.id.cancelDayButton);
+            Button cancelButton = builder.findViewById(R.id.cancelDayButton);
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                builder.cancel();
-            }
-        });
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    builder.cancel();
+                }
+            });
 
-        builder.create();
-        builder.show();
+            builder.create();
+            builder.show();
+        }
     }
 
     private void showQuestionDialog(final TextView dayId) {
-        final AlertDialog builder = new AlertDialog.Builder(getContext())
-                .setTitle(getString(R.string.warning))
-                .setMessage(getString(R.string.if_u_sure) + " " + dayId.getText().toString() + getString(R.string.from_db))
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dayDao.removeSingleDayFromDb(dayId.getText().toString().trim());
-                        daysList = dayDao.getAllSavedDays();
-                        adapter.updateAdapter(daysList, new ArrayList<String>());
-                        dialog.cancel();
-                    }
-                })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                })
-                .create();
-        builder.show();
+        if(getContext()!=null) {
+            final AlertDialog builder = new AlertDialog.Builder(getContext())
+                    .setTitle(getString(R.string.warning))
+                    .setMessage(getString(R.string.if_u_sure) + " " + dayId.getText().toString() + getString(R.string.from_db))
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dayDao.removeSingleDayFromDb(dayId.getText().toString().trim());
+                            daysList = dayDao.getAllSavedDays();
+                            adapter.updateAdapter(daysList, new ArrayList<String>());
+                            dialog.cancel();
+                        }
+                    })
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .create();
+            builder.show();
+        }
 
     }
 
@@ -208,6 +214,6 @@ public class DiaryMyNotedDaysFragment extends Fragment {
 
     public void replaceFragmentContent(Fragment fragment) {
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.contentDiary, fragment).commit();
+        if(fragmentManager!=null) fragmentManager.beginTransaction().replace(R.id.contentDiary, fragment).commit();
     }
 }

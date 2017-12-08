@@ -21,6 +21,7 @@ import io.realm.RealmResults;
 
 /**
  * Created by asia on 15/10/2017.
+ *
  */
 
 public class DayDao {
@@ -54,9 +55,7 @@ public class DayDao {
             }
         });
 
-        for (Product item : allProductsList) {
-            list.add(item);
-        }
+        list.addAll(allProductsList);
 
         return list;
     }
@@ -80,9 +79,7 @@ public class DayDao {
             }
         });
 
-        for (Medicine item : allMedicinesList) {
-            list.add(item);
-        }
+        list.addAll(allMedicinesList);
 
         return list;
     }
@@ -119,9 +116,7 @@ public class DayDao {
             }
         });
 
-        for (Symptom item : allSymptomsList) {
-            list.add(item);
-        }
+        list.addAll(allSymptomsList);
 
         return list;
     }
@@ -290,9 +285,7 @@ public class DayDao {
             }
         });
 
-        for (Day item : daysList) {
-            list.add(item);
-        }
+        list.addAll(daysList);
 
         return list;
     }
@@ -329,9 +322,7 @@ public class DayDao {
         });
 
         ArrayList<Day> newList = new ArrayList<>(daysList.size());
-        for(Day item : daysList){
-            newList.add(item);
-        }
+        newList.addAll(daysList);
         return newList;
     }
 
@@ -371,9 +362,7 @@ public class DayDao {
             }
         });
 
-        for (Day item : daysList) {
-                daysItemList.add(item);
-        }
+        daysItemList.addAll(daysList);
 
         return daysItemList;
     }

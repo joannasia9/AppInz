@@ -38,11 +38,11 @@ public class Registration extends MyBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        login = (EditText) findViewById(R.id.loginEditText);
-        password = (EditText) findViewById(R.id.passwordEditText);
-        repeatedPassword = (EditText) findViewById(R.id.passwordValue2EditText);
-        email = (EditText) findViewById(emailEditText);
-        birthDate = (TextView) findViewById(R.id.birthDateTextView);
+        login = findViewById(R.id.loginEditText);
+        password = findViewById(R.id.passwordEditText);
+        repeatedPassword = findViewById(R.id.passwordValue2EditText);
+        email = findViewById(emailEditText);
+        birthDate = findViewById(R.id.birthDateTextView);
 
         preferencesChangeObserver = new PreferencesChangeObserver(this).start();
 
@@ -153,7 +153,7 @@ public class Registration extends MyBaseActivity {
                 DateUtilities.currentDay()
         );
 
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        if(dialog.getWindow() != null) dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 /**
  * Created by asia on 19/10/2017.
+ *
  */
 
 public class MyCustomXAxisValueFormatter implements IAxisValueFormatter {

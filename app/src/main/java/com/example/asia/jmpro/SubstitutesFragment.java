@@ -1,6 +1,7 @@
 package com.example.asia.jmpro;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,7 +14,7 @@ import com.example.asia.jmpro.data.db.AllergenDao;
 
 /**
  * Created by asia on 06/10/2017.
- *  MY SUBSTITUTES pane
+ *
  */
 
 public class SubstitutesFragment extends Fragment {
@@ -23,10 +24,10 @@ public class SubstitutesFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View substitutesFragment = inflater.inflate(R.layout.fragment_substitutes,container,false);
 
-        listView = (ListView) substitutesFragment.findViewById(R.id.dedicatedSubstitutesListView);
+        listView = substitutesFragment.findViewById(R.id.dedicatedSubstitutesListView);
 
         MySubstitutesListAdapter adapter = new MySubstitutesListAdapter(getContext(), allergenDao.getMyAllergensList());
         listView.setAdapter(adapter);

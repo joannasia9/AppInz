@@ -9,6 +9,7 @@ import io.realm.annotations.Required;
 
 /**
  * Created by asia on 21/08/2017.
+ *
  */
 @RealmClass
 public class UserRealm extends RealmObject {

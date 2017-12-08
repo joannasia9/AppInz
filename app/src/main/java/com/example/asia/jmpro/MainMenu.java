@@ -1,7 +1,6 @@
 package com.example.asia.jmpro;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,7 +11,6 @@ import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.logic.DrawableResourceExtrator;
 import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
 import com.example.asia.jmpro.logic.location.LocationChangeObserver;
-import com.example.asia.jmpro.logic.theme.CurrentThemeHolder;
 import com.example.asia.jmpro.viewholders.MyBaseActivity;
 
 public class MainMenu extends MyBaseActivity{
@@ -30,7 +28,7 @@ public class MainMenu extends MyBaseActivity{
         setContentView(R.layout.activity_main_menu);
 
         preferencesChangeObserver = new PreferencesChangeObserver(this);
-        mItems = (ListView) findViewById(R.id.menuItemsListView);
+        mItems = findViewById(R.id.menuItemsListView);
         mItemsTitles = getResources().getStringArray(R.array.main_menu_items);
 
         int img1 = DrawableResourceExtrator.getResIdFromAttribute(this, R.attr.my_diary);

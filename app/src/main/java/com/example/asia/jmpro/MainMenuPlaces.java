@@ -97,12 +97,12 @@ public class MainMenuPlaces extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu_places);
 
-        optionsTitle = (TextView) findViewById(R.id.optionTitle);
+        optionsTitle = findViewById(R.id.optionTitle);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add_to_fav);
+        FloatingActionButton fab = findViewById(R.id.fab_add_to_fav);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,7 +115,7 @@ public class MainMenuPlaces extends AppCompatActivity
             }
         });
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -123,7 +123,7 @@ public class MainMenuPlaces extends AppCompatActivity
 
         placesOptions = getApplicationContext().getResources().getStringArray(R.array.places_options);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         selectItem(0);
@@ -156,7 +156,7 @@ public class MainMenuPlaces extends AppCompatActivity
         }
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -220,9 +220,9 @@ public class MainMenuPlaces extends AppCompatActivity
         mapFragment.getMapAsync(this);
     }
 
-    private void goToLocationZoom(double lat, double lng, float zoom) {
-        LatLng latLng = new LatLng(lat, lng);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
+    private void goToLocationZoom(Location location) {
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 8);
         map.moveCamera(cameraUpdate);
 
     }
@@ -279,11 +279,11 @@ public class MainMenuPlaces extends AppCompatActivity
         dialog.setTitle(R.string.add_fav_place);
         dialog.show();
 
-        final EditText placeName = (EditText) dialog.findViewById(R.id.placeName);
-        placeAddress = (EditText) dialog.findViewById(R.id.placeAddress);
-        Button addPlaceButton = (Button) dialog.findViewById(R.id.addPlaceButton);
-        Button cancelButton = (Button) dialog.findViewById(R.id.button10);
-        ImageView locationChooser = (ImageView) dialog.findViewById(R.id.locationChooserImageView);
+        final EditText placeName = dialog.findViewById(R.id.placeName);
+        placeAddress = dialog.findViewById(R.id.placeAddress);
+        Button addPlaceButton = dialog.findViewById(R.id.addPlaceButton);
+        Button cancelButton = dialog.findViewById(R.id.button10);
+        ImageView locationChooser = dialog.findViewById(R.id.locationChooserImageView);
 
         placeAddress.setText(getCurrentPlaceAddress(userLocation.getLatitude(), userLocation.getLongitude()));
 
@@ -325,10 +325,10 @@ public class MainMenuPlaces extends AppCompatActivity
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        Button okButton = (Button) dialog.findViewById(R.id.hideDialogButton);
-        Button cancelButton = (Button) dialog.findViewById(R.id.cancelButtonDialog);
-        ListView suggestedPlacesListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
-        TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
+        Button okButton = dialog.findViewById(R.id.hideDialogButton);
+        Button cancelButton = dialog.findViewById(R.id.cancelButtonDialog);
+        ListView suggestedPlacesListView = dialog.findViewById(R.id.favouritePlacesList);
+        TextView title = dialog.findViewById(R.id.suggestPlaceDialogTitle);
         title.setText(getString(R.string.add_sug_place));
 
 
@@ -366,16 +366,16 @@ public class MainMenuPlaces extends AppCompatActivity
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        Button okButton = (Button) dialog.findViewById(R.id.hideDialogButton);
-        Button cancelButton = (Button) dialog.findViewById(R.id.cancelButtonDialog);
+        Button okButton = dialog.findViewById(R.id.hideDialogButton);
+        Button cancelButton = dialog.findViewById(R.id.cancelButtonDialog);
 
-        TextView title = (TextView) dialog.findViewById(R.id.suggestPlaceDialogTitle);
-        TextView title2 = (TextView) dialog.findViewById(R.id.textView22);
+        TextView title = dialog.findViewById(R.id.suggestPlaceDialogTitle);
+        TextView title2 = dialog.findViewById(R.id.textView22);
 
         title.setText(getString(R.string.select_place_to_share));
         title2.setText(getString(R.string.select_place_to_share2));
 
-        ListView suggestedPlacesListView = (ListView) dialog.findViewById(R.id.favouritePlacesList);
+        ListView suggestedPlacesListView = dialog.findViewById(R.id.favouritePlacesList);
         showPlacesList(suggestedPlacesListView, SuggestedPlacesListAdapter.SELECT_CODE);
 
         suggestedPlacesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -602,18 +602,20 @@ public class MainMenuPlaces extends AppCompatActivity
     }
 
     private Location getCurrentLocation() {
-
+        Location location = new Location("");
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
+        if(locationManager!=null){
         String provider = locationManager.getBestProvider(criteria, false);
-
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
-        }
-        return locationManager.getLastKnownLocation(provider);
+                }
+        location = locationManager.getLastKnownLocation(provider);
+            }
+        return location;
     }
 
     @Override
@@ -634,7 +636,8 @@ public class MainMenuPlaces extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        goToLocationZoom(52.23, 21.01, 8);
+
+        goToLocationZoom(getCurrentLocation());
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -674,7 +677,7 @@ public class MainMenuPlaces extends AppCompatActivity
 
     private void checkIfLocalizationEnabled() {
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        if (locationManager!=null && !locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.gps_off);
             builder.setMessage(R.string.wanna_gps_on);

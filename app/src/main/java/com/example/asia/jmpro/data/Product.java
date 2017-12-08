@@ -5,6 +5,7 @@ import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by asia on 15/10/2017.
+ *
  */
 
 public class Product extends RealmObject {
