@@ -1,6 +1,8 @@
 package com.example.asia.jmpro;
 
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,7 +39,9 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.FileNotFoundException;
@@ -67,7 +72,7 @@ public class Diary extends AppCompatActivity
         dayDao = new DayDao(getApplicationContext());
         userDao = new UserDao();
 
-        dateString = DateUtilities.currentDay() + "." + DateUtilities.currentMonth() + "." + DateUtilities.currentYear();
+        dateString = DateUtilities.currentDay() + "." + (DateUtilities.currentMonth()+1) + "." + DateUtilities.currentYear();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -209,6 +214,7 @@ public class Diary extends AppCompatActivity
         String fileName = getString(R.string.app_name) + "Days" + dateString + ".pdf";
         String outPath = Environment.getExternalStorageDirectory() + "/Download/" + fileName;
 
+
         try {
             Font fontTitle = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD, BaseColor.RED);
             Font fontChapter = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD, BaseColor.BLUE);
@@ -278,7 +284,10 @@ public class Diary extends AppCompatActivity
             }
 
             document.close();
-            Toast.makeText(this, getString(R.string.creating_file_suc) + " " + fileName, Toast.LENGTH_LONG).show();
+            DownloadManager downloadManager = (DownloadManager) getApplication().getSystemService(Context.DOWNLOAD_SERVICE);
+
+            if(downloadManager!=null)
+            downloadManager.addCompletedDownload(fileName, "JMPro",false,"application/pdf",outPath,10,true);
 
         } catch (DocumentException | FileNotFoundException e) {
             Toast.makeText(this, getString(R.string.file_making_problem), Toast.LENGTH_LONG).show();

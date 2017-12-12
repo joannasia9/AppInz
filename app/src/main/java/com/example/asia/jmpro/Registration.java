@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.asia.jmpro.data.DbConnector;
 import com.example.asia.jmpro.data.db.UserDao;
+import com.example.asia.jmpro.logic.DrawableResourceExtrator;
 import com.example.asia.jmpro.logic.calendar.DateUtilities;
 import com.example.asia.jmpro.logic.language.PreferencesChangeObserver;
 import com.example.asia.jmpro.logic.validation.EmailValidator;
@@ -162,7 +163,7 @@ public class Registration extends MyBaseActivity {
         public void onDateSet(DatePicker view, int birthYear, int monthOfAYear, int dayOfMonth) {
             String birthDateString = dayOfMonth + "." + (monthOfAYear + 1) + "." + birthYear;
             birthDate.setText(birthDateString);
-            birthDate.setTextColor(getResources().getColor(R.color.colorBlack, null));
+            birthDate.setTextColor(getResources().getColor(DrawableResourceExtrator.getResIdFromAttribute(getApplicationContext(),R.attr.titlesColor), null));
             birthDateDate = DateUtilities.getDate(birthYear, monthOfAYear, dayOfMonth);
         }
     };

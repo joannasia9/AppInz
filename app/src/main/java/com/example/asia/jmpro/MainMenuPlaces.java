@@ -532,7 +532,6 @@ public class MainMenuPlaces extends AppCompatActivity
         }
         String sharedText = builder.toString();
 
-
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setData(Uri.parse(getString(R.string.mailto)));
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, user.getUserRealmFromDatabase().getLogin() + getString(R.string.html_pack_subject));
@@ -605,16 +604,16 @@ public class MainMenuPlaces extends AppCompatActivity
         Location location = new Location("");
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
-        if(locationManager!=null){
-        String provider = locationManager.getBestProvider(criteria, false);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
-                }
-        location = locationManager.getLastKnownLocation(provider);
+        if(locationManager!=null) {
+            String provider = locationManager.getBestProvider(criteria, false);
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
             }
+            location = locationManager.getLastKnownLocation(provider);
+        }
         return location;
     }
 
@@ -637,7 +636,11 @@ public class MainMenuPlaces extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
-        goToLocationZoom(getCurrentLocation());
+        if(getCurrentLocation()!= null) {
+            goToLocationZoom(getCurrentLocation());
+        } else {
+            checkIfLocalizationEnabled();
+        }
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
