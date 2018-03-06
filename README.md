@@ -1,4 +1,4 @@
-# [How to prepare project](http://georgeosddev.github.com/markdown-edit)
+# How to prepare project
 
 Before running project in Android Studio, you will need to go through steps below.
 
@@ -78,7 +78,7 @@ npm start
 There should appear list of Realms like this one: <br>
 <img src="ScreenShots/Picture6.png" alt="pic6" width="69%" height="69%"/>
 
-## 5.	Modify DbConnector java class file before running project.
+## 5.	Modify DbConnector Java class file before running project.
 
 *	Open <b>new  terminal tab </b> and check your IP address using command (for Mac OS):
 ```bash 
