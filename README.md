@@ -14,7 +14,7 @@ cd Desktop
 curl -s https://raw.githubusercontent.com/realm/realm-object-server/master/install.sh | bash
 ```
 You should get something like this: <br>
- <img src="ScreenShots/Picture1.png" alt="pic1" width = "69%" height="69%" />
+ <img src="ScreenShots/Picture1.png" alt="pic1"/> 
  
 * Load the proper Node.js version into your shell:
  ```bash 
@@ -26,7 +26,7 @@ You should get something like this: <br>
 init my-ros
 ```
 Then provide two answers: <br>
- <img src="ScreenShots/Picture2.png" alt="pic2" width = "69%" height="69%"/>
+ <img src="ScreenShots/Picture2.png" alt="pic2"/>
  
  ## 2.	If you have installed Realm Object Server, there should appear a directory named my-ros. Go to my-ros/src and modify file index.ts following way:
  
@@ -65,16 +65,18 @@ npm start
 ## 3.	Install Realm Studio (you will be able to manage Realm Databases, Users and Realm Objects).
 *	Download and install Realm Studio from the [ROS documentation website](https://realm.io/docs/realm-object-server/latest/)
 * Scroll down to the <b> Realm Studio </b> section and find Realm Studio for your Operating System<br>
-<img src="ScreenShots/Picture3.png" alt="pic3" width = "69%" height="69%"/>
+<img src="ScreenShots/Picture3.png" alt="pic3"/>
 
 ## 4.	Show Realms list
 * Run <b>Realm Studio</b>
 *	Select <b>Connect to Server</b> option <br>
-<img src="ScreenShots/Picture4.png" alt="pic4" width = "69%" height="69%"/> <br>
+<img src="ScreenShots/Picture4.png" alt="pic4" width="69%" height="69%" /> 
+
 *	Click <b>Connect</b> button <br>
-<img src="ScreenShots/Picture5.png" alt="pic5" width = "69%" height="69%"/><br>
-There should appear list of Realms like this one:
-<img src="ScreenShots/Picture6.png" alt="pic6" width = "69%" height="69%"/><br>
+<img src="ScreenShots/Picture5.png" alt="pic5" width="69%" height="69%"/>
+
+There should appear list of Realms like this one: <br>
+<img src="ScreenShots/Picture6.png" alt="pic6" width="69%" height="69%"/>
 
 ## 5.	Modify DbConnector java class file before running project.
 
