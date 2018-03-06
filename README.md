@@ -6,6 +6,9 @@ Before running project in Android Studio, you will need to go through steps belo
 
 *	Open terminal
 *	Go to location you want to install Realm Object server
+```bash
+cd Desktop
+```
 *	Use command
 ```bash
 curl -s https://raw.githubusercontent.com/realm/realm-object-server/master/install.sh | bash
