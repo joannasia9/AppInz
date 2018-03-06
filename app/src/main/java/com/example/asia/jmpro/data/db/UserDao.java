@@ -68,7 +68,7 @@ public class UserDao {
 
     public void updateUserPassword(final Context context, final String password) {
         user = getUserRealmFromDatabase();
-        syncUser.changePasswordAsync(password, new SyncUser.Callback() {
+        syncUser.changePasswordAsync(password, new SyncUser.Callback<SyncUser>() {
             @Override
             public void onSuccess(SyncUser user) {
                 Toast.makeText(context, context.getResources().getString(R.string.password_changed),Toast.LENGTH_LONG).show();

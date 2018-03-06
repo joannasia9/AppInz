@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -76,6 +77,7 @@ public class Registration extends MyBaseActivity {
 
                         @Override
                         public void onError(Throwable exception) {
+                            Log.d("ELO", "ELO");
 
                         }
                     });
@@ -83,6 +85,8 @@ public class Registration extends MyBaseActivity {
 
                 @Override
                 public void onRegistrationFailure(Throwable error) {
+
+                    Log.e("REALMOBJECTSERVERERROR", "onRegistrationFailure: " + error.getMessage() );
                     login.setError(getResources().getString(R.string.occupied_login));
                 }
             });
